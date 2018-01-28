@@ -63,18 +63,17 @@ You can backup the database with keeping `data` folder in project who was genera
 
 #### Database
 
-##### User
 |id           | mail            | password     | nickname | role | date      |
 | ----------- | --------------- | ------------ | -------- | ---- | --------- |
 | user1       | user1@gmail.com | passBcrypted | Superman | 0    | 1223213   |
-| bytea       | string          | string       | string   | int  | int       |
+| bit         | string          | string       | string   | int  | int8      |
 
 #### Features
 
 - Signup
 - Signin
 - List
-- Update
+- Update/Edit
 - Remove
 
 ### Tokens
@@ -84,13 +83,13 @@ You can backup the database with keeping `data` folder in project who was genera
 |id           | token           | date      |
 | ----------- | --------------- | --------- |
 | token1      | sadad879787978a | 2131213   |
-| bytea       | string          | int       |
+| bit         | string          | int8      |
 
 #### Features
 
 - Add
-- xList
-- Update
+- List
+- Update/Edit
 - Remove
 
 ### Groups
@@ -100,7 +99,7 @@ You can backup the database with keeping `data` folder in project who was genera
 | id          | name          | date      |
 | ----------- | ------------- | --------- |
 | group1      | Home at Paris | 2131213   |
-| bytea(ulid) | string        | int       |
+| bit         | string        | int8      |
 
 #### Features
 
@@ -116,10 +115,10 @@ You can backup the database with keeping `data` folder in project who was genera
 
 #### Database
 
-| id (ulid)   | group-id | user-id   | buyer-id | amount | shop    | desc    | date       |
-| ----------- | -------- | --------- | -------- | ------ | ------- | ------- | ---------- |
-| purchase1   | group1   | user1     | user2    | 53.75  | Super U | Courses | 1517149821 |
-| bytea       | bytea    | bytea     | bytea    | float  | string  | string  | int        |
+| id (ulid)   | group-id | user-id   | buyer-id | amount        | shop    | desc    | date       |
+| ----------- | -------- | --------- | -------- | ------------- | ------- | ------- | ---------- |
+| purchase1   | group1   | user1     | user2    | 53.75         | Super U | Courses | 1517149821 |
+| bit         | bit      | bit       | bit      | numeric (p=4) | string  | string  | int8       |
 
 #### Features
 
@@ -127,11 +126,10 @@ You can backup the database with keeping `data` folder in project who was genera
 - Remove purchases
 - Edit purchases
 - Sort by month/period
-- Shop list
 
 # Refs
 
-- ulid: https://github.com/oklog/ulid
+- [ulid](https://github.com/oklog/ulid) 128bytes/1024bits
 
 # License
 [MIT](LICENSE)
