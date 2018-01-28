@@ -11,8 +11,10 @@ services:
     command: --bind_ip 0.0.0.0
     volumes:
     - ./data:/data/db
-    labels:
-      NAME: "mongo"
+    networks:
+      default:
+        aliases:
+        - mongo
   mongo-express:
     image: mongo-express:latest
     environment:
@@ -20,7 +22,5 @@ services:
     - ME_CONFIG_MONGODB_ADMINPASSWORD=611bukBNpbA3
     ports:
     - "8081:8081"
-    links:
-    - mongo:mongo
-    labels:
-      NAME: "mongo-express"
+    networks:
+      - default
