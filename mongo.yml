@@ -22,5 +22,7 @@ services:
     - ME_CONFIG_MONGODB_ADMINPASSWORD=611bukBNpbA3
     ports:
     - "8081:8081"
+    depends_on:
+      - mongo
     networks:
       - default
