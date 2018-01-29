@@ -2,8 +2,8 @@ package main
 
 import (
 	"bytes"
-	"fmt"
 	"net/http"
+	"os"
 
 	"github.com/labstack/echo"
 	"github.com/labstack/echo/middleware"
@@ -21,14 +21,13 @@ type response struct {
 func createIssue(c echo.Context) error {
 	var req request
 	c.Bind(&req)
-	fmt.Println(req)
 
-	url := "https://api.github.com/repos/flatsharing/web/issues"
-	data := []byte(`{"title":"test", "body": "..."}`)
+	url := "https://api.github.com/repos/flatsharing/" + req.Platform + "/issues"
+	data := []byte(`{"title":"Automatic issue from bot", "body": "` + req.Description + `"}`)
 
 	call, err := http.NewRequest("POST", url, bytes.NewBuffer(data))
 	call.Header.Set("Content-Type", "application/json")
-	call.Header.Set("Authorization", "token")
+	call.Header.Set("Authorization", "token "+os.Getenv("GITHUB_TOKEN"))
 	client := http.Client{}
 	res, err := client.Do(call)
 	if err != nil {
