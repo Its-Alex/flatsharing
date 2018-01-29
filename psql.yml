@@ -1,0 +1,18 @@
+version: '3'
+services:
+  postgres:
+    image: postgres:9.6
+    environment:
+    - POSTGRES_USER=flatsharing
+    - POSTGRES_PASSWORD=611bukBNpbA3
+    - POSTGRES_DB=flatsharing
+    - DB_EXTENSION=uuid-ossp
+    - DEBUG=true
+    volumes:
+    - ./data/:/var/lib/postgresql/data
+    networks:
+      default:
+        alias:
+        - pg
+    ports:
+    - "5432:5432"
