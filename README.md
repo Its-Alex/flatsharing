@@ -128,6 +128,16 @@ You can backup the database with keeping `data` folder in project who was genera
 - Edit purchases
 - Sort by month/period
 
+# Stack
+
+## Ask
+
+Use docker ?
+
+Orchestrator ? (Rancher, ansible, kubernetes, puppet, chef)
+
+Scale ? ([traefik](https://docs.traefik.io/))
+
 # Refs
 
 - [ulid](https://github.com/oklog/ulid) 128bytes/1024bits
