@@ -33,7 +33,7 @@ Or via mongo-express
 - Connect to [mongo-express](http://localhost:8081)
 - Create new database
 - Add user to admin database
-```json
+```json5
 {
     "_id": "flatsharing.flatsharing", // database.user
     "user": "flatsharing",
