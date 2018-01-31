@@ -1,5 +1,5 @@
 # FlatSharing
-FlatSharing configuration repository
+FlatSharing configuration repository at http://flatsharing.io
 
 ## Requirements
 `docker`
