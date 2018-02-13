@@ -6,8 +6,7 @@ FlatSharing configuration repository at http://flatsharing.io
 
 ## How-to launch
 ```
-$ docker swarm init
-$ docker stack deploy fs -c psql.yml/mongo.yml
+$ docker-compose up -d
 ```
 Use twice if mongo-express not working
 
@@ -15,7 +14,7 @@ Use twice if mongo-express not working
 
 Connect to **mongo**
 ```bash
-$ docker exec -it {name} mongo -u admin -p 611bukBNpbA3 --authenticationDatabase admin
+$ docker-compose exec mongo -u admin -p 611bukBNpbA3 --authenticationDatabase admin
 ```
 
 Create **database**
