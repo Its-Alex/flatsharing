@@ -2,6 +2,7 @@ package main
 
 import (
 	"bytes"
+	"fmt"
 	"net/http"
 	"os"
 
@@ -20,12 +21,18 @@ type response struct {
 
 func createIssue(c echo.Context) error {
 	var req request
-	c.Bind(&req)
+	err := c.Bind(&req)
+	if err != nil {
+		fmt.Println(err)
+	}
 
 	url := "https://api.github.com/repos/flatsharing/" + req.Platform + "/issues"
 	data := []byte(`{"title":"Automatic issue from bot", "body": "` + req.Description + `"}`)
 
 	call, err := http.NewRequest("POST", url, bytes.NewBuffer(data))
+	if err != nil {
+		fmt.Println(err)
+	}
 	call.Header.Set("Content-Type", "application/json")
 	call.Header.Set("Authorization", "token "+os.Getenv("GITHUB_TOKEN"))
 	client := http.Client{}
@@ -35,7 +42,10 @@ func createIssue(c echo.Context) error {
 			Msg: "Request error",
 		})
 	}
-	defer res.Body.Close()
+	err = res.Body.Close()
+	if err != nil {
+		fmt.Println(err)
+	}
 
 	return c.JSON(http.StatusCreated, response{
 		Msg: "Ressource has been created",

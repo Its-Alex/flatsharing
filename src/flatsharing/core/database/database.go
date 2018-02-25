@@ -11,12 +11,13 @@ import (
 // Db connection to database
 var Db *sqlx.DB
 
+// Variable for database
 var (
 	HOST     = helper.GetEnv("PSQL_HOST", "localhost")
 	USER     = helper.GetEnv("PSQL_USER", "flatsharing")
 	PASSWORD = helper.GetEnv("PSQL_PASSWORD", "611bukBNpbA3")
 	PORT     = helper.GetEnv("PSQL_PORT", "5432")
-	DB_NAME  = helper.GetEnv("PSQL_DB_NAME", "flatsharing")
+	DBNAME   = helper.GetEnv("PSQL_DBNAME", "flatsharing")
 )
 
 func init() {
@@ -26,7 +27,7 @@ func init() {
 		PORT,
 		USER,
 		PASSWORD,
-		DB_NAME,
+		DBNAME,
 		"disable",
 	))
 	if err != nil {
@@ -35,6 +36,10 @@ func init() {
 	Db.SetMaxIdleConns(10)
 }
 
+// Ping ping database
 func Ping() {
-	Db.Ping()
+	err := Db.Ping()
+	if err != nil {
+		panic(err)
+	}
 }
