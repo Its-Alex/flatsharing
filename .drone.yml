@@ -1,0 +1,11 @@
+workspace:
+  base: /go
+
+pipeline:
+  all:
+    image: golang:latest
+    commands:
+      - make dep
+      - make lint
+      - make test
+      - make build
