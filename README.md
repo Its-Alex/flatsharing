@@ -63,10 +63,10 @@ You can backup the database with keeping `data` folder in project who was genera
 
 #### Database
 
-|id           | mail            | password     | nickname | role | date      |
-| ----------- | --------------- | ------------ | -------- | ---- | --------- |
-| user1       | user1@gmail.com | passBcrypted | Superman | 0    | 1223213   |
-| bit         | string          | string       | string   | int  | int8      |
+| id                         | mail          | login       | username    | password | firstname   | lastname    | role |              date             |
+|----------------------------|---------------|-------------|-------------|----------|-------------|-------------|------|:-----------------------------:|
+| char(26)                   | varchar(128)  | varchar(36) | varchar(36) | bytea    | varchar(36) | varchar(36) | int  |          timestamptz          |
+| 01C77BZC14YS004JDSP008MARS | test@test.com | Alex        | ItsAlex     | \x2...1  | Alexandre   | MARRE       | 0    | 2018-02-25 20:55:24.513498+00 |
 
 #### Features
 
@@ -80,10 +80,10 @@ You can backup the database with keeping `data` folder in project who was genera
 
 #### Database
 
-|id           | token           | date      |
-| ----------- | --------------- | --------- |
-| token1      | sadad879787978a | 2131213   |
-| bit         | string          | int8      |
+|id           | token           | date        |
+| ----------- | --------------- | ----------- |
+| token1      | sadad879787978a | 2131213     |
+| char(26)    | char(128)       | timestamptz |
 
 #### Features
 
@@ -96,10 +96,10 @@ You can backup the database with keeping `data` folder in project who was genera
 
 #### Database
 
-| id          | name          | date      |
-| ----------- | ------------- | --------- |
-| group1      | Home at Paris | 2131213   |
-| bit         | string        | int8      |
+| id          | name          | date        |
+| ----------- | ------------- | ----------- |
+| group1      | Home at Paris | 2131213     |
+| char(26)    | char(36)      | timestamptz |
 
 #### Features
 
@@ -115,7 +115,7 @@ You can backup the database with keeping `data` folder in project who was genera
 
 #### Database
 
-| id (ulid)   | group-id | user-id   | buyer-id | amount        | shop    | desc    | date       |
+| id   | group-id | user-id   | buyer-id | amount        | shop    | desc    | date       |
 | ----------- | -------- | --------- | -------- | ------------- | ------- | ------- | ---------- |
 | purchase1   | group1   | user1     | user2    | 53.75         | Super U | Courses | 1517149821 |
 | bit         | bit      | bit       | bit      | numeric (p=4) | string  | string  | int8       |
@@ -141,5 +141,5 @@ Scale ? ([traefik](https://docs.traefik.io/))
 
 - [ulid](https://github.com/oklog/ulid) 128bytes/1024bits
 
-# License
+---
 [MIT](LICENSE)
