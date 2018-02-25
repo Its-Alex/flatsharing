@@ -8,6 +8,7 @@ import (
 	_ "github.com/lib/pq" // Import for use database
 )
 
+// Db connection to database
 var Db *sqlx.DB
 
 var (

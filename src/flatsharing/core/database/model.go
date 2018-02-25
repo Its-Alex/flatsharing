@@ -4,6 +4,7 @@ import (
 	"time"
 )
 
+// User model
 type User struct {
 	ID        string    `json:"id" pg:"char(26)"`
 	Mail      string    `json:"mail" pg:"varchar(36)"`
@@ -17,6 +18,7 @@ type User struct {
 	Date      time.Time `json:"date" pg:"timestamptz"`
 }
 
+// Token model
 type Token struct {
 	ID    string `json:"id" pg:"char(26)"`
 	Token string `json:"token" pg:"varchar(128)"`

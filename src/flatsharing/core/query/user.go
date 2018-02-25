@@ -5,6 +5,7 @@ import (
 	"time"
 )
 
+// AddUser add a user to database
 func AddUser(user database.User) {
 	database.Db.MustExec(`INSERT INTO users(
 		id,
@@ -29,6 +30,7 @@ func AddUser(user database.User) {
 	)
 }
 
+// GetUserByID get a user with his id
 func GetUserByID(id string) database.User {
 	var user database.User
 	stmt, err := database.Db.Preparex(`SELECT * FROM users WHERE id = $1 LIMIT 1`)
