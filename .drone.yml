@@ -5,6 +5,8 @@ pipeline:
   all:
     image: golang:latest
     commands:
+      - export GOPATH=$$(pwd)
+      - export PATH=$$PATH":$$GOPATH/bin"
       - make dep
       - make lint
       - make test
