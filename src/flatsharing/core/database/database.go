@@ -1,6 +1,7 @@
 package database
 
 import (
+	"flatsharing/core/helper"
 	"fmt"
 
 	"github.com/jmoiron/sqlx"
@@ -10,11 +11,11 @@ import (
 var Db *sqlx.DB
 
 var (
-	HOST     = "localhost"
-	PORT     = "5432"
-	USER     = "flatsharing"
-	PASSWORD = "611bukBNpbA3"
-	DB_NAME  = "flatsharing"
+	HOST     = helper.GetEnv("PSQL_HOST", "localhost")
+	USER     = helper.GetEnv("PSQL_USER", "flatsharing")
+	PASSWORD = helper.GetEnv("PSQL_PASSWORD", "611bukBNpbA3")
+	PORT     = helper.GetEnv("PSQL_PORT", "5432")
+	DB_NAME  = helper.GetEnv("PSQL_DB_NAME", "flatsharing")
 )
 
 func init() {
