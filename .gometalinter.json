@@ -1,0 +1,8 @@
+{
+    "Disable": [
+        "gas"
+    ],
+    "Concurrency": 4,
+    "Vendor": true,
+    "Test": true,
+}
