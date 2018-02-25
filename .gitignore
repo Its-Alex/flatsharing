@@ -21,3 +21,4 @@ pkg/*
 # Ignore all source execpt flatsharing
 src/*
 !src/flatsharing
+src/flatsharing/vendor
