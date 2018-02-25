@@ -2,7 +2,8 @@
 FlatSharing configuration repository at http://flatsharing.io
 
 ## Requirements
-`docker`
+- `direnv`
+- `docker`
 
 ## How-to launch
 ```
@@ -10,52 +11,12 @@ $ docker-compose up -d
 ```
 Use twice if mongo-express not working
 
-## Mongo configuration
+## Postgres configuration
 
-Connect to **mongo**
-```bash
-$ docker-compose exec mongo -u admin -p 611bukBNpbA3 --authenticationDatabase admin
+To migrate database at first launch
 ```
-
-Create **database**
+$ make migrate-db
 ```
-$ use flatsharing;
-```
-
-Add **user** who can read/write to database
-```
-$ db.createUser({'user':'flatsharing', 'pwd':'70z7AE7ZS0uiQxDH4ERRF5AR', roles:['readWrite']});
-```
-
-Or via mongo-express
-
-- Connect to [mongo-express](http://localhost:8081)
-- Create new database
-- Add user to admin database
-```json5
-{
-    "_id": "flatsharing.flatsharing", // database.user
-    "user": "flatsharing",
-    "db": "flatsharing",
-    "credentials": {
-        "SCRAM-SHA-1": {
-            "iterationCount": 10000,
-            "salt": "j85mqlwM/J45pvUJQWkdrA==",
-            "storedKey": "kVpYiwatNje2jZNjygghQvyn/+4=",
-            "serverKey": "xHSjGg0rq7zwVFlY9GWLmMEc8VY="
-        }
-    },
-    "roles": [
-        {
-            "role": "readWrite", // readWrite or read
-            "db": "flatsharing" // database
-        }
-    ]
-}
-```
-
-It's ready to use ! :)
-You can backup the database with keeping `data` folder in project who was generated at container start
 
 ## "Models"
 
@@ -115,10 +76,10 @@ You can backup the database with keeping `data` folder in project who was genera
 
 #### Database
 
-| id   | group-id | user-id   | buyer-id | amount        | shop    | desc    | date       |
-| ----------- | -------- | --------- | -------- | ------------- | ------- | ------- | ---------- |
-| purchase1   | group1   | user1     | user2    | 53.75         | Super U | Courses | 1517149821 |
-| bit         | bit      | bit       | bit      | numeric (p=4) | string  | string  | int8       |
+| id          | group-id | user-id   | buyer-id | amount        | shop        | desc    | date        |
+| ----------- | -------- | --------- | -------- | ------------- | ----------- | ------- | ----------- |
+| purchase1   | group1   | user1     | user2    | 53.75         | Super U     | Courses | 1517149821  |
+| char(26)    | char(26) | char(26)  | char(26) | numeric (p=4) | varchar(36) | text    | timestamptz |
 
 #### Features
 
