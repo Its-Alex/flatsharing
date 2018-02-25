@@ -1,5 +1,6 @@
 {
     "Disable": [
+        "gotype",
         "gas"
     ],
     "Concurrency": 4,
