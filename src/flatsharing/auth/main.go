@@ -1,10 +1,15 @@
 package main
 
 import (
+	"flatsharing/core/database"
 	"net/http"
 
 	"github.com/labstack/echo"
 )
+
+func init() {
+	database.Ping()
+}
 
 func main() {
 	e := echo.New()
