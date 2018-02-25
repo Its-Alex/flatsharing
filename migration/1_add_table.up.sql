@@ -10,3 +10,10 @@ CREATE TABLE users(
    date timestamptz NOT NULL,
    PRIMARY KEY(id)
 );
+
+CREATE TABLE tokens(
+    id char(26) NOT NULL unique,
+    token char(128) NOT NULL unique,
+    date timestamptz NOT NULL,
+    PRIMARY KEY(id)
+);
