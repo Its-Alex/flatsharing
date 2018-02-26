@@ -1,6 +1,7 @@
 package routing
 
 import (
+	"flatsharing/auth/controllers"
 	"flatsharing/core/middleware"
 
 	"github.com/labstack/echo"
@@ -15,8 +16,8 @@ func Setup(e *echo.Echo) {
 }
 
 func v1(e *echo.Group) {
-	e.GET("/", func(c echo.Context) error {
-		_ = c.JSON(200, "Hello, world!")
-		return nil
-	})
+	e.GET("/users", controllers.GetUsers)
+	e.POST("/user", controllers.AddUser)
+	e.GET("/user/:id", controllers.GetUser)
+	e.PUT("/user/:id", controllers.UpdateUser)
 }

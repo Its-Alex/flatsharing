@@ -15,7 +15,7 @@ func HydratePagination(next echo.HandlerFunc) echo.HandlerFunc {
 	return func(c echo.Context) error {
 		var pagination Pagination
 
-		c.Bind(&pagination)
+		_ = c.Bind(&pagination)
 
 		if pagination.Page <= 0 {
 			pagination.Page = 1

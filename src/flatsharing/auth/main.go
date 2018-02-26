@@ -23,6 +23,7 @@ func echoSetup(e *echo.Echo) {
 		AllowMethods: []string{echo.GET, echo.HEAD, echo.PUT, echo.PATCH, echo.POST, echo.DELETE},
 	}))
 	e.Use(middleware.Logger())
+	// e.Use(middleware.Recover())
 }
 
 func main() {

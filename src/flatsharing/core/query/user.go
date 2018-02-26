@@ -2,7 +2,22 @@ package query
 
 import (
 	"flatsharing/core/database"
+	"flatsharing/core/middleware"
 )
+
+// GetUsers get all users
+func GetUsers(pagination middleware.Pagination) []database.User {
+	var users []database.User
+	err := database.Db.Get(&users,
+		`SELECT * FROM users LIMIT $1 OFFSET $2`,
+		pagination.Limit,
+		pagination.Page,
+	)
+	if err != nil {
+		panic(err)
+	}
+	return users
+}
 
 // AddUser add a user to database
 func AddUser(user database.User) {
