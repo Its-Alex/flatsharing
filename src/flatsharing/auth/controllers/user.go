@@ -31,21 +31,20 @@ func GetUser(c echo.Context) error {
 
 // AddUser add an user
 func AddUser(c echo.Context) error {
-	var user database.User
+	user := database.User{}
 
-	err := c.Bind(&user)
-	if err != nil {
+	if err := c.Bind(&user); err != nil {
 		fmt.Println(err)
+		return err
 	}
 
 	user.ID = helper.GenUlid()
 	user.Date = time.Now()
 
-	fmt.Println(user)
-
-	// query.AddUser(user)
+	query.AddUser(user)
 	c.Set("return_code", 200)
 	c.Set("return_error", helper.Error{})
+	c.Set("return", user)
 	return nil
 }
 

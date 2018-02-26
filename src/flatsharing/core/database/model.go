@@ -6,21 +6,21 @@ import (
 
 // User model
 type User struct {
-	ID        string    `json:"id" pg:"char(26)"`
-	Mail      string    `json:"mail" pg:"varchar(36)"`
-	Login     string    `json:"login" pg:"varchar(36)"`
-	Username  string    `json:"username" pg:"varchar(36)"`
-	Password  string    `json:"password" pg:"bytea"`
+	ID        string    `json:"id"`
+	Mail      string    `json:"mail"`
+	Login     string    `json:"login"`
+	Username  string    `json:"username"`
+	Password  string    `json:"password"`
 	Tokens    []Token   `json:"tokens,omitempty"`
-	FirstName string    `json:"firstname" pg:"varchar(36)"`
-	LastName  string    `json:"lastname" pg:"varchar(36)"`
-	Role      int       `json:"role" pg:"int"`
-	Date      time.Time `json:"date" pg:"timestamptz"`
+	FirstName string    `json:"firstname"`
+	LastName  string    `json:"lastname"`
+	Role      int       `json:"role"`
+	Date      time.Time `json:"date"`
 }
 
 // Token model
 type Token struct {
-	ID    string `json:"id" pg:"char(26)"`
-	Token string `json:"token" pg:"varchar(128)"`
-	Date  string `json:"date" pg:"timestamptz"`
+	ID    string `json:"id"`
+	Token string `json:"token"`
+	Date  string `json:"date"`
 }
