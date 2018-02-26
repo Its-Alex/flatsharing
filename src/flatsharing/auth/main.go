@@ -1,20 +1,35 @@
 package main
 
 import (
+	"flatsharing/auth/routing"
 	"flatsharing/core/database"
-	"net/http"
+	"flatsharing/core/helper"
 
 	"github.com/labstack/echo"
+	"github.com/labstack/echo/middleware"
 )
 
 func init() {
 	database.Ping()
 }
 
+func echoSetup(e *echo.Echo) {
+	e.Pre(middleware.RemoveTrailingSlash())
+
+	e.Use(middleware.BodyLimit("2M"))
+	e.Use(middleware.CORSWithConfig(middleware.CORSConfig{
+		AllowOrigins: []string{"*"},
+		AllowHeaders: []string{echo.HeaderAuthorization, echo.HeaderContentType},
+		AllowMethods: []string{echo.GET, echo.HEAD, echo.PUT, echo.PATCH, echo.POST, echo.DELETE},
+	}))
+	e.Use(middleware.Logger())
+}
+
 func main() {
 	e := echo.New()
-	e.GET("/", func(c echo.Context) error {
-		return c.String(http.StatusOK, "Hello, World!")
-	})
-	e.Logger.Fatal(e.Start(":1323"))
+	echoSetup(e)
+
+	routing.Setup(e)
+
+	e.Logger.Fatal(e.Start(helper.GetEnv("AUTH_PORT", ":3000")))
 }

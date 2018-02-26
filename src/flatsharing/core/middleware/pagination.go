@@ -1,7 +1,6 @@
 package middleware
 
 import (
-	"fmt"
 	"strconv"
 
 	"github.com/labstack/echo"
@@ -34,9 +33,8 @@ func HydratePagination(next echo.HandlerFunc) echo.HandlerFunc {
 			}
 		}
 
-		fmt.Println(pagination)
 		c.Set("pagination", pagination)
-		next(c)
+		_ = next(c)
 		return nil
 	}
 }
