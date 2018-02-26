@@ -2,7 +2,6 @@ package query
 
 import (
 	"flatsharing/core/database"
-	"time"
 )
 
 // AddUser add a user to database
@@ -26,7 +25,7 @@ func AddUser(user database.User) {
 		user.FirstName,
 		user.LastName,
 		user.Role,
-		time.Now(),
+		user.Date,
 	)
 }
 
@@ -44,4 +43,28 @@ func GetUserByID(id string) database.User {
 		}
 	}
 	return user
+}
+
+// UpdateUserByID update an user with his id
+func UpdateUserByID(user database.User) {
+	database.Db.MustExec(`UPDATE users SET
+		mail = $2,
+		login = $3,
+		username = $4,
+		password = $5,
+		firstname = $6,
+		lastname = $7,
+		role = $8,
+		date = $9
+		WHERE id = $1`,
+		user.ID,
+		user.Mail,
+		user.Login,
+		user.Username,
+		user.Password,
+		user.FirstName,
+		user.LastName,
+		user.Role,
+		user.Date,
+	)
 }
