@@ -11,3 +11,7 @@ pipeline:
       - make lint
       - make test
       - make build
+
+  codecov:
+    image: robertstettner/drone-codecov
+    token: e897d4e0-b3ff-4c5d-91e6-2d3ff15a9ee6
