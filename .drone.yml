@@ -2,7 +2,7 @@ workspace:
   base: /go
 
 pipeline:
-  all:
+  app:
     image: golang:${GO_VERSION}
     commands:
       - export GOPATH=$$(pwd)
@@ -11,15 +11,15 @@ pipeline:
       - make lint
       - make test
       - make build
-      
-matrix:
-  GO_VERSION:
-    - latest
-    - "1.9"
-    - "1.8"
-    - "1.7"
-    - "1.6"
 
   codecov:
     image: robertstettner/drone-codecov
     token: e897d4e0-b3ff-4c5d-91e6-2d3ff15a9ee6
+
+matrix:
+  GO_VERSION:
+    - latest
+    - 1.9
+    - 1.8
+    - 1.7
+    - 1.6
