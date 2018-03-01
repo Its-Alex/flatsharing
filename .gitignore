@@ -22,3 +22,5 @@ pkg/*
 src/*
 !src/flatsharing
 src/flatsharing/vendor
+
+*coverage*
