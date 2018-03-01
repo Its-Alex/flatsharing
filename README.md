@@ -1,3 +1,5 @@
+[![codecov](https://codecov.io/gh/Its-Alex/flatsharing/branch/master/graph/badge.svg?token=3VmgQm5LGw)](https://codecov.io/gh/Its-Alex/flatsharing)
+
 # FlatSharing
 FlatSharing configuration repository at http://flatsharing.io
 
