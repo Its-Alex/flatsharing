@@ -21,7 +21,7 @@ lint:
 
 .PHONY: coverage
 coverage:
-	$(GO) go test flatsharing/... -coverprofile=coverage.out
+	$(GO) go test flatsharing/... -race -coverprofile=coverage.txt -covermode=atomic
 
 .PHONY: migrate-db
 migrate-db:
