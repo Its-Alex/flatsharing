@@ -19,6 +19,10 @@ test:
 lint:
 	$(GO) gometalinter --config=.gometalinter.json src/flatsharing/...
 
+.PHONY: coverage
+coverage:
+	$(GO) go test flatsharing/... -coverprofile=coverage.out
+
 .PHONY: migrate-db
 migrate-db:
 	$(GO) go get -u -d github.com/mattes/migrate/cli github.com/lib/pq

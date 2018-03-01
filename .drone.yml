@@ -10,6 +10,7 @@ pipeline:
       - make dep
       - make lint
       - make test
+      - make coverage
       - make build
 
   codecov:
@@ -18,6 +19,4 @@ pipeline:
 
 matrix:
   GO_VERSION:
-    - latest
-    - 1.9
-    - 1.8
+    - 1.10
