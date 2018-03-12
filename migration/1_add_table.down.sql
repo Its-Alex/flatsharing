@@ -1,0 +1,5 @@
+DROP TABLE IF EXISTS users; 
+DROP TABLE IF EXISTS tokens; 
+DROP TABLE IF EXISTS flatsharings; 
+DROP TABLE IF EXISTS shops; 
+DROP TABLE IF EXISTS purchases; 
