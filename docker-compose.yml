@@ -1,14 +1,14 @@
 version: '3.3'
 services:
   postgres:
-    image: postgres:latest
+    image: postgres:10-alpine
     environment:
-    - POSTGRES_USER=flatsharing
-    - POSTGRES_PASSWORD=611bukBNpbA3
-    - POSTGRES_DB=flatsharing
-    - DB_EXTENSION=uuid-ossp
-    - DEBUG=true
+      - POSTGRES_USER=flatsharing
+      - POSTGRES_PASSWORD=611bukBNpbA3
+      - POSTGRES_DB=flatsharing
+      - DB_EXTENSION=uuid-ossp
+      - DEBUG=true
     volumes:
-    - ./data/:/var/lib/postgresql/data
+      - ./data/:/var/lib/postgresql/data
     ports:
-    - "5432:5432"
+      - 5432:5432
