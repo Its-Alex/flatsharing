@@ -2,6 +2,7 @@
     "Disable": [
         "gas"
     ],
+    "Deadline": "6000s",
     "Concurrency": 4,
     "Vendor": true,
     "Test": true
