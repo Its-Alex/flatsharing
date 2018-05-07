@@ -9,11 +9,12 @@ dep:
 
 .PHONY:build
 build:
-	$(GO) go install flatsharing/...
+	$(GO) go install -v flatsharing/auth
+	$(GO) go install -v flatsharing/support
 
 .PHONY: test
 test:
-	$(GO) go test flatsharing/...
+	$(GO) go test -v flatsharing/...m
 
 .PHONY: lint
 lint:
@@ -23,8 +24,13 @@ lint:
 coverage:
 	$(GO) go test flatsharing/... -race -coverprofile=coverage.txt -covermode=atomic
 
+.PHONY: watch
+watch:
+	$(GO) reflex -R '^bin' -R '^pkg' -R '^src/(github.com|flatsharing/vendor){1}' \
+		-r '^src/flatsharing/(auth|core){1}/[A-Za-z0-9/]+\.go$$' \
+		-s -- go run src/flatsharing/auth/*.go
+
 .PHONY: migrate-db
 migrate-db:
-	$(GO) go get -u -d github.com/mattes/migrate/cli github.com/lib/pq
-	$(GO) go build -tags 'postgres' -o $$GOPATH/bin/migrate github.com/mattes/migrate/cli
-	migrate -database postgres://flatsharing:611bukBNpbA3@localhost:5432/flatsharing?sslmode=disable -path ./migration up 1
+	docker run -v $$(pwd)/migrations:/migrations --network host itsalex/migrate-docker \
+		-path=/migrations/ -database postgres://flatsharing:611bukBNpbA3@localhost:5432/flatsharing?sslmode=disable up
