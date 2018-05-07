@@ -1,24 +1,13 @@
 [![codecov](https://codecov.io/gh/Its-Alex/flatsharing/branch/master/graph/badge.svg?token=3VmgQm5LGw)](https://codecov.io/gh/Its-Alex/flatsharing)
 
 # FlatSharing
+
 FlatSharing configuration repository at http://flatsharing.io
 
 ## Requirements
+
 - `direnv`
 - `docker`
-
-## How-to launch
-```
-$ docker-compose up -d
-```
-Use twice if mongo-express not working
-
-## Postgres configuration
-
-To migrate database at first launch
-```
-$ make migrate-db
-```
 
 ## "Models"
 
