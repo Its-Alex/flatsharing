@@ -24,3 +24,27 @@ type Token struct {
 	Token string `json:"token"`
 	Date  string `json:"date"`
 }
+
+// Flatsharing model
+type Flatsharing struct {
+	ID   string `json:"id"`
+	Name string `json:"name"`
+}
+
+// Shop model
+type Shop struct {
+	ID   string `json:"id"`
+	Name string `json:"name"`
+}
+
+// Purchase model
+type Purchase struct {
+	ID              string    `json:"id"`
+	FkFlatsharingID string    `json:"flatsharing"`
+	FkUserID        string    `json:"user"`
+	FkBuyerID       string    `json:"buyer"`
+	FkShopID        string    `json:"shop"`
+	Price           int       `json:"price"`
+	Description     string    `json:"description"`
+	Date            time.Time `json:"date"`
+}
