@@ -14,7 +14,7 @@ build:
 
 .PHONY: test
 test:
-	$(GO) go test -v flatsharing/...m
+	$(GO) go test -v flatsharing/...
 
 .PHONY: lint
 lint:
@@ -30,7 +30,7 @@ watch:
 		-r '^src/flatsharing/(auth|core){1}/[A-Za-z0-9/]+\.go$$' \
 		-s -- go run src/flatsharing/auth/*.go
 
-.PHONY: migrate-db
-migrate-db:
+.PHONY: migrate
+migrate:
 	docker run -v $$(pwd)/migrations:/migrations --network host itsalex/migrate-docker \
 		-path=/migrations/ -database postgres://flatsharing:611bukBNpbA3@localhost:5432/flatsharing?sslmode=disable up
