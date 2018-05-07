@@ -17,9 +17,9 @@ func GenUlid() string {
 
 // GetEnv get an environement variable or set with default value if not found
 func GetEnv(name, def string) string {
-	s := os.Getenv(name)
-	if s == "" {
+	str := os.Getenv(name)
+	if str == "" {
 		return def
 	}
-	return s
+	return str
 }
