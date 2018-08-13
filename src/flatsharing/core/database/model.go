@@ -15,7 +15,7 @@ type User struct {
 	FirstName string    `json:"firstname"`
 	LastName  string    `json:"lastname"`
 	Role      int       `json:"role"`
-	Date      time.Time `json:"date"`
+	CreatedAt time.Time `json:"created_at" db:"created_at"`
 }
 
 // Token model

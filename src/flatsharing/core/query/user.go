@@ -6,22 +6,19 @@ import (
 )
 
 // GetUsers get all users
-func GetUsers(pagination middleware.Pagination) []database.User {
+func GetUsers(pagination middleware.Pagination) ([]database.User, error) {
 	var users []database.User
-	err := database.Db.Get(&users,
+	err := database.Db.Select(&users,
 		`SELECT * FROM users LIMIT $1 OFFSET $2`,
 		pagination.Limit,
 		pagination.Page,
 	)
-	if err != nil {
-		panic(err)
-	}
-	return users
+	return users, err
 }
 
 // AddUser add a user to database
-func AddUser(user database.User) {
-	database.Db.MustExec(`INSERT INTO users(
+func AddUser(user database.User) error {
+	_, err := database.Db.Exec(`INSERT INTO users(
 		id,
 		mail,
 		login,
@@ -30,7 +27,7 @@ func AddUser(user database.User) {
 		firstname,
 		lastname,
 		role,
-		date
+		created_at
 		) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9)`,
 		user.ID,
 		user.Mail,
@@ -40,29 +37,27 @@ func AddUser(user database.User) {
 		user.FirstName,
 		user.LastName,
 		user.Role,
-		user.Date,
+		user.CreatedAt,
 	)
+	return err
 }
 
 // GetUserByID get a user with his id
-func GetUserByID(id string) database.User {
-	var user database.User
-	stmt, err := database.Db.Preparex(`SELECT * FROM users WHERE id = $1 LIMIT 1`)
+func GetUserByID(user database.User) (*database.User, error) {
+	retUser := &database.User{}
+	err := database.Db.Get(retUser, "SELECT * FROM users WHERE id = $1 LIMIT 1", user.ID)
 	if err != nil {
-		panic(err)
-	}
-	err = stmt.Get(&user, id)
-	if err != nil {
-		if err.Error() != "sql: no rows in result set" {
-			panic(err)
+		if err.Error() == "sql: no rows in result set" {
+			return nil, nil
 		}
+		return nil, err
 	}
-	return user
+	return retUser, nil
 }
 
 // UpdateUserByID update an user with his id
-func UpdateUserByID(user database.User) {
-	database.Db.MustExec(`UPDATE users SET
+func UpdateUserByID(user database.User) error {
+	_, err := database.Db.Exec(`UPDATE users SET
 		mail = $2,
 		login = $3,
 		username = $4,
@@ -70,7 +65,7 @@ func UpdateUserByID(user database.User) {
 		firstname = $6,
 		lastname = $7,
 		role = $8,
-		date = $9
+		created_at = $9
 		WHERE id = $1`,
 		user.ID,
 		user.Mail,
@@ -80,6 +75,13 @@ func UpdateUserByID(user database.User) {
 		user.FirstName,
 		user.LastName,
 		user.Role,
-		user.Date,
+		user.CreatedAt,
 	)
+	return err
+}
+
+// DeleteUserByID delete a user with his ID
+func DeleteUserByID(user database.User) error {
+	_, err := database.Db.Exec("DELETE FROM users WHERE id = $1", user.ID)
+	return err
 }

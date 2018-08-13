@@ -22,8 +22,8 @@ func echoSetup(e *echo.Echo) {
 		AllowHeaders: []string{echo.HeaderAuthorization, echo.HeaderContentType},
 		AllowMethods: []string{echo.GET, echo.HEAD, echo.PUT, echo.PATCH, echo.POST, echo.DELETE},
 	}))
-	e.Use(middleware.Logger())
-	e.Use(middleware.Recover())
+	// e.Use(middleware.Logger())
+	// e.Use(middleware.Recover())
 }
 
 func main() {
