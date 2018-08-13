@@ -1,5 +1,11 @@
 GO=export GOPATH=$$(pwd) &&
 
+.PHONY: up
+up:
+	@docker-compose up -d postgres
+	@docker-compose run --rm wait_postgres
+	@make migrate
+
 .PHONY: dep
 dep:
 	$(GO) go get -u github.com/golang/dep/cmd/dep
@@ -38,3 +44,8 @@ migrate:
 .PHONY: enter-postgresql
 enter-postgresql:
 	docker exec -it --user postgres `docker-compose ps -q postgres` bash -c "export COLUMNS=`tput cols`; export LINES=`tput lines`; exec psql flatsharing"
+
+.PHONY: clean
+clean:
+	docker-compose down -v
+	rm -rf data
