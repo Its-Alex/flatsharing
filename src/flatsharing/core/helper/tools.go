@@ -1,6 +1,7 @@
 package helper
 
 import (
+	"bytes"
 	"math/rand"
 	"os"
 	"time"
@@ -13,6 +14,17 @@ func GenUlid() string {
 	t := time.Now()
 	entropy := rand.New(rand.NewSource(t.UnixNano()))
 	return ulid.MustNew(ulid.Timestamp(t), entropy).String()
+}
+
+// GenToken generate a random token
+func GenToken() string {
+	allowCharac := "abcdefghjiklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
+	var buffer bytes.Buffer
+
+	for index := 0; index < 128; index++ {
+		buffer.WriteString(string(allowCharac[int(rand.Float32()*float32(len(allowCharac)))]))
+	}
+	return buffer.String()
 }
 
 // GetEnv get an environement variable or set with default value if not found
