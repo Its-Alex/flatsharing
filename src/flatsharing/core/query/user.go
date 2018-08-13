@@ -16,32 +16,6 @@ func GetUsers(pagination middleware.Pagination) ([]database.User, error) {
 	return users, err
 }
 
-// AddUser add a user to database
-func AddUser(user database.User) error {
-	_, err := database.Db.Exec(`INSERT INTO users(
-		id,
-		mail,
-		login,
-		username,
-		password,
-		firstname,
-		lastname,
-		role,
-		created_at
-		) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9)`,
-		user.ID,
-		user.Mail,
-		user.Login,
-		user.Username,
-		user.Password,
-		user.FirstName,
-		user.LastName,
-		user.Role,
-		user.CreatedAt,
-	)
-	return err
-}
-
 // GetUserByID get a user with his id
 func GetUserByID(user database.User) (*database.User, error) {
 	retUser := &database.User{}
@@ -53,6 +27,43 @@ func GetUserByID(user database.User) (*database.User, error) {
 		return nil, err
 	}
 	return retUser, nil
+}
+
+// GetUserByMail get a user with his id
+func GetUserByMail(user database.User) (*database.User, error) {
+	retUser := &database.User{}
+	err := database.Db.Get(retUser, "SELECT * FROM users WHERE mail = $1 LIMIT 1", user.Mail)
+	if err != nil {
+		if err.Error() == "sql: no rows in result set" {
+			return nil, nil
+		}
+		return nil, err
+	}
+	return retUser, nil
+}
+
+// AddUser add a user to database
+func AddUser(user database.User) error {
+	_, err := database.Db.Exec(`INSERT INTO users(
+		id,
+		mail,
+		login,
+		username,
+		password,
+		firstname,
+		lastname,
+		role
+		) VALUES ($1, $2, $3, $4, $5, $6, $7, $8)`,
+		user.ID,
+		user.Mail,
+		user.Login,
+		user.Username,
+		user.Password,
+		user.FirstName,
+		user.LastName,
+		user.Role,
+	)
+	return err
 }
 
 // UpdateUserByID update an user with his id

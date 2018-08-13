@@ -7,22 +7,23 @@ import (
 // User model
 type User struct {
 	ID        string    `json:"id"`
-	Mail      string    `json:"mail"`
-	Login     string    `json:"login"`
-	Username  string    `json:"username"`
-	Password  string    `json:"password"`
+	Mail      string    `json:"mail" validate:"required,email"`
+	Login     string    `json:"login" validate:"required,gte=0,lte=32"`
+	Username  string    `json:"username" validate:"required,gte=0,lte=32"`
+	Password  string    `json:"password" validate:"required,gte=8,lte=64"`
 	Tokens    []Token   `json:"tokens,omitempty"`
-	FirstName string    `json:"firstname"`
-	LastName  string    `json:"lastname"`
+	FirstName string    `json:"firstname" validate:"required,gte=0,lte=64"`
+	LastName  string    `json:"lastname" validate:"required,gte=0,lte=64"`
 	Role      int       `json:"role"`
 	CreatedAt time.Time `json:"created_at" db:"created_at"`
 }
 
 // Token model
 type Token struct {
-	ID    string `json:"id"`
-	Token string `json:"token"`
-	Date  string `json:"date"`
+	ID        string    `json:"id"`
+	UserID    string    `json:"fk_user_id"`
+	Token     string    `json:"token"`
+	CreatedAt time.Time `json:"created_at" db:"created_at"`
 }
 
 // Flatsharing model
