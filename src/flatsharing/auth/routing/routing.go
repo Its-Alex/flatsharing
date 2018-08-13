@@ -14,7 +14,7 @@ func Setup(e *echo.Echo) {
 }
 
 func v1(e *echo.Group) {
-	e.POST("/singin", controllers.Signin)
+	e.POST("/signin", controllers.Signin)
 
 	e.GET("/users", controllers.GetUsers)
 	e.GET("/user/:id", controllers.GetUser)
