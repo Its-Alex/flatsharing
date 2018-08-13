@@ -34,3 +34,7 @@ watch:
 migrate:
 	docker run -v $$(pwd)/migrations:/migrations --network host itsalex/migrate-docker \
 		-path=/migrations/ -database postgres://flatsharing:611bukBNpbA3@localhost:5432/flatsharing?sslmode=disable up
+
+.PHONY: enter-postgresql
+enter-postgresql:
+	docker exec -it --user postgres `docker-compose ps -q postgres` bash -c "export COLUMNS=`tput cols`; export LINES=`tput lines`; exec psql flatsharing"
