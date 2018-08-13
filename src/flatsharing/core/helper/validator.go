@@ -5,6 +5,7 @@ import (
 )
 
 var (
+	// Validate is used to valide struct
 	Validate *validator.Validate
 )
 

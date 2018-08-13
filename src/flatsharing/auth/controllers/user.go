@@ -28,7 +28,7 @@ func Signin(c echo.Context) error {
 
 	err := helper.Validate.Struct(fields)
 	if err != nil {
-		c.JSON(http.StatusBadRequest, err.Error())
+		_ = c.JSON(http.StatusBadRequest, err.Error())
 		return err
 	}
 
@@ -36,26 +36,26 @@ func Signin(c echo.Context) error {
 		Mail: fields.Mail,
 	})
 	if err != nil {
-		c.JSON(http.StatusInternalServerError, "Internal server error")
+		_ = c.JSON(http.StatusInternalServerError, "Internal server error")
 		return err
 	}
 	if user == nil {
-		c.JSON(http.StatusNotFound, "User not found")
+		_ = c.JSON(http.StatusNotFound, "User not found")
 		return err
 	}
 
 	if bcrypt.CompareHashAndPassword([]byte(user.Password), []byte(fields.Password)) != nil {
-		c.JSON(http.StatusUnauthorized, "Password mismatch!")
+		_ = c.JSON(http.StatusUnauthorized, "Password mismatch!")
 		return err
 	}
 
 	token, err := query.CreateToken(*user)
 	if err != nil {
-		c.JSON(http.StatusInternalServerError, "Internal server error")
+		_ = c.JSON(http.StatusInternalServerError, "Internal server error")
 		return err
 	}
 
-	c.JSON(http.StatusOK, map[string]string{
+	_ = c.JSON(http.StatusOK, map[string]string{
 		"token": token.Token,
 	})
 	return nil
@@ -102,7 +102,7 @@ func AddUser(c echo.Context) error {
 
 	err := helper.Validate.Struct(user)
 	if err != nil {
-		c.JSON(http.StatusBadRequest, err.Error())
+		_ = c.JSON(http.StatusBadRequest, err.Error())
 		return nil
 	}
 
