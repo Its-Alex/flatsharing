@@ -38,7 +38,7 @@ watch:
 
 .PHONY: migrate
 migrate:
-	docker run -v $$(pwd)/migrations:/migrations --network host migrate/migrate \
+	docker run --rm -v $$(pwd)/migrations:/migrations --network host migrate/migrate \
 		-path=/migrations/ -database postgres://flatsharing:611bukBNpbA3@localhost:5432/flatsharing?sslmode=disable up
 
 .PHONY: enter-postgresql
