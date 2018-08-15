@@ -16,23 +16,10 @@ func GetUsers(pagination middleware.Pagination) ([]database.User, error) {
 	return users, err
 }
 
-// GetUserByID get a user with his id
-func GetUserByID(user database.User) (*database.User, error) {
+// GetUserByMailOrID get a user with his id or mail set
+func GetUserByMailOrID(user database.User) (*database.User, error) {
 	retUser := &database.User{}
-	err := database.Db.Get(retUser, "SELECT * FROM users WHERE id = $1 LIMIT 1", user.ID)
-	if err != nil {
-		if err.Error() == "sql: no rows in result set" {
-			return nil, nil
-		}
-		return nil, err
-	}
-	return retUser, nil
-}
-
-// GetUserByMail get a user with his id
-func GetUserByMail(user database.User) (*database.User, error) {
-	retUser := &database.User{}
-	err := database.Db.Get(retUser, "SELECT * FROM users WHERE mail = $1 LIMIT 1", user.Mail)
+	err := database.Db.Get(retUser, "SELECT * FROM users WHERE id = $1 OR mail = $2 LIMIT 1", user.ID, user.Mail)
 	if err != nil {
 		if err.Error() == "sql: no rows in result set" {
 			return nil, nil

@@ -1,6 +1,7 @@
 {
     "Disable": [
-        "gas"
+        "gas",
+        "goconst"
     ],
     "Deadline": "6000s",
     "Concurrency": 4,

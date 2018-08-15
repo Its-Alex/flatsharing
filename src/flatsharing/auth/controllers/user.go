@@ -5,6 +5,7 @@ import (
 	"flatsharing/core/helper"
 	"flatsharing/core/middleware"
 	"flatsharing/core/query"
+	"fmt"
 	"net/http"
 
 	"golang.org/x/crypto/bcrypt"
@@ -22,43 +23,37 @@ type SigninFields struct {
 func Signin(c echo.Context) error {
 	fields := SigninFields{}
 
+	// Check fields
 	if err := c.Bind(&fields); err != nil {
 		return err
 	}
-
-	err := helper.Validate.Struct(fields)
-	if err != nil {
-		_ = c.JSON(http.StatusBadRequest, err.Error())
-		return err
+	if err := helper.Validate.Struct(fields); err != nil {
+		return c.JSON(http.StatusBadRequest, err.Error())
 	}
 
-	user, err := query.GetUserByMail(database.User{
+	// Get user
+	user, err := query.GetUserByMailOrID(database.User{
 		Mail: fields.Mail,
 	})
 	if err != nil {
-		_ = c.JSON(http.StatusInternalServerError, "Internal server error")
-		return err
+		return c.JSON(http.StatusInternalServerError, "Internal server error")
 	}
 	if user == nil {
-		_ = c.JSON(http.StatusNotFound, "User not found")
-		return err
+		return c.JSON(http.StatusNotFound, "User not found")
 	}
 
 	if bcrypt.CompareHashAndPassword([]byte(user.Password), []byte(fields.Password)) != nil {
-		_ = c.JSON(http.StatusUnauthorized, "Password mismatch!")
-		return err
+		return c.JSON(http.StatusUnauthorized, "Password mismatch!")
 	}
 
 	token, err := query.CreateToken(*user)
 	if err != nil {
-		_ = c.JSON(http.StatusInternalServerError, "Internal server error")
-		return err
+		return c.JSON(http.StatusInternalServerError, "Internal server error")
 	}
 
-	_ = c.JSON(http.StatusOK, map[string]string{
+	return c.JSON(http.StatusOK, map[string]string{
 		"token": token.Token,
 	})
-	return nil
 }
 
 // GetUsers get all users
@@ -68,28 +63,24 @@ func GetUsers(c echo.Context) error {
 		Limit: 50,
 	})
 	if err != nil {
-		_ = c.JSON(http.StatusInternalServerError, "Internal server error")
-		return err
+		return c.JSON(http.StatusInternalServerError, "Internal server error")
 	}
-	_ = c.JSON(http.StatusOK, users)
-	return nil
+	return c.JSON(http.StatusOK, users)
 }
 
 // GetUser get an user
 func GetUser(c echo.Context) error {
-	user, err := query.GetUserByID(database.User{
-		ID: c.Param("id"),
+	user, err := query.GetUserByMailOrID(database.User{
+		ID:   c.Param("id"),
+		Mail: c.Param("id"),
 	})
 	if err != nil {
-		_ = c.JSON(http.StatusInternalServerError, "Internal server error")
-		return err
+		return c.JSON(http.StatusInternalServerError, "Internal server error")
 	}
 	if user == nil {
-		_ = c.JSON(http.StatusNotFound, "User not found")
-		return nil
+		return c.JSON(http.StatusNotFound, "User not found")
 	}
-	_ = c.JSON(http.StatusOK, user)
-	return nil
+	return c.JSON(http.StatusOK, user)
 }
 
 // AddUser add an user
@@ -99,24 +90,20 @@ func AddUser(c echo.Context) error {
 	if err := c.Bind(&user); err != nil {
 		return err
 	}
-
 	err := helper.Validate.Struct(user)
 	if err != nil {
-		_ = c.JSON(http.StatusBadRequest, err.Error())
-		return nil
+		return c.JSON(http.StatusBadRequest, err.Error())
 	}
 
 	user.ID = helper.GenUlid()
-
 	user.Password = helper.BcryptGen(user.Password)
 
 	err = query.AddUser(user)
 	if err != nil {
-		_ = c.JSON(http.StatusInternalServerError, "Internal server error")
-		return err
+		fmt.Println(err)
+		return c.JSON(http.StatusInternalServerError, "Internal server error")
 	}
-	_ = c.JSON(http.StatusOK, user)
-	return nil
+	return c.JSON(http.StatusOK, user)
 }
 
 // UpdateUser update an user
@@ -130,9 +117,7 @@ func DeleteUser(c echo.Context) error {
 		ID: c.QueryParam("id"),
 	})
 	if err != nil {
-		_ = c.JSON(http.StatusInternalServerError, "Internal server error")
-		return err
+		return c.JSON(http.StatusInternalServerError, "Internal server error")
 	}
-	_ = c.JSON(http.StatusOK, "User deleted")
-	return nil
+	return c.JSON(http.StatusOK, "User deleted")
 }

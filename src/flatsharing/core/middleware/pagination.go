@@ -21,20 +21,25 @@ func HydratePagination(next echo.HandlerFunc) echo.HandlerFunc {
 		}
 
 		if val := c.QueryParam("page"); val != "" {
-			page, _ := strconv.Atoi(val)
+			page, err := strconv.Atoi(val)
+			if err != nil {
+				return err
+			}
 			if page > 0 {
 				pagination.Page = page
 			}
 		}
 		if val := c.QueryParam("limit"); val != "" {
-			limit, _ := strconv.Atoi(val)
+			limit, err := strconv.Atoi(val)
+			if err != nil {
+				return err
+			}
 			if limit > 0 {
 				pagination.Limit = limit
 			}
 		}
 
 		c.Set("pagination", pagination)
-		_ = next(c)
-		return nil
+		return next(c)
 	}
 }
