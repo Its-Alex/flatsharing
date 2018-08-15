@@ -21,17 +21,17 @@ func GetTokenByID(token database.Token) (*database.Token, error) {
 
 // CreateToken create a token for specified user
 func CreateToken(user database.User) (database.Token, error) {
-	token, err := helper.GenToken()
-	if err = nil {
+	tokenHash, err := helper.GenToken()
+	if err != nil {
 		return database.Token{}, err
 	}
-	token = database.Token{
+	token := database.Token{
 		ID:        helper.GenUlid(),
 		UserID:    user.ID,
-		Token:     helper.GenToken(),
+		Token:     tokenHash,
 		CreatedAt: time.Now(),
 	}
-	_, err := database.Db.Exec(`INSERT INTO tokens(
+	_, err = database.Db.Exec(`INSERT INTO tokens(
 		id,
 		fk_user_id,
 		token,

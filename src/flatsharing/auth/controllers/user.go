@@ -72,7 +72,7 @@ func GetUsers(c echo.Context) error {
 func GetUser(c echo.Context) error {
 	user, err := query.GetUserByMailOrID(database.User{
 		ID:   c.Param("id"),
-		Mail: c.Param("id"),
+		Mail: c.Param("id"), // Fetch by mail too
 	})
 	if err != nil {
 		return c.JSON(http.StatusInternalServerError, "Internal server error")
