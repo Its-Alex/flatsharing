@@ -27,14 +27,17 @@ func GenUlid() string {
 }
 
 // GenToken generate a random token
-func GenToken() string {
+func GenToken() (string, error) {
 	allowCharac := "abcdefghjiklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
 	var buffer bytes.Buffer
 
 	for index := 0; index < 128; index++ {
-		buffer.WriteString(string(allowCharac[int(rand.Float32()*float32(len(allowCharac)))]))
+		_, err := buffer.WriteString(string(allowCharac[int(rand.Float32()*float32(len(allowCharac)))]))
+		if err != nil {
+			return "", err
+		}
 	}
-	return buffer.String()
+	return buffer.String(), nil
 }
 
 // GetEnv get an environement variable or set with default value if not found

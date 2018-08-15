@@ -21,7 +21,11 @@ func GetTokenByID(token database.Token) (*database.Token, error) {
 
 // CreateToken create a token for specified user
 func CreateToken(user database.User) (database.Token, error) {
-	token := database.Token{
+	token, err := helper.GenToken()
+	if err = nil {
+		return database.Token{}, err
+	}
+	token = database.Token{
 		ID:        helper.GenUlid(),
 		UserID:    user.ID,
 		Token:     helper.GenToken(),
