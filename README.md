@@ -8,6 +8,21 @@ FlatSharing configuration repository at http://flatsharing.io
 
 - `direnv`
 - `docker`
+- `go`
+
+## How to
+
+You can setup all for dev env with
+
+```
+$ make up
+```
+
+Clean containers with
+
+```
+$ make clean
+```
 
 ## "Models"
 
