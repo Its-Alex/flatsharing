@@ -1,5 +1,5 @@
 CREATE TABLE users(
-   id char(26) NOT NULL,
+   id char(26) NOT NULL UNIQUE,
    mail varchar(128) NOT NULL UNIQUE,
    login varchar(64) NOT NULL UNIQUE,
    username varchar(64),
