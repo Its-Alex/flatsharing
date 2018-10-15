@@ -1,7 +1,7 @@
 package middleware
 
 import (
-	"flatsharing/core/helper"
+	"github.com/Its-Alex/flatsharing/src/core/helper"
 
 	"github.com/labstack/echo"
 )

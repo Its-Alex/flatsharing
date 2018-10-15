@@ -1,8 +1,9 @@
 package helper_test
 
 import (
-	"flatsharing/core/helper"
 	"testing"
+
+	"github.com/Its-Alex/flatsharing/src/core/helper"
 
 	"github.com/stretchr/testify/require"
 )

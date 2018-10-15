@@ -2,6 +2,10 @@
     "Disable": [
         "gas"
     ],
+    "Exclude": [
+      ".pb.go",
+      ".pb.gw.go"
+    ],
     "Deadline": "6000s",
     "Concurrency": 4,
     "Vendor": true,

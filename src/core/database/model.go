@@ -2,20 +2,26 @@ package database
 
 import (
 	"time"
+
+	"github.com/jmoiron/sqlx"
+	_ "github.com/lib/pq"
 )
+
+// Db is the connection to database
+var Db *sqlx.DB
 
 // User model
 type User struct {
 	ID        string    `json:"id"`
-	Mail      string    `json:"mail"`
-	Login     string    `json:"login"`
-	Username  string    `json:"username"`
-	Password  string    `json:"password"`
-	Tokens    []Token   `json:"tokens,omitempty"`
-	FirstName string    `json:"firstname"`
-	LastName  string    `json:"lastname"`
+	Mail      string    `json:"mail" validate:"email,required"`
+	Login     string    `json:"login" validate:"min=5,max=32,required"`
+	Username  string    `json:"username" validate:"min=5,max=32,required"`
+	Password  string    `json:"password" validate:"min=8,max=32,required"`
+	Firstname string    `json:"firstname" validate:"min=5,max=32,required"`
+	Lastname  string    `json:"lastname" validate:"min=5,max=32,required"`
 	Role      int       `json:"role"`
 	Date      time.Time `json:"date"`
+	Tokens    []Token   `json:"tokens,omitempty"`
 }
 
 // Token model

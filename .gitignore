@@ -15,12 +15,9 @@
 
 data/
 
-bin/*
-pkg/*
+bin/
 
-# Ignore all source execpt flatsharing
-src/*
-!src/flatsharing
-src/flatsharing/vendor
+# Ignore internal locked deps
+deps
 
 *coverage*

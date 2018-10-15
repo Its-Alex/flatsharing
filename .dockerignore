@@ -1,0 +1,10 @@
+# CI
+drone.yml
+codecov.yml
+
+# Project
+.git
+.gitignore
+.envrc
+LICENSE
+README.md

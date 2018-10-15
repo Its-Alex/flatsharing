@@ -1,5 +1,26 @@
-version: '3.3'
+version: '3.7'
+
 services:
+  auth:
+    image: itsalex/alpine-reflex:latest
+    restart: unless-stopped
+    ports:
+      - 8080:8080
+      - 8081:8081
+    environment:
+      - FS_AUTH_GRPC_LISTEN_ADDR=0.0.0.0
+      - FS_AUTH_GRPC_LISTEN_PORT=8080
+      - FS_AUTH_JSON_LISTEN_ADDR=0.0.0.0
+      - FS_AUTH_JSON_LISTEN_PORT=8081
+      - FS_AUTH_PSQL_HOST=postgres
+      - FS_AUTH_PSQL_HOST=5432
+      - FS_AUTH_PSQL_USER=flatsharing
+      - FS_AUTH_PSQL_PASSWORD=611bukBNpbA3
+      - FS_AUTH_PSQL_DBNAME=flatsharing
+    volumes:
+      - ./:/code/
+    command: reflex -g code/bin/auth-server-linux-amd64 -s /code/bin/auth-server-linux-amd64
+
   postgres:
     image: postgres:10-alpine
     environment:

@@ -5,13 +5,15 @@ pipeline:
   app:
     image: golang:${GO_VERSION}
     commands:
-      - export GOPATH=$$(pwd)
+      - apt update && apt install -y bsdtar
+      - export GO111MODULE=on
       - export PATH=$$PATH":$$GOPATH/bin"
       - make dep
       - make lint
       - make test
       - make coverage
-      - make build
+      - make build-auth
+      - make build-support
 
   codecov:
     image: robertstettner/drone-codecov
@@ -19,4 +21,4 @@ pipeline:
 
 matrix:
   GO_VERSION:
-    - 1.10
+    - 1.11
