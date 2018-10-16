@@ -13,20 +13,21 @@ import (
 
 	"github.com/grpc-ecosystem/grpc-gateway/runtime"
 	"github.com/jmoiron/sqlx"
-	viper "github.com/spf13/viper"
+	"github.com/spf13/viper"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/reflection"
 )
 
 // Service current grpc service
-type Service struct {
-	Db *sqlx.DB
+type service struct {
+	db *database.DB
 }
 
 type runner func() error
 
 // Global env variables
 var (
+	db *sqlx.DB
 	// runners contain function that will be launch when program start
 	runners = []runner{
 		RunGRPC,
@@ -48,6 +49,7 @@ func init() {
 	viper.BindEnv("psql_password")
 	viper.BindEnv("psql_dbname")
 	viper.BindEnv("psql_sslmode")
+	viper.BindEnv("psql_max_retry")
 
 	viper.SetDefault("grpc_listen_addr", "0.0.0.0")
 	viper.SetDefault("grpc_listen_port", "8080")
@@ -55,21 +57,7 @@ func init() {
 	viper.SetDefault("json_listen_port", "8081")
 
 	viper.SetDefault("psql_sslmode", "disable")
-
-	// Database setup
-	var err error
-	database.Db, err = sqlx.Open("postgres", fmt.Sprintf("host=%v port=%v user=%v password=%v dbname=%v sslmode=%v",
-		viper.GetString("psql_host"),
-		viper.GetString("psql_port"),
-		viper.GetString("psql_user"),
-		viper.GetString("psql_password"),
-		viper.GetString("psql_dbname"),
-		viper.GetString("disable"),
-	))
-	if err != nil {
-		panic(err)
-	}
-	database.Db.SetMaxIdleConns(10)
+	viper.SetDefault("psql_max_retry", 10)
 
 	helper.InitLogger()
 }
@@ -90,9 +78,13 @@ func RunGRPC() error {
 	server := grpc.NewServer()
 
 	// Register services
-	pb.RegisterAuthServicesServer(server, &Service{
-		database.Db,
-	})
+	s := &service{}
+	s.db, err = database.Connect()
+	if err != nil {
+		return err
+	}
+
+	pb.RegisterAuthServicesServer(server, s)
 
 	// Enable reflection
 	reflection.Register(server)
@@ -143,7 +135,7 @@ func main() {
 		go func(key int, f runner) {
 			defer wg.Done()
 			if err := f(); err != nil {
-				helper.Logger.Errorf("Something went wrong with runner %s : %s", key, err)
+				helper.Logger.Errorf("Something went wrong with runner %d : %s", key, err)
 			}
 		}(key, f)
 	}

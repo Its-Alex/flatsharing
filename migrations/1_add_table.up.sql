@@ -1,3 +1,5 @@
+SET TIME ZONE 'UTC-02';
+
 CREATE TABLE users(
    id char(26) NOT NULL UNIQUE,
    mail varchar(128) NOT NULL UNIQUE,

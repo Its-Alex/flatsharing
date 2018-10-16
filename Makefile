@@ -4,7 +4,7 @@ OS := $(shell uname -s)
 .PHONY: dep
 dep:
 	# Install protoc
-ifeq ($(),Darwin)
+ifeq ($(OS),Darwin)
 	curl -s -L "https://github.com/protocolbuffers/protobuf/releases/download/v3.6.1/protoc-3.6.1-osx-x86_64.zip" | bsdtar -xf- bin/protoc
 	chmod u+x bin/protoc
 else
@@ -19,12 +19,13 @@ endif
 	mv grpc-gateway-1.5.1/ deps/grpc-gateway/
 	go get -v golang.org/x/lint/golint
 	go get -v github.com/Its-Alex/flatsharing/src/...
-	go install github.com/golang/protobuf/...
-	go install github.com/grpc-ecosystem/grpc-gateway/protoc-gen-grpc-gateway
-	go install github.com/grpc-ecosystem/grpc-gateway/protoc-gen-swagger
+	GOBIN=$(shell pwd)/bin go install -v github.com/golang/protobuf/...
+	GOBIN=$(shell pwd)/bin go install -v github.com/grpc-ecosystem/grpc-gateway/protoc-gen-grpc-gateway
+	GOBIN=$(shell pwd)/bin go install -v github.com/grpc-ecosystem/grpc-gateway/protoc-gen-swagger
 
 .PHONY: build-auth
 build-auth:
+	rm -rf bin/auth-server*
 	go build -v -o bin/auth-server -i github.com/Its-Alex/flatsharing/src/auth/server/...
 	GOOS=linux GOARCH=amd64 go build -v -o bin/auth-server-linux-amd64 -i github.com/Its-Alex/flatsharing/src/auth/server/
 
@@ -51,19 +52,19 @@ protoc-auth:
 		-I src/protobuf/ \
 		-I deps/protobuf/src \
 		-I deps/grpc-gateway/third_party/googleapis \
-		--go_out=plugins=grpc:src \
-		--grpc-gateway_out=logtostderr=true:src \
+		--go_out=plugins=grpc:. \
+		--grpc-gateway_out=logtostderr=true:. \
 		--swagger_out=logtostderr=true:src/auth/v1
 
 .PHONY: migrate
 migrate:
 	@docker run -v $$(pwd)/migrations:/migrations --network host itsalex/migrate-docker \
-		-path=/migrations/ -database postgres://flatsharing:611bukBNpbA3@localhost:5432/flatsharing?sslmode=disable up
+		-path=/migrations/ -database postgres://flatsharing:password@localhost:5432/flatsharing?sslmode=disable up
 
 .PHONY: clean
 clean:
-	rm -rf bin/ deps/ pkg/
+	rm -rf bin/ deps/
 
 .PHONY: enter-postgresql
 enter-postgresql:
-	docker exec -it --user postgres `docker-compose ps -q postgres` bash -c "export COLUMNS=`tput cols`; export LINES=`tput lines`; exec psql gometal"
+	docker exec -it --user postgres `docker-compose ps -q postgres` bash -c "export COLUMNS=`tput cols`; export LINES=`tput lines`; exec psql -U flatsharing"

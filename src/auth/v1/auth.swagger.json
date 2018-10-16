@@ -52,6 +52,21 @@
             }
           }
         },
+        "parameters": [
+          {
+            "name": "page_size",
+            "in": "query",
+            "required": false,
+            "type": "integer",
+            "format": "int32"
+          },
+          {
+            "name": "page_token",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          }
+        ],
         "tags": [
           "AuthServices"
         ]
@@ -81,7 +96,7 @@
         ]
       }
     },
-    "/v1/user/{id}": {
+    "/v1/user/{user.id}": {
       "get": {
         "operationId": "GetUser",
         "responses": {
@@ -94,9 +109,58 @@
         },
         "parameters": [
           {
-            "name": "id",
+            "name": "user.id",
             "in": "path",
             "required": true,
+            "type": "string"
+          },
+          {
+            "name": "user.mail",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "user.username",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "user.login",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "user.firstname",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "user.lastname",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "user.password",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "user.role",
+            "in": "query",
+            "required": false,
+            "type": "integer",
+            "format": "int32"
+          },
+          {
+            "name": "user.created_at",
+            "in": "query",
+            "required": false,
             "type": "string"
           }
         ],
@@ -116,9 +180,58 @@
         },
         "parameters": [
           {
-            "name": "id",
+            "name": "user.id",
             "in": "path",
             "required": true,
+            "type": "string"
+          },
+          {
+            "name": "user.mail",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "user.username",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "user.login",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "user.firstname",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "user.lastname",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "user.password",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "user.role",
+            "in": "query",
+            "required": false,
+            "type": "integer",
+            "format": "int32"
+          },
+          {
+            "name": "user.created_at",
+            "in": "query",
+            "required": false,
             "type": "string"
           }
         ],
@@ -138,7 +251,7 @@
         },
         "parameters": [
           {
-            "name": "id",
+            "name": "user.id",
             "in": "path",
             "required": true,
             "type": "string"
@@ -181,23 +294,8 @@
     "v1CreateUserRequest": {
       "type": "object",
       "properties": {
-        "mail": {
-          "type": "string"
-        },
-        "username": {
-          "type": "string"
-        },
-        "login": {
-          "type": "string"
-        },
-        "firstname": {
-          "type": "string"
-        },
-        "lastname": {
-          "type": "string"
-        },
-        "password": {
-          "type": "string"
+        "user": {
+          "$ref": "#/definitions/v1User"
         }
       }
     },
@@ -212,7 +310,7 @@
     "v1GetUserResponse": {
       "type": "object",
       "properties": {
-        "users": {
+        "user": {
           "$ref": "#/definitions/v1User"
         }
       }
@@ -229,6 +327,10 @@
         },
         "next_page_token": {
           "type": "string"
+        },
+        "total_page_size": {
+          "type": "integer",
+          "format": "int32"
         }
       }
     },
@@ -254,15 +356,12 @@
     "v1UpdateUserRequest": {
       "type": "object",
       "properties": {
-        "id": {
-          "type": "string"
-        },
         "user": {
           "$ref": "#/definitions/v1User"
         },
         "update_mask": {
           "$ref": "#/definitions/protobufFieldMask",
-          "title": "The update mask applies to the resource. For the `FieldMask` definition,\nsee https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#fieldmask"
+          "title": "The update mask applies to the resource. For the `FieldMask` definition,\nsee https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#fieldmask\nor here https://github.com/gogo/grpc-example/commit/6c217371b67a89609c632f047477fa5a1123ac93"
         }
       }
     },
@@ -290,9 +389,12 @@
         "password": {
           "type": "string"
         },
+        "role": {
+          "type": "integer",
+          "format": "int32"
+        },
         "created_at": {
-          "type": "string",
-          "format": "date-time"
+          "type": "string"
         }
       }
     }

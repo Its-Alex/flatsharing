@@ -3,11 +3,10 @@ package flatsharing.auth.v1;
 
 import "google/protobuf/empty.proto";
 import "google/protobuf/field_mask.proto";
-import "google/protobuf/timestamp.proto";
 
 import "google/api/annotations.proto";
 
-option go_package = "flatsharing/auth/v1";
+option go_package = "src/auth/v1";
 
 service AuthServices {
     rpc Signin (SigninRequest) returns (SigninResponse) {
@@ -22,36 +21,31 @@ service AuthServices {
             body: "*"
         };
     }
-    rpc GetUsers (google.protobuf.Empty) returns (ListUsersResponse) {
+    rpc GetUsers (ListUsersRequest) returns (ListUsersResponse) {
         option (google.api.http) = {
             get: "/v1/user"
         };
     }
     rpc GetUser (GetUserRequest) returns (GetUserResponse) {
         option (google.api.http) = {
-            get: "/v1/user/{id}"
+            get: "/v1/user/{user.id}"
         };
     }
     rpc UpdateUser (UpdateUserRequest) returns (google.protobuf.Empty) {
         option (google.api.http) = {
-            put: "/v1/user/{id}"
+            put: "/v1/user/{user.id}"
             body: "*"
         };
     }
     rpc DeleteUser (DeleteUserRequest) returns (google.protobuf.Empty) {
         option (google.api.http) = {
-            delete: "/v1/user/{id}"
+            delete: "/v1/user/{user.id}"
         };
     }
 }
 
 message CreateUserRequest {
-    string mail = 1;
-    string username = 2;
-    string login = 3;
-    string firstname = 4;
-    string lastname = 5;
-    string password = 6;
+    User user = 1;
 }
 
 message CreateUserResponse {
@@ -67,30 +61,36 @@ message SigninResponse {
     string token = 1;
 }
 
+message ListUsersRequest {
+    int32 page_size = 1;
+    string page_token = 2;
+}
+
 message ListUsersResponse {
     // See https://github.com/GoogleCloudPlatform/google-cloud-go/blob/master/monitoring/apiv3/metric_client.go#L137
     repeated User users = 1;
     string next_page_token = 2;
+    int32 total_page_size = 3;
 }
 
 message GetUserRequest {
-    string id = 1;
+    User user = 1;
 }
 
 message GetUserResponse {
-    User users = 1;
+    User user = 1;
 }
 
 message UpdateUserRequest {
-    string id = 1;
     User user = 2;
     // The update mask applies to the resource. For the `FieldMask` definition,
     // see https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#fieldmask
+    // or here https://github.com/gogo/grpc-example/commit/6c217371b67a89609c632f047477fa5a1123ac93
     google.protobuf.FieldMask update_mask = 3;
 }
 
 message DeleteUserRequest {
-    string id = 1;
+    User user = 1;
 }
 
 message User {
@@ -101,5 +101,6 @@ message User {
     string firstname = 5;
     string lastname = 6;
     string password = 7;
-    google.protobuf.Timestamp created_at = 8;
+    int32 role = 8;
+    string created_at = 9;
 }
