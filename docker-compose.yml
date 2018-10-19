@@ -4,9 +4,6 @@ services:
   auth:
     image: itsalex/alpine-reflex:latest
     restart: unless-stopped
-    ports:
-      - 8080:8080
-      - 8081:8081
     environment:
       - FS_AUTH_GRPC_LISTEN_ADDR=0.0.0.0
       - FS_AUTH_GRPC_LISTEN_PORT=8080
@@ -20,10 +17,14 @@ services:
       - FS_AUTH_PSQL_SSLMODE=disable
     volumes:
       - ./:/code/
+    ports:
+      - 8080:8080
+      - 8081:8081
     command: reflex -g code/bin/auth-server-linux-amd64 -s /code/bin/auth-server-linux-amd64
 
   postgres:
     image: postgres:10-alpine
+    restart: unless-stopped
     environment:
       - POSTGRES_USER=flatsharing
       - POSTGRES_PASSWORD=password
