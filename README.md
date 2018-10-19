@@ -35,6 +35,8 @@ Then all services run in a container
 
 You can fetch then with shared port in [`docker-compose.yml`](/docker-compose.yml)
 
+When you build a service it's auto-refresh in container
+
 ## Features
 
 ### Auth
