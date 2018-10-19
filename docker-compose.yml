@@ -34,3 +34,9 @@ services:
       - ./data/:/var/lib/postgresql/data
     ports:
       - 5432:5432
+
+  wait_postgres:
+    image: "waisbrot/wait"
+    environment:
+      TARGETS: postgres:5432
+

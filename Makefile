@@ -1,7 +1,13 @@
 DOCKER_ENV=$(shell test ! -f /.dockerenv; echo "$$?")
 OS := $(shell uname -s)
 
-.PHONY: dep
+up: dep
+	docker-compose up -d postgres
+	docker-compose up wait_postgres
+	make migrate
+	docker-compose up -d
+	make build
+
 dep:
 	# Install protoc
 ifeq ($(OS),Darwin)
@@ -23,29 +29,25 @@ endif
 	GOBIN=$(shell pwd)/bin go install -v github.com/grpc-ecosystem/grpc-gateway/protoc-gen-grpc-gateway
 	GOBIN=$(shell pwd)/bin go install -v github.com/grpc-ecosystem/grpc-gateway/protoc-gen-swagger
 
-.PHONY: build-auth
+build: build-auth
+
 build-auth:
 	rm -rf bin/auth-server*
 	go build -v -o bin/auth-server -i github.com/Its-Alex/flatsharing/src/auth/server/...
 	GOOS=linux GOARCH=amd64 go build -v -o bin/auth-server-linux-amd64 -i github.com/Its-Alex/flatsharing/src/auth/server/
 
-.PHONY: build-support
 build-support:
 	go install -v github.com/Its-Alex/flatsharing/src/support/...
 
-.PHONY: test
 test:
 	go test -v github.com/Its-Alex/flatsharing/src/...
 
-.PHONY: lint
 lint:
 	golint src/...
 
-.PHONY: coverage
 coverage:
 	go test -v github.com/Its-Alex/flatsharing/src/... -race -coverprofile=coverage.txt -covermode=atomic
 
-.PHONY: protoc-auth
 protoc-auth:
 	protoc \
 		auth.proto \
@@ -56,15 +58,15 @@ protoc-auth:
 		--grpc-gateway_out=logtostderr=true:. \
 		--swagger_out=logtostderr=true:src/auth/v1
 
-.PHONY: migrate
 migrate:
-	@docker run -v $$(pwd)/migrations:/migrations --network host itsalex/migrate-docker \
+	@docker run --rm -v $$(pwd)/migrations:/migrations --network host itsalex/migrate-docker \
 		-path=/migrations/ -database postgres://flatsharing:password@localhost:5432/flatsharing?sslmode=disable up
 
-.PHONY: clean
-clean:
-	rm -rf bin/ deps/
+down:
+	docker-compose down
+	rm -rf bin/ deps/ data/
 
-.PHONY: enter-postgresql
 enter-postgresql:
 	docker exec -it --user postgres `docker-compose ps -q postgres` bash -c "export COLUMNS=`tput cols`; export LINES=`tput lines`; exec psql -U flatsharing"
+
+.PHONY: up dep build build-auth build-support test lint coverage protoc-auth migrate down enter-postgresql

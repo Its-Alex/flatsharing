@@ -26,9 +26,10 @@ All variables for all services all listed in [`docker-compose.yml`](/docker-comp
 ## Get started
 
 ```
-$ make dep
-$ make build-auth
+$ make up
 ```
+
+All services is up with a database
 
 ## Features
 
