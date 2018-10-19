@@ -79,7 +79,7 @@ func (db *DB) UpdateUserByID(user User) (sql.Result, error) {
 		user.Firstname,
 		user.Lastname,
 		user.Role,
-		user.Date,
+		user.CreatedAt,
 	)
 }
 
@@ -90,5 +90,18 @@ func (db *DB) DeleteUser(user *pb.User) (sql.Result, error) {
 		user.Id,
 		user.Login,
 		user.Mail,
+	)
+}
+
+// AddToken add a token in database
+func (db *DB) AddToken(token *Token) (sql.Result, error) {
+	return db.Exec(`INSERT INTO tokens(
+		id,
+		fk_user_id,
+		token
+		) VALUES ($1, $2, $3)`,
+		token.ID,
+		token.FkUserID,
+		token.Token,
 	)
 }

@@ -8,8 +8,10 @@ import (
 	pb "github.com/Its-Alex/flatsharing/src/auth/v1"
 	"github.com/Its-Alex/flatsharing/src/core/helper"
 
+	"github.com/Its-Alex/flatsharing/src/core/database"
 	"github.com/golang/protobuf/ptypes/empty"
 	"github.com/jmoiron/sqlx"
+	"golang.org/x/crypto/bcrypt"
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
 )
@@ -17,6 +19,43 @@ import (
 // Signin signin to server
 func (s *service) Signin(ctx context.Context, req *pb.SigninRequest) (*pb.SigninResponse, error) {
 	res := &pb.SigninResponse{}
+
+	user, err := s.db.GetUser(&pb.User{
+		Mail:  req.Login,
+		Login: req.Login,
+	})
+	if err != nil {
+		helper.Logger.Error(err)
+		return nil, status.Error(codes.Internal, "Internal server error")
+	}
+	if user == nil {
+		helper.Logger.Error("User not found")
+		return nil, status.Error(codes.NotFound, "User not found")
+	}
+
+	err = bcrypt.CompareHashAndPassword([]byte(user.Password), []byte(req.Password))
+	if err != nil {
+		if err.Error() == "crypto/bcrypt: hashedPassword is not the hash of the given password" {
+			helper.Logger.Error("Password mismatch")
+			return nil, status.Error(codes.InvalidArgument, "Password mismatch")
+		}
+		helper.Logger.Error(err)
+		return nil, status.Error(codes.Internal, "Internal server error")
+	}
+
+	token := &database.Token{
+		ID:       helper.GenUlid(),
+		FkUserID: user.Id,
+		Token:    helper.GenToken(),
+	}
+
+	_, err = s.db.AddToken(token)
+	if err != nil {
+		helper.Logger.Error(err)
+		return nil, status.Error(codes.Internal, "Internal server error")
+	}
+
+	res.Token = token.Token
 	return res, nil
 }
 
@@ -88,6 +127,11 @@ func (s *service) GetUser(ctx context.Context, req *pb.GetUserRequest) (*pb.GetU
 
 // CreateUser to server
 func (s *service) CreateUser(ctx context.Context, req *pb.CreateUserRequest) (*pb.CreateUserResponse, error) {
+	if req.User == nil {
+		helper.Logger.Error("Request with no user")
+		return nil, status.Error(codes.InvalidArgument, "No user")
+	}
+
 	findUser, err := s.db.GetUser(req.User)
 	if err != nil {
 		helper.Logger.Error(err)

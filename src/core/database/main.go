@@ -26,22 +26,23 @@ type DB struct {
 
 // User model
 type User struct {
-	ID        string    `json:"id"`
-	Mail      string    `json:"mail" validate:"email,required"`
-	Login     string    `json:"login" validate:"min=5,max=32,required"`
-	Username  string    `json:"username" validate:"min=5,max=32,required"`
-	Password  string    `json:"password" validate:"min=8,max=32,required"`
-	Firstname string    `json:"firstname" validate:"min=5,max=32,required"`
-	Lastname  string    `json:"lastname" validate:"min=5,max=32,required"`
-	Role      int       `json:"role"`
-	Date      time.Time `json:"date"`
+	ID        string `json:"id"`
+	Mail      string `json:"mail" validate:"email,required"`
+	Login     string `json:"login" validate:"min=5,max=32,required"`
+	Username  string `json:"username" validate:"min=5,max=32,required"`
+	Password  string `json:"password" validate:"min=8,max=32,required"`
+	Firstname string `json:"firstname" validate:"min=5,max=32,required"`
+	Lastname  string `json:"lastname" validate:"min=5,max=32,required"`
+	Role      int    `json:"role"`
+	CreatedAt string `json:"create_at"`
 }
 
 // Token model
 type Token struct {
-	ID    string `json:"id"`
-	Token string `json:"token"`
-	Date  string `json:"date"`
+	ID        string `json:"id"`
+	FkUserID  string `json:"fk_user_id"`
+	Token     string `json:"token"`
+	CreatedAt string `json:"create_at"`
 }
 
 // Flatsharing model
