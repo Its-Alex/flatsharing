@@ -25,32 +25,43 @@ All variables for all services all listed in [`docker-compose.yml`](/docker-comp
 
 ## Get started
 
+To up all services
+
 ```
 $ make up
 ```
 
-All services is up with a database
+Then all services run in a container
+
+You can fetch then with shared port in [`docker-compose.yml`](/docker-compose.yml)
 
 ## Features
 
-- Add purchases
-- Remove purchases
-- Edit purchases
-- Sort by month/period
+### Auth
 
-# Stack
+* [x] Signin
+* [x] Get user
+* [x] Get users
+* [x] Register
+* [x] Delete
+
+### Purchases
+
+* [ ] Add purchases
+* [ ] Remove purchases
+* [ ] Edit purchases
+* [ ] Sort by month/period
 
 ## Ask
-
-Use docker ?
 
 Orchestrator ? (Rancher, ansible, kubernetes, puppet, chef)
 
 Scale ? ([traefik](https://docs.traefik.io/))
 
-# Refs
+## Refs
 
 - [ulid](https://github.com/oklog/ulid) 128bytes/1024bits
 
----
+## License
+
 [MIT](LICENSE)
