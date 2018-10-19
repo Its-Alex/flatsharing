@@ -20,7 +20,8 @@ This repo use new go module feature, please read how it works before start
 
 ## Environments variables
 
-All services have some environments variables to change some dynamics values.
+All services have some environments variables to change some dynamics values (usefull to setup and scale).
+
 All variables for all services all listed in [`docker-compose.yml`](/docker-compose.yml)
 
 ## Get started
@@ -33,9 +34,9 @@ $ make up
 
 Then all services run in a container
 
-You can fetch then with shared port in [`docker-compose.yml`](/docker-compose.yml)
+You can fetch service with shared port in [`docker-compose.yml`](/docker-compose.yml)
 
-When you build a service it's auto-refresh in container
+When you build a service it's auto-refreshed in the container
 
 ## Features
 
