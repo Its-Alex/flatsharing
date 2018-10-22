@@ -5,6 +5,7 @@ require (
 	github.com/ghodss/yaml v1.0.0 // indirect
 	github.com/go-playground/locales v0.12.1 // indirect
 	github.com/go-playground/universal-translator v0.16.0 // indirect
+	github.com/gobuffalo/packr v1.13.7
 	github.com/golang/protobuf v1.2.0
 	github.com/grpc-ecosystem/grpc-gateway v1.5.1
 	github.com/jinzhu/copier v0.0.0-20180308034124-7e38e58719c3
@@ -15,9 +16,9 @@ require (
 	github.com/mattn/go-colorable v0.0.9 // indirect
 	github.com/mattn/go-isatty v0.0.4 // indirect
 	github.com/oklog/ulid v1.3.1
-	github.com/pmezard/go-difflib v1.0.0 // indirect
 	github.com/spf13/viper v1.2.1
 	github.com/stretchr/testify v1.2.2
+	github.com/urfave/negroni v1.0.0
 	github.com/valyala/bytebufferpool v1.0.0 // indirect
 	github.com/valyala/fasttemplate v0.0.0-20170224212429-dcecefd839c4 // indirect
 	go.uber.org/atomic v1.3.2 // indirect

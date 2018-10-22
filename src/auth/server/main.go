@@ -10,10 +10,11 @@ import (
 	pb "github.com/Its-Alex/flatsharing/src/auth/v1"
 	"github.com/Its-Alex/flatsharing/src/core/database"
 	"github.com/Its-Alex/flatsharing/src/core/helper"
-
+	"github.com/gobuffalo/packr"
 	"github.com/grpc-ecosystem/grpc-gateway/runtime"
 	"github.com/jmoiron/sqlx"
 	"github.com/spf13/viper"
+	"github.com/urfave/negroni"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/reflection"
 )
@@ -103,11 +104,20 @@ func RunJSON() error {
 	ctx, cancel := context.WithCancel(ctx)
 	defer cancel()
 
+	mux := http.NewServeMux()
+
+	SwaggerBox := packr.NewBox("../swagger")
+	fmt.Println(SwaggerBox.List())
+	mux.Handle(
+		"/",
+		http.FileServer(SwaggerBox),
+	)
+
 	// Create mux
-	mux := runtime.NewServeMux()
+	gwmux := runtime.NewServeMux(runtime.WithMarshalerOption(runtime.MIMEWildcard, &runtime.JSONPb{OrigName: true, EmitDefaults: true}))
 	opts := []grpc.DialOption{grpc.WithInsecure()}
 	// Setup JSON service
-	err := pb.RegisterAuthServicesHandlerFromEndpoint(ctx, mux, fmt.Sprintf(
+	err := pb.RegisterAuthServicesHandlerFromEndpoint(ctx, gwmux, fmt.Sprintf(
 		"%s:%s",
 		viper.GetString("grpc_listen_addr"),
 		viper.GetString("grpc_listen_port"),
@@ -115,16 +125,20 @@ func RunJSON() error {
 	if err != nil {
 		return err
 	}
+	mux.Handle("/v1/", gwmux)
 
 	// Start JSON service
 	helper.Logger.Infof("JSON service start at %s:%s",
 		viper.GetString("json_listen_addr"),
 		viper.GetString("json_listen_port"))
-	return http.ListenAndServe(fmt.Sprintf(
+	n := negroni.Classic()
+	n.UseHandler(mux)
+	n.Run(fmt.Sprintf(
 		"%s:%s",
 		viper.GetString("json_listen_addr"),
 		viper.GetString("json_listen_port"),
-	), mux)
+	))
+	return nil
 }
 
 func main() {
