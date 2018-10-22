@@ -17,5 +17,6 @@ RUN apt-get update -y && \
 
 WORKDIR /code
 
+ENV GO111MODULE=on
 ENV GOBIN=/code/bin/
 ENV PATH=/code/bin/:$PATH
