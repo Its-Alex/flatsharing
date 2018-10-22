@@ -1,6 +1,13 @@
 version: '3.7'
 
 services:
+  workspace:
+    build: .
+    restart: unless-stopped
+    volumes:
+      - ./:/code/
+    command: sleep infinity
+
   auth:
     image: itsalex/alpine-reflex:latest
     restart: unless-stopped
@@ -20,7 +27,7 @@ services:
     ports:
       - 8080:8080
       - 8081:8081
-    command: reflex -g code/bin/auth-server-linux-amd64 -s /code/bin/auth-server-linux-amd64
+    command: reflex -g code/bin/auth-server -s /code/bin/auth-server
 
   postgres:
     image: postgres:10-alpine
