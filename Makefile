@@ -1,72 +1,110 @@
 DOCKER_ENV=$(shell test ! -f /.dockerenv; echo "$$?")
 OS := $(shell uname -s)
 
-up: dep
+SWAGGER_UI_VERSION ?= v3.19.3
+
+assert_out_docker:
+ifeq ($(DOCKER_ENV),1)
+	printf '\e[1;31m%-6s\e[m\n' "You must be outside of a container to use this command!"
+	exit
+endif
+
+up:
 	docker-compose up -d postgres
 	docker-compose up wait_postgres
 	make migrate
+	docker-compose up -d workspace
+	make dep protoc
 	docker-compose up -d
-	make build
 
 dep:
-	# Install protoc
-ifeq ($(OS),Darwin)
-	curl -s -L "https://github.com/protocolbuffers/protobuf/releases/download/v3.6.1/protoc-3.6.1-osx-x86_64.zip" | bsdtar -xf- bin/protoc
-	chmod u+x bin/protoc
+ifeq ($(DOCKER_ENV),0)
+	docker-compose exec -T workspace make -C . dep
 else
-	curl -s -L "https://github.com/google/protobuf/releases/download/v3.6.1/protoc-3.6.1-linux-x86_64.zip" | bsdtar -xf- bin/protoc
-	chmod u+x bin/protoc
-endif
-	# Install protobuf
-	mkdir -p deps/
-	curl -s -L "https://github.com/google/protobuf/archive/v3.6.1.tar.gz" | tar xvz
-	mv protobuf-3.6.1/ deps/protobuf/
-	curl -s -L "https://github.com/grpc-ecosystem/grpc-gateway/archive/v1.5.1.tar.gz" | tar xvz
-	mv grpc-gateway-1.5.1/ deps/grpc-gateway/
+	GOBIN=$(shell pwd)/bin go install -v github.com/golang/protobuf/...
+	GOBIN=$(shell pwd)/bin go install -v github.com/grpc-ecosystem/grpc-gateway/protoc-gen-grpc-gateway/...
+	GOBIN=$(shell pwd)/bin go install -v github.com/grpc-ecosystem/grpc-gateway/protoc-gen-swagger/...
+	GOBIN=$(shell pwd)/bin go install -v github.com/gobuffalo/packr/...
 	go get -v golang.org/x/lint/golint
 	go get -v github.com/Its-Alex/flatsharing/src/...
-	GOBIN=$(shell pwd)/bin go install -v github.com/golang/protobuf/...
-	GOBIN=$(shell pwd)/bin go install -v github.com/grpc-ecosystem/grpc-gateway/protoc-gen-grpc-gateway
-	GOBIN=$(shell pwd)/bin go install -v github.com/grpc-ecosystem/grpc-gateway/protoc-gen-swagger
+endif
 
-build: build-auth
+build: build-auth build-support
 
 build-auth:
-	rm -rf bin/auth-server*
-	go build -v -o bin/auth-server -i github.com/Its-Alex/flatsharing/src/auth/server/...
-	GOOS=linux GOARCH=amd64 go build -v -o bin/auth-server-linux-amd64 -i github.com/Its-Alex/flatsharing/src/auth/server/
+ifeq ($(DOCKER_ENV),0)
+	docker-compose exec -T workspace make -C . build-auth
+else
+	CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -v -a -ldflags '-extldflags "-static"' -tags netgo -o bin/auth-server -i github.com/Its-Alex/flatsharing/src/auth/server/...
+endif
 
 build-support:
-	go install -v github.com/Its-Alex/flatsharing/src/support/...
+ifeq ($(DOCKER_ENV),0)
+	docker-compose exec -T workspace make -C . build-support
+else
+	go build -v -o bin/support-server -i github.com/Its-Alex/flatsharing/src/support/...
+endif
 
 test:
+ifeq ($(DOCKER_ENV),0)
+	docker-compose exec -T workspace make -C . test
+else
 	go test -v github.com/Its-Alex/flatsharing/src/...
+endif
 
 lint:
+ifeq ($(DOCKER_ENV),0)
+	docker-compose exec -T workspace make -C . lint
+else
 	golint src/...
+endif
 
 coverage:
+ifeq ($(DOCKER_ENV),0)
+	docker-compose exec -T workspace make -C . coverage
+else
 	go test -v github.com/Its-Alex/flatsharing/src/... -race -coverprofile=coverage.txt -covermode=atomic
+endif
+
+protoc: protoc-auth
 
 protoc-auth:
+ifeq ($(DOCKER_ENV),0)
+	docker-compose exec -T workspace make -C . protoc-auth
+else
+	mkdir -p src/auth/swagger
+	packr
 	protoc \
 		auth.proto \
 		-I src/protobuf/ \
-		-I deps/protobuf/src \
-		-I deps/grpc-gateway/third_party/googleapis \
+		-I /usr/local/src/protobuf/src \
+		-I /usr/local/src/grpc-gateway/third_party/googleapis \
 		--go_out=plugins=grpc:. \
 		--grpc-gateway_out=logtostderr=true:. \
-		--swagger_out=logtostderr=true:src/auth/v1
+		--swagger_out=logtostderr=true:src/auth/swagger
+endif
 
-migrate:
+migrate: assert_out_docker
 	@docker run --rm -v $$(pwd)/migrations:/migrations --network host itsalex/migrate-docker \
 		-path=/migrations/ -database postgres://flatsharing:password@localhost:5432/flatsharing?sslmode=disable up
 
-down:
+down: assert_out_docker
 	docker-compose down
-	rm -rf bin/ deps/ data/
 
-enter-postgresql:
-	docker exec -it --user postgres `docker-compose ps -q postgres` bash -c "export COLUMNS=`tput cols`; export LINES=`tput lines`; exec psql -U flatsharing"
+clean:
+	rm -rf data/ bin/
 
-.PHONY: up dep build build-auth build-support test lint coverage protoc-auth migrate down enter-postgresql
+import-swagger-ui: assert_out_docker
+	docker run -it \
+		-v `pwd`/src/auth/swagger/:/mnt/ \
+		--rm swaggerapi/swagger-ui:$(SWAGGER_UI_VERSION) \
+		sh -c "rm -rf /mnt/*; cp -R /usr/share/nginx/html/* /mnt/"
+	docker-compose exec -T workspace bash -c "sed -i 's@https://petstore.swagger.io/v2/swagger.json@/auth.swagger.json@g' src/auth/swagger/index.html"
+
+enter: assert_out_docker
+	docker-compose exec workspace bash -c "export COLUMNS=`tput cols`; export LINES=`tput lines`; exec bash"
+
+enter-postgresql: assert_out_docker
+	docker-compose exec --user postgres postgres bash -c "export COLUMNS=`tput cols`; export LINES=`tput lines`; exec psql -U flatsharing"
+
+.PHONY: assert_out_docker up dep build build-auth build-support test lint coverage protoc protoc-auth migrate down clean import-swagger-ui enter enter-postgresql
