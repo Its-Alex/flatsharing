@@ -7,11 +7,6 @@ FlatSharing backend repository at http://flatsharing.io
 - [Get started](#get-started)
 - [How to dev](#how-to-dev)
 - [Migrations](#migrations)
-- [Features](#features)
-    - [Auth](#auth)
-    - [Purchases](#purchases)
-- [Ask](#ask)
-- [Refs](#refs)
 - [License](#license)
 
 ## Requirements
@@ -136,33 +131,6 @@ To apply all migrations:
 ```
 $ make migrate
 ```
-
-## Features
-
-### Auth
-
-* [x] Signin
-* [x] Get user
-* [x] Get users
-* [x] Register
-* [x] Delete
-
-### Purchases
-
-* [ ] Add purchases
-* [ ] Remove purchases
-* [ ] Edit purchases
-* [ ] Sort by month/period
-
-## Ask
-
-Orchestrator ? (Rancher, ansible, kubernetes, puppet, chef)
-
-Scale ? ([traefik](https://docs.traefik.io/))
-
-## Refs
-
-- [ulid](https://github.com/oklog/ulid) 128bytes/1024bits
 
 ## License
 
