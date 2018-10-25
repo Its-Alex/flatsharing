@@ -2,6 +2,7 @@ version: '3.7'
 
 services:
   workspace:
+    image: flatsharing/workflow:latest
     build: .
     restart: unless-stopped
     volumes:
