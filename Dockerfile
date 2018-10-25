@@ -13,10 +13,13 @@ RUN apt-get update -y && \
 	mv grpc-gateway-1.5.1/ /usr/local/src/grpc-gateway/ && \
     # Makefile completion
     apt-get install -y bash-completion && \
-    echo ". /etc/bash_completion" >> /root/.bashrc
+    echo ". /etc/bash_completion" >> /root/.bashrc && \
+    # Golint
+    go get -u golang.org/x/lint/golint && \
+    go install golang.org/x/lint/golint
 
 WORKDIR /code
 
 ENV GO111MODULE=on
-ENV GOBIN=/code/bin/
-ENV PATH=/code/bin/:$PATH
+ENV GOBIN="/go/bin"
+ENV PATH="/go/bin:$PATH"

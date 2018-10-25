@@ -2,20 +2,59 @@ workspace:
   base: /go
 
 pipeline:
-  app:
-    image: golang:${GO_VERSION}
+  go-deps:
+    image: flatsharing/workflow:latest
+    pull: true
     commands:
-      - apt update && apt install -y bsdtar
-      - export GO111MODULE=on
-      - export PATH="$$GOPATH/bin:"$$PATH
-      - curl -s -L "https://github.com/google/protobuf/releases/download/v3.6.1/protoc-3.6.1-linux-x86_64.zip" | bsdtar -xf- bin/protoc && chmod u+x bin/protoc
-      - curl -s -L "https://github.com/google/protobuf/archive/v3.6.1.tar.gz" | bsdtar -xf- /usr/local/src && mv /usr/local/src/protobuf-3.6.1/ deps/protobuf/
-      - curl -s -L "https://github.com/grpc-ecosystem/grpc-gateway/archive/v1.5.1.tar.gz" | bsdtar -xf- /usr/local/src && mv /usr/local/src/grpc-gateway-1.5.1/ deps/grpc-gateway/
       - make dep
-      - make lint
+
+  test:
+    group: test-lint-coverage
+    image: flatsharing/workflow:latest
+    pull: true
+    commands:
       - make test
+
+  lint:
+    group: test-lint-coverage
+    image: flatsharing/workflow:latest
+    pull: true
+    commands:
+      - make lint
+
+  coverage:
+    group: test-lint-coverage
+    image: flatsharing/workflow:latest
+    pull: true
+    commands:
       - make coverage
-      - make build
+
+  protoc:
+    image: flatsharing/workflow:latest
+    pull: true
+    commands:
+      - make protoc
+
+  build-auth:
+    group: build
+    image: flatsharing/workflow:latest
+    pull: true
+    commands:
+      - make build-auth
+
+  build-flatsharing:
+    group: build
+    image: flatsharing/workflow:latest
+    pull: true
+    commands:
+      - make build-flatsharing
+
+  build-support:
+    group: build
+    image: flatsharing/workflow:latest
+    pull: true
+    commands:
+      - make build-support
 
   docker-auth:
     image: plugins/docker
@@ -31,7 +70,3 @@ pipeline:
   codecov:
     image: robertstettner/drone-codecov
     token: e897d4e0-b3ff-4c5d-91e6-2d3ff15a9ee6
-
-matrix:
-  GO_VERSION:
-    - 1.11.1
