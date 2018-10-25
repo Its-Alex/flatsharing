@@ -29,6 +29,27 @@ services:
       - 8081:8081
     command: reflex -g code/bin/auth-server -s /code/bin/auth-server
 
+  flatsharing:
+    image: itsalex/alpine-reflex:latest
+    restart: unless-stopped
+    environment:
+      - FS_SERVICE_GRPC_LISTEN_ADDR=0.0.0.0
+      - FS_SERVICE_GRPC_LISTEN_PORT=8082
+      - FS_SERVICE_JSON_LISTEN_ADDR=0.0.0.0
+      - FS_SERVICE_JSON_LISTEN_PORT=8083
+      - FS_SERVICE_PSQL_HOST=postgres
+      - FS_SERVICE_PSQL_PORT=5432
+      - FS_SERVICE_PSQL_USER=flatsharing
+      - FS_SERVICE_PSQL_PASSWORD=password
+      - FS_SERVICE_PSQL_DBNAME=flatsharing
+      - FS_SERVICE_PSQL_SSLMODE=disable
+    volumes:
+      - ./:/code/
+    ports:
+      - 8082:8082
+      - 8083:8083
+    command: reflex -g code/bin/flatsharing-server -s /code/bin/flatsharing-server
+
   postgres:
     image: postgres:10-alpine
     restart: unless-stopped

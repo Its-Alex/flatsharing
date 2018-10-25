@@ -33,30 +33,30 @@
 - Update/Edit
 - Remove
 
-## Groups
+## Homes
 
 ### Database
 
 | id          | name          | date        |
 | ----------- | ------------- | ----------- |
-| group1      | Home at Paris | 2131213     |
+| home1      | Home at Paris | 2131213     |
 | char(26)    | char(36)      | timestamptz |
 
 ### Features
 
-- Add group
-- Remove group
-- Update/Edit group
+- Add home
+- Remove home
+- Update/Edit home
 - Add users
 - Remove users
-- Update/Edit group
+- Update/Edit home
 - ACL (Number/ Smaller has more permissions)
 
-## Purchases (link to group)
+## Purchases (link to home)
 
 ### Database
 
-| id          | group-id | user-id   | buyer-id | amount        | shop        | desc    | date        |
+| id          | home-id | user-id   | buyer-id | amount        | shop        | desc    | date        |
 | ----------- | -------- | --------- | -------- | ------------- | ----------- | ------- | ----------- |
 | purchase1   | group1   | user1     | user2    | 53.75         | Super U     | Courses | 1517149821  |
 | char(26)    | char(26) | char(26)  | char(26) | numeric (p=4) | varchar(36) | text    | timestamptz |
