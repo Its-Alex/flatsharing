@@ -1,0 +1,148 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "flatsharing.proto",
+    "version": "version not set"
+  },
+  "schemes": [
+    "http",
+    "https"
+  ],
+  "consumes": [
+    "application/json"
+  ],
+  "produces": [
+    "application/json"
+  ],
+  "paths": {
+    "/v1/home": {
+      "post": {
+        "operationId": "CreateHome",
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/v1CreateHomeResponse"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/v1CreateHomeRequest"
+            }
+          }
+        ],
+        "tags": [
+          "HomeServices"
+        ]
+      }
+    },
+    "/v1/purchase": {
+      "post": {
+        "operationId": "CreatePurchase",
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/v1CreatePurchaseResponse"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/v1CreatePurchaseRequest"
+            }
+          }
+        ],
+        "tags": [
+          "PurchaseServices"
+        ]
+      }
+    }
+  },
+  "definitions": {
+    "v1CreateHomeRequest": {
+      "type": "object",
+      "properties": {
+        "home": {
+          "$ref": "#/definitions/v1Home"
+        }
+      }
+    },
+    "v1CreateHomeResponse": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        }
+      }
+    },
+    "v1CreatePurchaseRequest": {
+      "type": "object",
+      "properties": {
+        "purchase": {
+          "$ref": "#/definitions/v1Purchase"
+        }
+      }
+    },
+    "v1CreatePurchaseResponse": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        }
+      }
+    },
+    "v1Home": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "created_at": {
+          "type": "string"
+        }
+      }
+    },
+    "v1Purchase": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "home_id": {
+          "type": "string"
+        },
+        "user_id": {
+          "type": "string"
+        },
+        "buyer_id": {
+          "type": "string"
+        },
+        "shop": {
+          "type": "string"
+        },
+        "amount": {
+          "type": "string"
+        },
+        "desc": {
+          "type": "string"
+        },
+        "created_at": {
+          "type": "string"
+        }
+      }
+    }
+  }
+}

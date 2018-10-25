@@ -1,0 +1,60 @@
+syntax = "proto3";
+package flatsharing.v1;
+
+import "google/protobuf/empty.proto";
+import "google/protobuf/field_mask.proto";
+
+import "google/api/annotations.proto";
+
+option go_package = "src/flatsharing/v1";
+
+service HomeServices {
+  rpc CreateHome (CreateHomeRequest) returns (CreateHomeResponse) {
+    option (google.api.http) = {
+      post: "/v1/home"
+      body: "*"
+    };
+  }
+}
+
+message CreateHomeRequest {
+  Home home = 1;
+}
+
+message CreateHomeResponse {
+  string id = 1;
+}
+
+message Home {
+  string id = 1;
+  string name = 2;
+  string created_at = 9;
+}
+
+service PurchaseServices {
+  rpc CreatePurchase (CreatePurchaseRequest) returns (CreatePurchaseResponse) {
+    option (google.api.http) = {
+      post: "/v1/purchase"
+      body: "*"
+    };
+  }
+}
+
+message CreatePurchaseRequest {
+  Purchase purchase = 1;
+}
+
+message CreatePurchaseResponse {
+  string id = 1;
+}
+
+message Purchase {
+    string id = 1;
+    string home_id = 2;
+    string user_id = 3;
+    string buyer_id = 4;
+    string shop = 5;
+    string amount = 6;
+    string desc = 7;
+    string created_at = 8;
+}

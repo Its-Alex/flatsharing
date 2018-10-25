@@ -107,7 +107,6 @@ func RunJSON() error {
 	mux := http.NewServeMux()
 
 	SwaggerBox := packr.NewBox("../swagger")
-	fmt.Println(SwaggerBox.List())
 	mux.Handle(
 		"/",
 		http.FileServer(SwaggerBox),
