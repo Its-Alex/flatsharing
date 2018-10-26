@@ -59,8 +59,8 @@ func (s *service) Signin(ctx context.Context, req *pb.SigninRequest) (*pb.Signin
 	return res, nil
 }
 
-// GetUsers get all users
-func (s *service) GetUsers(ctx context.Context, req *pb.ListUsersRequest) (*pb.ListUsersResponse, error) {
+// ListUsers get all users
+func (s *service) ListUsers(ctx context.Context, req *pb.ListUsersRequest) (*pb.ListUsersResponse, error) {
 	res := &pb.ListUsersResponse{}
 	page, err := strconv.ParseInt(req.PageToken, 10, 32)
 	if err != nil && len(req.PageToken) != 0 {
