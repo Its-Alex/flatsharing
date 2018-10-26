@@ -108,7 +108,7 @@ else
 endif
 
 migrate: assert_out_docker
-	@docker run --rm -v $$(pwd)/migrations:/migrations --network host itsalex/migrate-docker \
+	@docker run --rm -v $$(pwd)/migrations:/migrations --network host migrate/migrate:v4.0.2 \
 		-path=/migrations/ -database postgres://flatsharing:password@localhost:5432/flatsharing?sslmode=disable up
 
 down: assert_out_docker

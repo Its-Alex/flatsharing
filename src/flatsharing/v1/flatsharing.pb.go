@@ -6,9 +6,9 @@ package v1 // import "src/flatsharing/v1"
 import proto "github.com/golang/protobuf/proto"
 import fmt "fmt"
 import math "math"
-import _ "github.com/golang/protobuf/ptypes/empty"
+import empty "github.com/golang/protobuf/ptypes/empty"
 import _ "google.golang.org/genproto/googleapis/api/annotations"
-import _ "google.golang.org/genproto/protobuf/field_mask"
+import field_mask "google.golang.org/genproto/protobuf/field_mask"
 
 import (
 	context "golang.org/x/net/context"
@@ -37,7 +37,7 @@ func (m *CreateHomeRequest) Reset()         { *m = CreateHomeRequest{} }
 func (m *CreateHomeRequest) String() string { return proto.CompactTextString(m) }
 func (*CreateHomeRequest) ProtoMessage()    {}
 func (*CreateHomeRequest) Descriptor() ([]byte, []int) {
-	return fileDescriptor_flatsharing_2c094713ff28c71e, []int{0}
+	return fileDescriptor_flatsharing_23dc0d38e2d143ce, []int{0}
 }
 func (m *CreateHomeRequest) XXX_Unmarshal(b []byte) error {
 	return xxx_messageInfo_CreateHomeRequest.Unmarshal(m, b)
@@ -75,7 +75,7 @@ func (m *CreateHomeResponse) Reset()         { *m = CreateHomeResponse{} }
 func (m *CreateHomeResponse) String() string { return proto.CompactTextString(m) }
 func (*CreateHomeResponse) ProtoMessage()    {}
 func (*CreateHomeResponse) Descriptor() ([]byte, []int) {
-	return fileDescriptor_flatsharing_2c094713ff28c71e, []int{1}
+	return fileDescriptor_flatsharing_23dc0d38e2d143ce, []int{1}
 }
 func (m *CreateHomeResponse) XXX_Unmarshal(b []byte) error {
 	return xxx_messageInfo_CreateHomeResponse.Unmarshal(m, b)
@@ -115,7 +115,7 @@ func (m *Home) Reset()         { *m = Home{} }
 func (m *Home) String() string { return proto.CompactTextString(m) }
 func (*Home) ProtoMessage()    {}
 func (*Home) Descriptor() ([]byte, []int) {
-	return fileDescriptor_flatsharing_2c094713ff28c71e, []int{2}
+	return fileDescriptor_flatsharing_23dc0d38e2d143ce, []int{2}
 }
 func (m *Home) XXX_Unmarshal(b []byte) error {
 	return xxx_messageInfo_Home.Unmarshal(m, b)
@@ -156,6 +156,183 @@ func (m *Home) GetCreatedAt() string {
 	return ""
 }
 
+type ListPurchasesRequest struct {
+	PageSize             int32    `protobuf:"varint,1,opt,name=page_size,json=pageSize,proto3" json:"page_size,omitempty"`
+	PageToken            string   `protobuf:"bytes,2,opt,name=page_token,json=pageToken,proto3" json:"page_token,omitempty"`
+	XXX_NoUnkeyedLiteral struct{} `json:"-"`
+	XXX_unrecognized     []byte   `json:"-"`
+	XXX_sizecache        int32    `json:"-"`
+}
+
+func (m *ListPurchasesRequest) Reset()         { *m = ListPurchasesRequest{} }
+func (m *ListPurchasesRequest) String() string { return proto.CompactTextString(m) }
+func (*ListPurchasesRequest) ProtoMessage()    {}
+func (*ListPurchasesRequest) Descriptor() ([]byte, []int) {
+	return fileDescriptor_flatsharing_23dc0d38e2d143ce, []int{3}
+}
+func (m *ListPurchasesRequest) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_ListPurchasesRequest.Unmarshal(m, b)
+}
+func (m *ListPurchasesRequest) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_ListPurchasesRequest.Marshal(b, m, deterministic)
+}
+func (dst *ListPurchasesRequest) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_ListPurchasesRequest.Merge(dst, src)
+}
+func (m *ListPurchasesRequest) XXX_Size() int {
+	return xxx_messageInfo_ListPurchasesRequest.Size(m)
+}
+func (m *ListPurchasesRequest) XXX_DiscardUnknown() {
+	xxx_messageInfo_ListPurchasesRequest.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_ListPurchasesRequest proto.InternalMessageInfo
+
+func (m *ListPurchasesRequest) GetPageSize() int32 {
+	if m != nil {
+		return m.PageSize
+	}
+	return 0
+}
+
+func (m *ListPurchasesRequest) GetPageToken() string {
+	if m != nil {
+		return m.PageToken
+	}
+	return ""
+}
+
+type ListPurchasesResponse struct {
+	// See https://github.com/GoogleCloudPlatform/google-cloud-go/blob/master/monitoring/apiv3/metric_client.go#L137
+	Purchase             []*Purchase `protobuf:"bytes,1,rep,name=purchase,proto3" json:"purchase,omitempty"`
+	NextPageToken        string      `protobuf:"bytes,2,opt,name=next_page_token,json=nextPageToken,proto3" json:"next_page_token,omitempty"`
+	TotalPageSize        int32       `protobuf:"varint,3,opt,name=total_page_size,json=totalPageSize,proto3" json:"total_page_size,omitempty"`
+	XXX_NoUnkeyedLiteral struct{}    `json:"-"`
+	XXX_unrecognized     []byte      `json:"-"`
+	XXX_sizecache        int32       `json:"-"`
+}
+
+func (m *ListPurchasesResponse) Reset()         { *m = ListPurchasesResponse{} }
+func (m *ListPurchasesResponse) String() string { return proto.CompactTextString(m) }
+func (*ListPurchasesResponse) ProtoMessage()    {}
+func (*ListPurchasesResponse) Descriptor() ([]byte, []int) {
+	return fileDescriptor_flatsharing_23dc0d38e2d143ce, []int{4}
+}
+func (m *ListPurchasesResponse) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_ListPurchasesResponse.Unmarshal(m, b)
+}
+func (m *ListPurchasesResponse) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_ListPurchasesResponse.Marshal(b, m, deterministic)
+}
+func (dst *ListPurchasesResponse) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_ListPurchasesResponse.Merge(dst, src)
+}
+func (m *ListPurchasesResponse) XXX_Size() int {
+	return xxx_messageInfo_ListPurchasesResponse.Size(m)
+}
+func (m *ListPurchasesResponse) XXX_DiscardUnknown() {
+	xxx_messageInfo_ListPurchasesResponse.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_ListPurchasesResponse proto.InternalMessageInfo
+
+func (m *ListPurchasesResponse) GetPurchase() []*Purchase {
+	if m != nil {
+		return m.Purchase
+	}
+	return nil
+}
+
+func (m *ListPurchasesResponse) GetNextPageToken() string {
+	if m != nil {
+		return m.NextPageToken
+	}
+	return ""
+}
+
+func (m *ListPurchasesResponse) GetTotalPageSize() int32 {
+	if m != nil {
+		return m.TotalPageSize
+	}
+	return 0
+}
+
+type GetPurchaseRequest struct {
+	Purchase             *Purchase `protobuf:"bytes,1,opt,name=purchase,proto3" json:"purchase,omitempty"`
+	XXX_NoUnkeyedLiteral struct{}  `json:"-"`
+	XXX_unrecognized     []byte    `json:"-"`
+	XXX_sizecache        int32     `json:"-"`
+}
+
+func (m *GetPurchaseRequest) Reset()         { *m = GetPurchaseRequest{} }
+func (m *GetPurchaseRequest) String() string { return proto.CompactTextString(m) }
+func (*GetPurchaseRequest) ProtoMessage()    {}
+func (*GetPurchaseRequest) Descriptor() ([]byte, []int) {
+	return fileDescriptor_flatsharing_23dc0d38e2d143ce, []int{5}
+}
+func (m *GetPurchaseRequest) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_GetPurchaseRequest.Unmarshal(m, b)
+}
+func (m *GetPurchaseRequest) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_GetPurchaseRequest.Marshal(b, m, deterministic)
+}
+func (dst *GetPurchaseRequest) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_GetPurchaseRequest.Merge(dst, src)
+}
+func (m *GetPurchaseRequest) XXX_Size() int {
+	return xxx_messageInfo_GetPurchaseRequest.Size(m)
+}
+func (m *GetPurchaseRequest) XXX_DiscardUnknown() {
+	xxx_messageInfo_GetPurchaseRequest.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_GetPurchaseRequest proto.InternalMessageInfo
+
+func (m *GetPurchaseRequest) GetPurchase() *Purchase {
+	if m != nil {
+		return m.Purchase
+	}
+	return nil
+}
+
+type GetPurchaseResponse struct {
+	Purchase             *Purchase `protobuf:"bytes,1,opt,name=purchase,proto3" json:"purchase,omitempty"`
+	XXX_NoUnkeyedLiteral struct{}  `json:"-"`
+	XXX_unrecognized     []byte    `json:"-"`
+	XXX_sizecache        int32     `json:"-"`
+}
+
+func (m *GetPurchaseResponse) Reset()         { *m = GetPurchaseResponse{} }
+func (m *GetPurchaseResponse) String() string { return proto.CompactTextString(m) }
+func (*GetPurchaseResponse) ProtoMessage()    {}
+func (*GetPurchaseResponse) Descriptor() ([]byte, []int) {
+	return fileDescriptor_flatsharing_23dc0d38e2d143ce, []int{6}
+}
+func (m *GetPurchaseResponse) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_GetPurchaseResponse.Unmarshal(m, b)
+}
+func (m *GetPurchaseResponse) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_GetPurchaseResponse.Marshal(b, m, deterministic)
+}
+func (dst *GetPurchaseResponse) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_GetPurchaseResponse.Merge(dst, src)
+}
+func (m *GetPurchaseResponse) XXX_Size() int {
+	return xxx_messageInfo_GetPurchaseResponse.Size(m)
+}
+func (m *GetPurchaseResponse) XXX_DiscardUnknown() {
+	xxx_messageInfo_GetPurchaseResponse.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_GetPurchaseResponse proto.InternalMessageInfo
+
+func (m *GetPurchaseResponse) GetPurchase() *Purchase {
+	if m != nil {
+		return m.Purchase
+	}
+	return nil
+}
+
 type CreatePurchaseRequest struct {
 	Purchase             *Purchase `protobuf:"bytes,1,opt,name=purchase,proto3" json:"purchase,omitempty"`
 	XXX_NoUnkeyedLiteral struct{}  `json:"-"`
@@ -167,7 +344,7 @@ func (m *CreatePurchaseRequest) Reset()         { *m = CreatePurchaseRequest{} }
 func (m *CreatePurchaseRequest) String() string { return proto.CompactTextString(m) }
 func (*CreatePurchaseRequest) ProtoMessage()    {}
 func (*CreatePurchaseRequest) Descriptor() ([]byte, []int) {
-	return fileDescriptor_flatsharing_2c094713ff28c71e, []int{3}
+	return fileDescriptor_flatsharing_23dc0d38e2d143ce, []int{7}
 }
 func (m *CreatePurchaseRequest) XXX_Unmarshal(b []byte) error {
 	return xxx_messageInfo_CreatePurchaseRequest.Unmarshal(m, b)
@@ -205,7 +382,7 @@ func (m *CreatePurchaseResponse) Reset()         { *m = CreatePurchaseResponse{}
 func (m *CreatePurchaseResponse) String() string { return proto.CompactTextString(m) }
 func (*CreatePurchaseResponse) ProtoMessage()    {}
 func (*CreatePurchaseResponse) Descriptor() ([]byte, []int) {
-	return fileDescriptor_flatsharing_2c094713ff28c71e, []int{4}
+	return fileDescriptor_flatsharing_23dc0d38e2d143ce, []int{8}
 }
 func (m *CreatePurchaseResponse) XXX_Unmarshal(b []byte) error {
 	return xxx_messageInfo_CreatePurchaseResponse.Unmarshal(m, b)
@@ -232,6 +409,93 @@ func (m *CreatePurchaseResponse) GetId() string {
 	return ""
 }
 
+type UpdatePurchaseRequest struct {
+	Purchase *Purchase `protobuf:"bytes,1,opt,name=purchase,proto3" json:"purchase,omitempty"`
+	// The update mask applies to the resource. For the `FieldMask` definition,
+	// see https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#fieldmask
+	// or here https://github.com/gogo/grpc-example/commit/6c217371b67a89609c632f047477fa5a1123ac93
+	UpdateMask           *field_mask.FieldMask `protobuf:"bytes,2,opt,name=update_mask,json=updateMask,proto3" json:"update_mask,omitempty"`
+	XXX_NoUnkeyedLiteral struct{}              `json:"-"`
+	XXX_unrecognized     []byte                `json:"-"`
+	XXX_sizecache        int32                 `json:"-"`
+}
+
+func (m *UpdatePurchaseRequest) Reset()         { *m = UpdatePurchaseRequest{} }
+func (m *UpdatePurchaseRequest) String() string { return proto.CompactTextString(m) }
+func (*UpdatePurchaseRequest) ProtoMessage()    {}
+func (*UpdatePurchaseRequest) Descriptor() ([]byte, []int) {
+	return fileDescriptor_flatsharing_23dc0d38e2d143ce, []int{9}
+}
+func (m *UpdatePurchaseRequest) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_UpdatePurchaseRequest.Unmarshal(m, b)
+}
+func (m *UpdatePurchaseRequest) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_UpdatePurchaseRequest.Marshal(b, m, deterministic)
+}
+func (dst *UpdatePurchaseRequest) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_UpdatePurchaseRequest.Merge(dst, src)
+}
+func (m *UpdatePurchaseRequest) XXX_Size() int {
+	return xxx_messageInfo_UpdatePurchaseRequest.Size(m)
+}
+func (m *UpdatePurchaseRequest) XXX_DiscardUnknown() {
+	xxx_messageInfo_UpdatePurchaseRequest.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_UpdatePurchaseRequest proto.InternalMessageInfo
+
+func (m *UpdatePurchaseRequest) GetPurchase() *Purchase {
+	if m != nil {
+		return m.Purchase
+	}
+	return nil
+}
+
+func (m *UpdatePurchaseRequest) GetUpdateMask() *field_mask.FieldMask {
+	if m != nil {
+		return m.UpdateMask
+	}
+	return nil
+}
+
+type DeletePurchaseRequest struct {
+	Purchase             *Purchase `protobuf:"bytes,1,opt,name=purchase,proto3" json:"purchase,omitempty"`
+	XXX_NoUnkeyedLiteral struct{}  `json:"-"`
+	XXX_unrecognized     []byte    `json:"-"`
+	XXX_sizecache        int32     `json:"-"`
+}
+
+func (m *DeletePurchaseRequest) Reset()         { *m = DeletePurchaseRequest{} }
+func (m *DeletePurchaseRequest) String() string { return proto.CompactTextString(m) }
+func (*DeletePurchaseRequest) ProtoMessage()    {}
+func (*DeletePurchaseRequest) Descriptor() ([]byte, []int) {
+	return fileDescriptor_flatsharing_23dc0d38e2d143ce, []int{10}
+}
+func (m *DeletePurchaseRequest) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_DeletePurchaseRequest.Unmarshal(m, b)
+}
+func (m *DeletePurchaseRequest) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_DeletePurchaseRequest.Marshal(b, m, deterministic)
+}
+func (dst *DeletePurchaseRequest) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_DeletePurchaseRequest.Merge(dst, src)
+}
+func (m *DeletePurchaseRequest) XXX_Size() int {
+	return xxx_messageInfo_DeletePurchaseRequest.Size(m)
+}
+func (m *DeletePurchaseRequest) XXX_DiscardUnknown() {
+	xxx_messageInfo_DeletePurchaseRequest.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_DeletePurchaseRequest proto.InternalMessageInfo
+
+func (m *DeletePurchaseRequest) GetPurchase() *Purchase {
+	if m != nil {
+		return m.Purchase
+	}
+	return nil
+}
+
 type Purchase struct {
 	Id                   string   `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
 	HomeId               string   `protobuf:"bytes,2,opt,name=home_id,json=homeId,proto3" json:"home_id,omitempty"`
@@ -250,7 +514,7 @@ func (m *Purchase) Reset()         { *m = Purchase{} }
 func (m *Purchase) String() string { return proto.CompactTextString(m) }
 func (*Purchase) ProtoMessage()    {}
 func (*Purchase) Descriptor() ([]byte, []int) {
-	return fileDescriptor_flatsharing_2c094713ff28c71e, []int{5}
+	return fileDescriptor_flatsharing_23dc0d38e2d143ce, []int{11}
 }
 func (m *Purchase) XXX_Unmarshal(b []byte) error {
 	return xxx_messageInfo_Purchase.Unmarshal(m, b)
@@ -330,8 +594,14 @@ func init() {
 	proto.RegisterType((*CreateHomeRequest)(nil), "flatsharing.v1.CreateHomeRequest")
 	proto.RegisterType((*CreateHomeResponse)(nil), "flatsharing.v1.CreateHomeResponse")
 	proto.RegisterType((*Home)(nil), "flatsharing.v1.Home")
+	proto.RegisterType((*ListPurchasesRequest)(nil), "flatsharing.v1.ListPurchasesRequest")
+	proto.RegisterType((*ListPurchasesResponse)(nil), "flatsharing.v1.ListPurchasesResponse")
+	proto.RegisterType((*GetPurchaseRequest)(nil), "flatsharing.v1.GetPurchaseRequest")
+	proto.RegisterType((*GetPurchaseResponse)(nil), "flatsharing.v1.GetPurchaseResponse")
 	proto.RegisterType((*CreatePurchaseRequest)(nil), "flatsharing.v1.CreatePurchaseRequest")
 	proto.RegisterType((*CreatePurchaseResponse)(nil), "flatsharing.v1.CreatePurchaseResponse")
+	proto.RegisterType((*UpdatePurchaseRequest)(nil), "flatsharing.v1.UpdatePurchaseRequest")
+	proto.RegisterType((*DeletePurchaseRequest)(nil), "flatsharing.v1.DeletePurchaseRequest")
 	proto.RegisterType((*Purchase)(nil), "flatsharing.v1.Purchase")
 }
 
@@ -411,7 +681,11 @@ var _HomeServices_serviceDesc = grpc.ServiceDesc{
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://godoc.org/google.golang.org/grpc#ClientConn.NewStream.
 type PurchaseServicesClient interface {
+	ListPurchases(ctx context.Context, in *ListPurchasesRequest, opts ...grpc.CallOption) (*ListPurchasesResponse, error)
+	GetPurchase(ctx context.Context, in *GetPurchaseRequest, opts ...grpc.CallOption) (*GetPurchaseResponse, error)
 	CreatePurchase(ctx context.Context, in *CreatePurchaseRequest, opts ...grpc.CallOption) (*CreatePurchaseResponse, error)
+	UpdatePurchase(ctx context.Context, in *UpdatePurchaseRequest, opts ...grpc.CallOption) (*empty.Empty, error)
+	DeletePurchase(ctx context.Context, in *DeletePurchaseRequest, opts ...grpc.CallOption) (*empty.Empty, error)
 }
 
 type purchaseServicesClient struct {
@@ -420,6 +694,24 @@ type purchaseServicesClient struct {
 
 func NewPurchaseServicesClient(cc *grpc.ClientConn) PurchaseServicesClient {
 	return &purchaseServicesClient{cc}
+}
+
+func (c *purchaseServicesClient) ListPurchases(ctx context.Context, in *ListPurchasesRequest, opts ...grpc.CallOption) (*ListPurchasesResponse, error) {
+	out := new(ListPurchasesResponse)
+	err := c.cc.Invoke(ctx, "/flatsharing.v1.PurchaseServices/ListPurchases", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *purchaseServicesClient) GetPurchase(ctx context.Context, in *GetPurchaseRequest, opts ...grpc.CallOption) (*GetPurchaseResponse, error) {
+	out := new(GetPurchaseResponse)
+	err := c.cc.Invoke(ctx, "/flatsharing.v1.PurchaseServices/GetPurchase", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
 }
 
 func (c *purchaseServicesClient) CreatePurchase(ctx context.Context, in *CreatePurchaseRequest, opts ...grpc.CallOption) (*CreatePurchaseResponse, error) {
@@ -431,13 +723,71 @@ func (c *purchaseServicesClient) CreatePurchase(ctx context.Context, in *CreateP
 	return out, nil
 }
 
+func (c *purchaseServicesClient) UpdatePurchase(ctx context.Context, in *UpdatePurchaseRequest, opts ...grpc.CallOption) (*empty.Empty, error) {
+	out := new(empty.Empty)
+	err := c.cc.Invoke(ctx, "/flatsharing.v1.PurchaseServices/UpdatePurchase", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *purchaseServicesClient) DeletePurchase(ctx context.Context, in *DeletePurchaseRequest, opts ...grpc.CallOption) (*empty.Empty, error) {
+	out := new(empty.Empty)
+	err := c.cc.Invoke(ctx, "/flatsharing.v1.PurchaseServices/DeletePurchase", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // PurchaseServicesServer is the server API for PurchaseServices service.
 type PurchaseServicesServer interface {
+	ListPurchases(context.Context, *ListPurchasesRequest) (*ListPurchasesResponse, error)
+	GetPurchase(context.Context, *GetPurchaseRequest) (*GetPurchaseResponse, error)
 	CreatePurchase(context.Context, *CreatePurchaseRequest) (*CreatePurchaseResponse, error)
+	UpdatePurchase(context.Context, *UpdatePurchaseRequest) (*empty.Empty, error)
+	DeletePurchase(context.Context, *DeletePurchaseRequest) (*empty.Empty, error)
 }
 
 func RegisterPurchaseServicesServer(s *grpc.Server, srv PurchaseServicesServer) {
 	s.RegisterService(&_PurchaseServices_serviceDesc, srv)
+}
+
+func _PurchaseServices_ListPurchases_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ListPurchasesRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(PurchaseServicesServer).ListPurchases(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/flatsharing.v1.PurchaseServices/ListPurchases",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(PurchaseServicesServer).ListPurchases(ctx, req.(*ListPurchasesRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _PurchaseServices_GetPurchase_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetPurchaseRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(PurchaseServicesServer).GetPurchase(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/flatsharing.v1.PurchaseServices/GetPurchase",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(PurchaseServicesServer).GetPurchase(ctx, req.(*GetPurchaseRequest))
+	}
+	return interceptor(ctx, in, info, handler)
 }
 
 func _PurchaseServices_CreatePurchase_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
@@ -458,50 +808,118 @@ func _PurchaseServices_CreatePurchase_Handler(srv interface{}, ctx context.Conte
 	return interceptor(ctx, in, info, handler)
 }
 
+func _PurchaseServices_UpdatePurchase_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(UpdatePurchaseRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(PurchaseServicesServer).UpdatePurchase(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/flatsharing.v1.PurchaseServices/UpdatePurchase",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(PurchaseServicesServer).UpdatePurchase(ctx, req.(*UpdatePurchaseRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _PurchaseServices_DeletePurchase_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(DeletePurchaseRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(PurchaseServicesServer).DeletePurchase(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/flatsharing.v1.PurchaseServices/DeletePurchase",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(PurchaseServicesServer).DeletePurchase(ctx, req.(*DeletePurchaseRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 var _PurchaseServices_serviceDesc = grpc.ServiceDesc{
 	ServiceName: "flatsharing.v1.PurchaseServices",
 	HandlerType: (*PurchaseServicesServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{
+			MethodName: "ListPurchases",
+			Handler:    _PurchaseServices_ListPurchases_Handler,
+		},
+		{
+			MethodName: "GetPurchase",
+			Handler:    _PurchaseServices_GetPurchase_Handler,
+		},
+		{
 			MethodName: "CreatePurchase",
 			Handler:    _PurchaseServices_CreatePurchase_Handler,
+		},
+		{
+			MethodName: "UpdatePurchase",
+			Handler:    _PurchaseServices_UpdatePurchase_Handler,
+		},
+		{
+			MethodName: "DeletePurchase",
+			Handler:    _PurchaseServices_DeletePurchase_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
 	Metadata: "flatsharing.proto",
 }
 
-func init() { proto.RegisterFile("flatsharing.proto", fileDescriptor_flatsharing_2c094713ff28c71e) }
+func init() { proto.RegisterFile("flatsharing.proto", fileDescriptor_flatsharing_23dc0d38e2d143ce) }
 
-var fileDescriptor_flatsharing_2c094713ff28c71e = []byte{
-	// 451 bytes of a gzipped FileDescriptorProto
-	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0x84, 0x53, 0xcd, 0x8e, 0xd3, 0x30,
-	0x10, 0x56, 0x42, 0x48, 0xd3, 0x61, 0xa9, 0xa8, 0x59, 0x76, 0x43, 0x00, 0x69, 0xb1, 0x00, 0x55,
-	0x7b, 0x68, 0xd4, 0xc2, 0x69, 0x25, 0x0e, 0xc0, 0x85, 0x1c, 0x90, 0xd0, 0x72, 0xe3, 0x52, 0xb9,
-	0x89, 0xdb, 0x58, 0x34, 0x71, 0x88, 0x9d, 0x68, 0xf7, 0xca, 0x99, 0x1b, 0xef, 0xc4, 0x0b, 0xf0,
-	0x0a, 0x3c, 0x08, 0xb2, 0x9d, 0x86, 0xd6, 0xe5, 0xe7, 0x36, 0x33, 0xdf, 0x37, 0xe3, 0x6f, 0xbe,
-	0x49, 0x60, 0xbc, 0xda, 0x10, 0x29, 0x72, 0x52, 0xb3, 0x72, 0x3d, 0xad, 0x6a, 0x2e, 0x39, 0x1a,
-	0xed, 0x96, 0xda, 0x59, 0xf4, 0x60, 0xcd, 0xf9, 0x7a, 0x43, 0x63, 0x8d, 0x2e, 0x9b, 0x55, 0x4c,
-	0x8b, 0x4a, 0x5e, 0x1b, 0x72, 0x74, 0x66, 0x83, 0x2b, 0x46, 0x37, 0xd9, 0xa2, 0x20, 0xe2, 0x53,
-	0xc7, 0x78, 0xd8, 0x31, 0x48, 0xc5, 0x62, 0x52, 0x96, 0x5c, 0x12, 0xc9, 0x78, 0x29, 0x0c, 0x8a,
-	0x5f, 0xc2, 0xf8, 0x4d, 0x4d, 0x89, 0xa4, 0x6f, 0x79, 0x41, 0x2f, 0xe9, 0xe7, 0x86, 0x0a, 0x89,
-	0x26, 0xe0, 0xe5, 0xbc, 0xa0, 0xa1, 0x73, 0xe6, 0x4c, 0x6e, 0xcd, 0x8f, 0xa7, 0xfb, 0x82, 0xa6,
-	0x9a, 0xaa, 0x19, 0xf8, 0x09, 0xa0, 0xdd, 0x76, 0x51, 0xf1, 0x52, 0x50, 0x34, 0x02, 0x97, 0x65,
-	0xba, 0x7b, 0x78, 0xe9, 0xb2, 0x0c, 0x27, 0xe0, 0x29, 0xdc, 0xae, 0x23, 0x04, 0x5e, 0x49, 0x0a,
-	0x1a, 0xba, 0xba, 0xa2, 0x63, 0xf4, 0x08, 0x20, 0xd5, 0x13, 0xb3, 0x05, 0x91, 0xe1, 0x50, 0x23,
-	0xc3, 0xae, 0xf2, 0x4a, 0xe2, 0x77, 0x70, 0xcf, 0x3c, 0xf8, 0xbe, 0xa9, 0xd3, 0x9c, 0x88, 0x5e,
-	0xf3, 0x0b, 0x08, 0xaa, 0xae, 0xd4, 0xe9, 0x0e, 0x6d, 0xdd, 0x7d, 0x4b, 0xcf, 0xc4, 0x13, 0x38,
-	0xb1, 0xc7, 0xfd, 0x65, 0x87, 0xef, 0x0e, 0x04, 0x5b, 0xd2, 0xc1, 0x22, 0xa7, 0x30, 0x50, 0x76,
-	0x2c, 0x58, 0xd6, 0xed, 0xe2, 0xab, 0x34, 0xd1, 0x40, 0x23, 0x68, 0xad, 0x80, 0x1b, 0x06, 0x50,
-	0x69, 0x92, 0xa1, 0xfb, 0x10, 0x2c, 0x9b, 0x6b, 0x83, 0x78, 0x1a, 0x19, 0xe8, 0x3c, 0xd1, 0xae,
-	0x88, 0x9c, 0x57, 0xe1, 0x4d, 0xe3, 0x8a, 0x8a, 0xd1, 0x09, 0xf8, 0xa4, 0xe0, 0x4d, 0x29, 0x43,
-	0xdf, 0x8c, 0x31, 0x99, 0xe2, 0x66, 0x54, 0xa4, 0xe1, 0xc0, 0x70, 0x55, 0x6c, 0x39, 0x18, 0x58,
-	0x0e, 0xce, 0xaf, 0xe0, 0x48, 0x1d, 0xe3, 0x03, 0xad, 0x5b, 0x96, 0x52, 0x81, 0x72, 0x80, 0xdf,
-	0x27, 0x44, 0x8f, 0x6d, 0xd3, 0x0e, 0xbe, 0x8e, 0x08, 0xff, 0x8b, 0x62, 0xdc, 0xc3, 0x77, 0xbf,
-	0xfc, 0xf8, 0xf9, 0xcd, 0xbd, 0x8d, 0x83, 0xb8, 0x9d, 0xc5, 0xca, 0x8b, 0x0b, 0xe7, 0x7c, 0xfe,
-	0xd5, 0x81, 0x3b, 0x5b, 0x0b, 0xfb, 0xe7, 0xaf, 0x60, 0xb4, 0x7f, 0x01, 0xf4, 0xf4, 0xcf, 0xf3,
-	0xad, 0x83, 0x47, 0xcf, 0xfe, 0x47, 0xeb, 0xa4, 0x9c, 0x6a, 0x29, 0x63, 0x7c, 0xa4, 0xa4, 0x6c,
-	0x0f, 0x7f, 0xe1, 0x9c, 0xbf, 0x3e, 0xfe, 0x88, 0x44, 0x9d, 0xc6, 0x3b, 0x53, 0xe2, 0x76, 0xb6,
-	0xf4, 0xf5, 0x7f, 0xf1, 0xfc, 0x57, 0x00, 0x00, 0x00, 0xff, 0xff, 0xa4, 0x71, 0x92, 0xdf, 0x99,
-	0x03, 0x00, 0x00,
+var fileDescriptor_flatsharing_23dc0d38e2d143ce = []byte{
+	// 716 bytes of a gzipped FileDescriptorProto
+	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0xac, 0x55, 0xcd, 0x52, 0xdb, 0x3c,
+	0x14, 0x1d, 0x87, 0x10, 0x92, 0x1b, 0x92, 0xef, 0x43, 0x04, 0x70, 0x0d, 0x9d, 0x52, 0x15, 0x98,
+	0x0c, 0x8b, 0x78, 0x48, 0xbb, 0xa2, 0xd3, 0x45, 0xff, 0x9b, 0xb6, 0xcc, 0x30, 0xa1, 0xdd, 0x74,
+	0x93, 0x11, 0xb1, 0x48, 0x3c, 0x24, 0x96, 0x6b, 0xc9, 0x19, 0xa0, 0xd3, 0x4d, 0x97, 0xdd, 0x76,
+	0xdd, 0xd7, 0xe9, 0x0b, 0xf4, 0x15, 0xba, 0xe9, 0x5b, 0x74, 0x24, 0xd9, 0x21, 0xb6, 0x43, 0x60,
+	0xc1, 0x4e, 0xba, 0xf7, 0xe8, 0x9e, 0x73, 0xaf, 0x75, 0x64, 0x58, 0x3a, 0x19, 0x10, 0xc1, 0xfb,
+	0x24, 0x70, 0xbd, 0x5e, 0xc3, 0x0f, 0x98, 0x60, 0xa8, 0x3a, 0x19, 0x1a, 0xed, 0x59, 0xeb, 0x3d,
+	0xc6, 0x7a, 0x03, 0x6a, 0xab, 0xec, 0x71, 0x78, 0x62, 0xd3, 0xa1, 0x2f, 0xce, 0x35, 0xd8, 0xda,
+	0x4c, 0x27, 0x4f, 0x5c, 0x3a, 0x70, 0x3a, 0x43, 0xc2, 0x4f, 0x23, 0xc4, 0x46, 0x84, 0x20, 0xbe,
+	0x6b, 0x13, 0xcf, 0x63, 0x82, 0x08, 0x97, 0x79, 0x5c, 0x67, 0xf1, 0x13, 0x58, 0x7a, 0x1e, 0x50,
+	0x22, 0xe8, 0x1b, 0x36, 0xa4, 0x6d, 0xfa, 0x39, 0xa4, 0x5c, 0xa0, 0x3a, 0xe4, 0xfb, 0x6c, 0x48,
+	0x4d, 0x63, 0xd3, 0xa8, 0x97, 0x9b, 0xb5, 0x46, 0x52, 0x50, 0x43, 0x41, 0x15, 0x02, 0x6f, 0x01,
+	0x9a, 0x3c, 0xce, 0x7d, 0xe6, 0x71, 0x8a, 0xaa, 0x90, 0x73, 0x1d, 0x75, 0xba, 0xd4, 0xce, 0xb9,
+	0x0e, 0x6e, 0x41, 0x5e, 0xe6, 0xd3, 0x71, 0x84, 0x20, 0xef, 0x91, 0x21, 0x35, 0x73, 0x2a, 0xa2,
+	0xd6, 0xe8, 0x2e, 0x40, 0x57, 0x55, 0x74, 0x3a, 0x44, 0x98, 0x25, 0x95, 0x29, 0x45, 0x91, 0xa7,
+	0x02, 0xb7, 0xa1, 0xf6, 0xde, 0xe5, 0xe2, 0x30, 0x0c, 0xba, 0x7d, 0xc2, 0x29, 0x8f, 0x25, 0xaf,
+	0x43, 0xc9, 0x27, 0x3d, 0xda, 0xe1, 0xee, 0x85, 0xd6, 0x3d, 0xdf, 0x2e, 0xca, 0xc0, 0x91, 0x7b,
+	0xa1, 0x6a, 0xaa, 0xa4, 0x60, 0xa7, 0xd4, 0x8b, 0xd8, 0x14, 0xfc, 0x83, 0x0c, 0xe0, 0x9f, 0x06,
+	0xac, 0xa4, 0x8a, 0x46, 0x8d, 0x3c, 0x82, 0xa2, 0x1f, 0x05, 0x4d, 0x63, 0x73, 0xae, 0x5e, 0x6e,
+	0x9a, 0xe9, 0x61, 0xc4, 0x87, 0xda, 0x63, 0x24, 0xda, 0x81, 0xff, 0x3c, 0x7a, 0x26, 0x3a, 0x19,
+	0xce, 0x8a, 0x0c, 0x1f, 0xc6, 0xbc, 0x12, 0x27, 0x98, 0x20, 0x83, 0xce, 0xa5, 0xf2, 0x39, 0xa5,
+	0xbc, 0xa2, 0xc2, 0x87, 0x91, 0x7c, 0xfc, 0x16, 0xd0, 0x6b, 0x3a, 0x56, 0x17, 0x77, 0x9c, 0xd4,
+	0x66, 0xdc, 0x4c, 0x1b, 0x7e, 0x07, 0xcb, 0x89, 0x5a, 0x53, 0x1b, 0xbd, 0x69, 0xb1, 0x03, 0x58,
+	0xd1, 0x5f, 0xff, 0x76, 0xb4, 0xd5, 0x61, 0x35, 0x5d, 0xee, 0x8a, 0x0b, 0xf5, 0xdd, 0x80, 0x95,
+	0x8f, 0xbe, 0x73, 0x5b, 0xcc, 0xe8, 0x31, 0x94, 0x43, 0x55, 0x4e, 0x19, 0x47, 0x7d, 0xad, 0x72,
+	0xd3, 0x6a, 0x68, 0xe7, 0x34, 0x62, 0x6f, 0x35, 0x5e, 0x49, 0x6f, 0x1d, 0x10, 0x7e, 0xda, 0x06,
+	0x0d, 0x97, 0x6b, 0x39, 0x85, 0x17, 0x74, 0x40, 0x6f, 0x6b, 0x0a, 0xbf, 0x0c, 0x28, 0xc6, 0xe1,
+	0x8c, 0x63, 0xd6, 0x60, 0x41, 0xfa, 0xae, 0xe3, 0x3a, 0xd1, 0x95, 0x2a, 0xc8, 0x6d, 0x4b, 0x25,
+	0x42, 0x4e, 0x03, 0x99, 0x98, 0xd3, 0x09, 0xb9, 0x6d, 0x39, 0xe8, 0x0e, 0x14, 0x8f, 0xc3, 0x73,
+	0x9d, 0xc9, 0xab, 0xcc, 0x82, 0xda, 0xb7, 0x94, 0xfd, 0x78, 0x9f, 0xf9, 0xe6, 0xbc, 0xb6, 0x9f,
+	0x5c, 0xa3, 0x55, 0x28, 0x90, 0x21, 0x0b, 0x3d, 0x61, 0x16, 0x74, 0x19, 0xbd, 0x93, 0x58, 0x87,
+	0xf2, 0xae, 0xb9, 0xa0, 0xb1, 0x72, 0x9d, 0xb2, 0x6a, 0x31, 0x65, 0xd5, 0xe6, 0x19, 0x2c, 0x4a,
+	0xd7, 0x1f, 0xd1, 0x60, 0xe4, 0x76, 0x29, 0x47, 0x7d, 0x80, 0xcb, 0xb7, 0x02, 0xdd, 0x4f, 0x8f,
+	0x22, 0xf3, 0x0c, 0x59, 0x78, 0x16, 0x44, 0xdf, 0x0c, 0xbc, 0xfc, 0xed, 0xf7, 0x9f, 0x1f, 0xb9,
+	0x0a, 0x2e, 0xda, 0xa3, 0x3d, 0x5b, 0xce, 0x62, 0xdf, 0xd8, 0x6d, 0xfe, 0xcd, 0xc3, 0xff, 0xf1,
+	0x08, 0xc7, 0xf4, 0x01, 0x54, 0x12, 0x26, 0x47, 0x5b, 0xe9, 0xf2, 0xd3, 0x1e, 0x16, 0x6b, 0xfb,
+	0x1a, 0x54, 0xa4, 0xa3, 0xa6, 0x74, 0x54, 0xd1, 0xa2, 0xd4, 0x31, 0xbe, 0x57, 0x17, 0x50, 0x9e,
+	0x70, 0x1b, 0xca, 0x34, 0x94, 0xb5, 0xb5, 0xf5, 0x60, 0x26, 0x26, 0x62, 0xc3, 0x8a, 0x6d, 0x03,
+	0x59, 0x93, 0x6c, 0xf6, 0x97, 0x78, 0xd5, 0x70, 0x9d, 0xaf, 0xe8, 0x0c, 0xaa, 0x49, 0x37, 0xa1,
+	0xed, 0xe9, 0xf3, 0x4c, 0x2b, 0xd8, 0xb9, 0x0e, 0x16, 0x89, 0x58, 0x53, 0x22, 0x96, 0x70, 0xa2,
+	0xe5, 0x7d, 0x63, 0x17, 0x8d, 0xa0, 0x9a, 0x34, 0x67, 0x96, 0x79, 0xaa, 0x79, 0xad, 0xd5, 0x8c,
+	0xe3, 0x5e, 0xca, 0x5f, 0x1d, 0xde, 0x56, 0x4c, 0xf7, 0xac, 0x19, 0xed, 0x4a, 0x5e, 0x0e, 0xd5,
+	0xa4, 0x11, 0xb3, 0xbc, 0x53, 0x8d, 0x7a, 0x25, 0x6f, 0x34, 0xe6, 0xdd, 0x19, 0xbc, 0xcf, 0x6a,
+	0x9f, 0x10, 0x0f, 0xba, 0xf6, 0x04, 0x8f, 0x3d, 0xda, 0x3b, 0x2e, 0xa8, 0x4a, 0x0f, 0xff, 0x05,
+	0x00, 0x00, 0xff, 0xff, 0x94, 0xd5, 0xf0, 0xe5, 0xdf, 0x07, 0x00, 0x00,
 }
