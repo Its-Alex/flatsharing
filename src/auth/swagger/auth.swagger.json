@@ -43,7 +43,7 @@
     },
     "/v1/user": {
       "get": {
-        "operationId": "GetUsers",
+        "operationId": "ListUsers",
         "responses": {
           "200": {
             "description": "",

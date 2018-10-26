@@ -21,7 +21,7 @@ service AuthServices {
       body: "*"
     };
   }
-  rpc GetUsers (ListUsersRequest) returns (ListUsersResponse) {
+  rpc ListUsers (ListUsersRequest) returns (ListUsersResponse) {
     option (google.api.http) = {
       get: "/v1/user"
     };
