@@ -121,30 +121,3 @@ func TestCreateUser(t *testing.T) {
 	require.Nil(t, err)
 	require.Regexp(t, regexp.MustCompile("^[\\dA-Za-z]{26}$"), res.Id)
 }
-
-func TestDeleteUser(t *testing.T) {
-	s, mock, ctx := newMockService(t)
-
-	mock.ExpectQuery("SELECT \\* FROM user").
-		WillReturnRows(sqlmock.NewRows([]string{"id", "mail", "login", "username", "firstname", "lastname", "password", "role", "created_at"}).
-			AddRow(
-				"01CTR7K83ZT5XXP89S87FQHMTH",
-				"mail@example.com",
-				"example",
-				"example",
-				"example_fs",
-				"example_ls",
-				"$2y$10$xhAPx.aBmeQxk6kq2bpWPenWA2/Ia7dYSr2ufGVky40Ip6HWZYvuW",
-				0,
-				"2018-10-26 13:04:13.001629+00",
-			))
-
-	mock.ExpectExec("DELETE FROM users").WillReturnResult(sqlmock.NewResult(1, 1)) // TODO improve with set of data given to insert
-
-	_, err := s.DeleteUser(ctx, &pb.DeleteUserRequest{
-		User: &pb.User{
-			Id: "01CTR7K83ZT5XXP89S87FQHMTH",
-		},
-	})
-	require.Nil(t, err)
-}
