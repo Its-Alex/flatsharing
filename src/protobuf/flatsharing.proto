@@ -32,12 +32,53 @@ message Home {
 }
 
 service PurchaseServices {
+  rpc ListPurchases (ListPurchasesRequest) returns (ListPurchasesResponse) {
+    option (google.api.http) = {
+      get: "/v1/purchase"
+    };
+  }
+  rpc GetPurchase (GetPurchaseRequest) returns (GetPurchaseResponse) {
+    option (google.api.http) = {
+      get: "/v1/purchase/{purchase.id}"
+    };
+  }
   rpc CreatePurchase (CreatePurchaseRequest) returns (CreatePurchaseResponse) {
     option (google.api.http) = {
       post: "/v1/purchase"
       body: "*"
     };
   }
+  rpc UpdatePurchase (UpdatePurchaseRequest) returns (google.protobuf.Empty) {
+    option (google.api.http) = {
+      put: "/v1/purchase/{purchase.id}"
+      body: "*"
+    };
+  }
+  rpc DeletePurchase (DeletePurchaseRequest) returns (google.protobuf.Empty) {
+    option (google.api.http) = {
+      delete: "/v1/purchase/{purchase.id}"
+    };
+  }
+}
+
+message ListPurchasesRequest {
+  int32 page_size = 1;
+  string page_token = 2;
+}
+
+message ListPurchasesResponse {
+  // See https://github.com/GoogleCloudPlatform/google-cloud-go/blob/master/monitoring/apiv3/metric_client.go#L137
+  repeated Purchase purchase = 1;
+  string next_page_token = 2;
+  int32 total_page_size = 3;
+}
+
+message GetPurchaseRequest {
+  Purchase purchase = 1;
+}
+
+message GetPurchaseResponse {
+  Purchase purchase = 1;
 }
 
 message CreatePurchaseRequest {
@@ -46,6 +87,18 @@ message CreatePurchaseRequest {
 
 message CreatePurchaseResponse {
   string id = 1;
+}
+
+message UpdatePurchaseRequest {
+  Purchase purchase = 1;
+  // The update mask applies to the resource. For the `FieldMask` definition,
+  // see https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#fieldmask
+  // or here https://github.com/gogo/grpc-example/commit/6c217371b67a89609c632f047477fa5a1123ac93
+  google.protobuf.FieldMask update_mask = 2;
+}
+
+message DeletePurchaseRequest {
+  Purchase purchase = 1;
 }
 
 message Purchase {
