@@ -16,6 +16,35 @@
   ],
   "paths": {
     "/v1/home": {
+      "get": {
+        "operationId": "ListHomes",
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/v1ListHomesResponse"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "page_size",
+            "in": "query",
+            "required": false,
+            "type": "integer",
+            "format": "int32"
+          },
+          {
+            "name": "page_token",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "tags": [
+          "HomeServices"
+        ]
+      },
       "post": {
         "operationId": "CreateHome",
         "responses": {
@@ -33,6 +62,106 @@
             "required": true,
             "schema": {
               "$ref": "#/definitions/v1CreateHomeRequest"
+            }
+          }
+        ],
+        "tags": [
+          "HomeServices"
+        ]
+      }
+    },
+    "/v1/home/{home.id}": {
+      "get": {
+        "operationId": "GetHome",
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/v1GetHomeResponse"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "home.id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "home.name",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "home.created_at",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "tags": [
+          "HomeServices"
+        ]
+      },
+      "delete": {
+        "operationId": "DeleteHome",
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/protobufEmpty"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "home.id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "home.name",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "home.created_at",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "tags": [
+          "HomeServices"
+        ]
+      },
+      "put": {
+        "operationId": "UpdateHome",
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/protobufEmpty"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "home.id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/v1UpdateHomeRequest"
             }
           }
         ],
@@ -309,6 +438,14 @@
         }
       }
     },
+    "v1GetHomeResponse": {
+      "type": "object",
+      "properties": {
+        "home": {
+          "$ref": "#/definitions/v1Home"
+        }
+      }
+    },
     "v1GetPurchaseResponse": {
       "type": "object",
       "properties": {
@@ -328,6 +465,25 @@
         },
         "created_at": {
           "type": "string"
+        }
+      }
+    },
+    "v1ListHomesResponse": {
+      "type": "object",
+      "properties": {
+        "home": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/v1Home"
+          },
+          "title": "See https://github.com/GoogleCloudPlatform/google-cloud-go/blob/master/monitoring/apiv3/metric_client.go#L137"
+        },
+        "next_page_token": {
+          "type": "string"
+        },
+        "total_page_size": {
+          "type": "integer",
+          "format": "int32"
         }
       }
     },
@@ -376,6 +532,18 @@
         },
         "created_at": {
           "type": "string"
+        }
+      }
+    },
+    "v1UpdateHomeRequest": {
+      "type": "object",
+      "properties": {
+        "home": {
+          "$ref": "#/definitions/v1Home"
+        },
+        "update_mask": {
+          "$ref": "#/definitions/protobufFieldMask",
+          "title": "The update mask applies to the resource. For the `FieldMask` definition,\nsee https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#fieldmask\nor here https://github.com/gogo/grpc-example/commit/6c217371b67a89609c632f047477fa5a1123ac93"
         }
       }
     },
