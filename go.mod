@@ -9,6 +9,7 @@ require (
 	github.com/golang/protobuf v1.2.0
 	github.com/grpc-ecosystem/grpc-gateway v1.5.1
 	github.com/jmoiron/sqlx v0.0.0-20180614180643-0dae4fefe7c0
+	github.com/kisielk/sqlstruct v0.0.0-20150923205031-648daed35d49 // indirect
 	github.com/labstack/echo v3.2.1+incompatible
 	github.com/labstack/gommon v0.2.7 // indirect
 	github.com/lib/pq v1.0.0
@@ -17,6 +18,7 @@ require (
 	github.com/mattn/go-sqlite3 v1.9.0 // indirect
 	github.com/oklog/ulid v1.3.1
 	github.com/spf13/viper v1.2.1
+	github.com/stretchr/objx v0.1.1 // indirect
 	github.com/stretchr/testify v1.2.2
 	github.com/urfave/negroni v1.0.0
 	github.com/valyala/bytebufferpool v1.0.0 // indirect
@@ -29,4 +31,5 @@ require (
 	golang.org/x/net v0.0.0-20181011144130-49bb7cea24b1
 	google.golang.org/genproto v0.0.0-20181004005441-af9cb2a35e7f
 	google.golang.org/grpc v1.15.0
+	gopkg.in/DATA-DOG/go-sqlmock.v1 v1.3.0
 )
