@@ -9,12 +9,53 @@ import "google/api/annotations.proto";
 option go_package = "src/flatsharing/v1";
 
 service HomeServices {
+  rpc ListHomes (ListHomesRequest) returns (ListHomesResponse) {
+    option (google.api.http) = {
+      get: "/v1/home"
+    };
+  }
+  rpc GetHome (GetHomeRequest) returns (GetHomeResponse) {
+    option (google.api.http) = {
+      get: "/v1/home/{home.id}"
+    };
+  }
   rpc CreateHome (CreateHomeRequest) returns (CreateHomeResponse) {
     option (google.api.http) = {
       post: "/v1/home"
       body: "*"
     };
   }
+  rpc UpdateHome (UpdateHomeRequest) returns (google.protobuf.Empty) {
+    option (google.api.http) = {
+      put: "/v1/home/{home.id}"
+      body: "*"
+    };
+  }
+  rpc DeleteHome (DeleteHomeRequest) returns (google.protobuf.Empty) {
+    option (google.api.http) = {
+      delete: "/v1/home/{home.id}"
+    };
+  }
+}
+
+message ListHomesRequest {
+  int32 page_size = 1;
+  string page_token = 2;
+}
+
+message ListHomesResponse {
+  // See https://github.com/GoogleCloudPlatform/google-cloud-go/blob/master/monitoring/apiv3/metric_client.go#L137
+  repeated Home home = 1;
+  string next_page_token = 2;
+  int32 total_page_size = 3;
+}
+
+message GetHomeRequest {
+  Home home = 1;
+}
+
+message GetHomeResponse {
+  Home home = 1;
 }
 
 message CreateHomeRequest {
@@ -24,6 +65,19 @@ message CreateHomeRequest {
 message CreateHomeResponse {
   string id = 1;
 }
+
+message UpdateHomeRequest {
+  Home home = 1;
+  // The update mask applies to the resource. For the `FieldMask` definition,
+  // see https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#fieldmask
+  // or here https://github.com/gogo/grpc-example/commit/6c217371b67a89609c632f047477fa5a1123ac93
+  google.protobuf.FieldMask update_mask = 2;
+}
+
+message DeleteHomeRequest {
+  Home home = 1;
+}
+
 
 message Home {
   string id = 1;
