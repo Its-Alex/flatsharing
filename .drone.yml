@@ -67,6 +67,17 @@ pipeline:
       event: push
       status: success
 
+  docker-fs_service:
+    image: plugins/docker
+    tags: latest
+    repo: flatsharing/fs_service
+    dockerfile: fs_service.Dockerfile
+    secrets: [ docker_username, docker_password ]
+    when:
+      branch: master
+      event: push
+      status: success
+
   codecov:
     image: robertstettner/drone-codecov
     token: e897d4e0-b3ff-4c5d-91e6-2d3ff15a9ee6
