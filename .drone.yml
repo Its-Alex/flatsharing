@@ -57,6 +57,7 @@ pipeline:
       - make build-support
 
   docker-auth:
+    group: docker
     image: plugins/docker
     tags: latest
     repo: flatsharing/auth
@@ -68,15 +69,12 @@ pipeline:
       status: success
 
   docker-fs_service:
+    group: docker
     image: plugins/docker
     tags: latest
     repo: flatsharing/fs_service
     dockerfile: fs_service.Dockerfile
     secrets: [ docker_username, docker_password ]
-    when:
-      branch: master
-      event: push
-      status: success
 
   codecov:
     image: robertstettner/drone-codecov
