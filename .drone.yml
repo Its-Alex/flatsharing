@@ -57,6 +57,7 @@ pipeline:
       - make build-support
 
   docker-auth:
+    group: docker
     image: plugins/docker
     tags: latest
     repo: flatsharing/auth
@@ -68,6 +69,7 @@ pipeline:
       status: success
 
   docker-fs_service:
+    group: docker
     image: plugins/docker
     tags: latest
     repo: flatsharing/fs_service
