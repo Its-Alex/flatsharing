@@ -3,7 +3,7 @@ package main
 import (
 	"context"
 
-	pb "github.com/Its-Alex/flatsharing/src/flatsharing/v1"
+	pb "github.com/Its-Alex/flatsharing/internal/flatsharing/v1"
 	"github.com/golang/protobuf/ptypes/empty"
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"

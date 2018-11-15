@@ -5,7 +5,7 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/Its-Alex/flatsharing/src/core/database"
+	"github.com/Its-Alex/flatsharing/internal/core/database"
 	"github.com/jmoiron/sqlx"
 	"github.com/jmoiron/sqlx/reflectx"
 	sqlmock "gopkg.in/DATA-DOG/go-sqlmock.v1"

@@ -6,7 +6,7 @@ import "google/protobuf/field_mask.proto";
 
 import "google/api/annotations.proto";
 
-option go_package = "src/flatsharing/v1";
+option go_package = "internal/flatsharing/v1";
 
 service HomeServices {
   rpc ListHomes (ListHomesRequest) returns (ListHomesResponse) {

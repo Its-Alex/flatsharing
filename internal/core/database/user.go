@@ -3,8 +3,8 @@ package database
 import (
 	"database/sql"
 
-	pb "github.com/Its-Alex/flatsharing/src/auth/v1"
-	"github.com/Its-Alex/flatsharing/src/core/middleware"
+	pb "github.com/Its-Alex/flatsharing/internal/auth/v1"
+	"github.com/Its-Alex/flatsharing/internal/core/middleware"
 )
 
 // GetUsers get all users

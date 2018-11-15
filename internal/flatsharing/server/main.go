@@ -7,9 +7,9 @@ import (
 	"net/http"
 	"sync"
 
-	pb "github.com/Its-Alex/flatsharing/src/auth/v1"
-	"github.com/Its-Alex/flatsharing/src/core/database"
-	"github.com/Its-Alex/flatsharing/src/core/helper"
+	"github.com/Its-Alex/flatsharing/internal/core/database"
+	"github.com/Its-Alex/flatsharing/internal/core/helper"
+	pb "github.com/Its-Alex/flatsharing/internal/flatsharing/v1"
 	"github.com/gobuffalo/packr"
 	"github.com/grpc-ecosystem/grpc-gateway/runtime"
 	"github.com/jmoiron/sqlx"
@@ -37,7 +37,7 @@ var (
 )
 
 func init() {
-	viper.SetEnvPrefix("fs_auth")
+	viper.SetEnvPrefix("fs_service")
 
 	viper.BindEnv("grpc_listen_addr")
 	viper.BindEnv("grpc_listen_port")
@@ -85,7 +85,8 @@ func RunGRPC() error {
 		return err
 	}
 
-	pb.RegisterAuthServicesServer(server, s)
+	pb.RegisterHomeServicesServer(server, s)
+	pb.RegisterPurchaseServicesServer(server, s)
 
 	// Enable reflection
 	reflection.Register(server)
@@ -116,7 +117,15 @@ func RunJSON() error {
 	gwmux := runtime.NewServeMux(runtime.WithMarshalerOption(runtime.MIMEWildcard, &runtime.JSONPb{OrigName: true, EmitDefaults: true}))
 	opts := []grpc.DialOption{grpc.WithInsecure()}
 	// Setup JSON service
-	err := pb.RegisterAuthServicesHandlerFromEndpoint(ctx, gwmux, fmt.Sprintf(
+	err := pb.RegisterHomeServicesHandlerFromEndpoint(ctx, gwmux, fmt.Sprintf(
+		"%s:%s",
+		viper.GetString("grpc_listen_addr"),
+		viper.GetString("grpc_listen_port"),
+	), opts)
+	if err != nil {
+		return err
+	}
+	err = pb.RegisterPurchaseServicesHandlerFromEndpoint(ctx, gwmux, fmt.Sprintf(
 		"%s:%s",
 		viper.GetString("grpc_listen_addr"),
 		viper.GetString("grpc_listen_port"),

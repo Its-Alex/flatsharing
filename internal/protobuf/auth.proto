@@ -6,7 +6,7 @@ import "google/protobuf/field_mask.proto";
 
 import "google/api/annotations.proto";
 
-option go_package = "src/auth/v1";
+option go_package = "internal/auth/v1";
 
 service AuthServices {
   rpc Signin (SigninRequest) returns (SigninResponse) {

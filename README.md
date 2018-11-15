@@ -25,6 +25,8 @@ This repo use new go module feature, please read how it works before start
 
 You need nothing special in your host, this project use docker to dev/build
 
+In this project I tried to follow [`this template`](https://github.com/golang-standards/project-layout)
+
 ## Environments variables
 
 All services have some environments variables to change some dynamics values
@@ -122,7 +124,7 @@ $ make coverage
 
 ## Migrations
 
-All databases migrations are defined in [`migrations`](/migrations) folder
+All databases migrations are defined in [`assets/migrations`](/assets/postgres/migrations) folder
 
 You will find a up and down, they are used by [`migrate`](https://github.com/golang-migrate/migrate)
 

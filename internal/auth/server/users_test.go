@@ -4,7 +4,7 @@ import (
 	"regexp"
 	"testing"
 
-	pb "github.com/Its-Alex/flatsharing/src/auth/v1"
+	pb "github.com/Its-Alex/flatsharing/internal/auth/v1"
 	"github.com/stretchr/testify/require"
 	sqlmock "gopkg.in/DATA-DOG/go-sqlmock.v1"
 )

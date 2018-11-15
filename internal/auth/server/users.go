@@ -5,10 +5,10 @@ import (
 	"database/sql"
 	"strconv"
 
-	pb "github.com/Its-Alex/flatsharing/src/auth/v1"
-	"github.com/Its-Alex/flatsharing/src/core/helper"
+	pb "github.com/Its-Alex/flatsharing/internal/auth/v1"
+	"github.com/Its-Alex/flatsharing/internal/core/helper"
 
-	"github.com/Its-Alex/flatsharing/src/core/database"
+	"github.com/Its-Alex/flatsharing/internal/core/database"
 	"github.com/golang/protobuf/ptypes/empty"
 	"github.com/jmoiron/sqlx"
 	"golang.org/x/crypto/bcrypt"

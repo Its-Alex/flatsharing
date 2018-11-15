@@ -28,8 +28,8 @@ require (
 	go.uber.org/zap v1.9.1
 	golang.org/x/crypto v0.0.0-20181015023909-0c41d7ab0a0e
 	golang.org/x/lint v0.0.0-20181026193005-c67002cb31c3 // indirect
-	golang.org/x/net v0.0.0-20181011144130-49bb7cea24b1
-	google.golang.org/genproto v0.0.0-20181004005441-af9cb2a35e7f
-	google.golang.org/grpc v1.15.0
+	golang.org/x/net v0.0.0-20181106065722-10aee1819953
+	google.golang.org/genproto v0.0.0-20181109154231-b5d43981345b
+	google.golang.org/grpc v1.16.0
 	gopkg.in/DATA-DOG/go-sqlmock.v1 v1.3.0
 )
