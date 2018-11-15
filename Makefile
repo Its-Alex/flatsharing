@@ -21,12 +21,12 @@ dep:
 ifeq ($(DOCKER_ENV),0)
 	docker-compose exec -T workspace make -C . dep
 else
+	go mod download
 	go install -v github.com/golang/protobuf/...
 	go install -v github.com/grpc-ecosystem/grpc-gateway/protoc-gen-grpc-gateway/...
 	go install -v github.com/grpc-ecosystem/grpc-gateway/protoc-gen-swagger/...
 	go install -v github.com/gobuffalo/packr/...
 	go get -v golang.org/x/lint/golint
-	go mod download
 endif
 
 build: build-auth build-flatsharing build-support

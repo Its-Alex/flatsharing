@@ -52,14 +52,13 @@ services:
     command: reflex -g code/bin/flatsharing-server -s /code/bin/flatsharing-server
 
   postgres:
-    image: postgres:10-alpine
+    image: postgres:11-alpine
     restart: unless-stopped
     environment:
       - POSTGRES_USER=flatsharing
       - POSTGRES_PASSWORD=password
       - POSTGRES_DB=flatsharing
       - DB_EXTENSION=uuid-ossp
-      - DEBUG=true
     volumes:
       - ./data/:/var/lib/postgresql/data
     ports:
