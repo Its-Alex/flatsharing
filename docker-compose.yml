@@ -28,7 +28,7 @@ services:
     ports:
       - 8080:8080
       - 8081:8081
-    command: reflex -g code/bin/auth-server -s /code/bin/auth-server
+    command: reflex -g code/bin/auth-server -s /code/assets/bin/auth-server
 
   flatsharing:
     image: itsalex/alpine-reflex:latest
@@ -49,7 +49,7 @@ services:
     ports:
       - 8082:8082
       - 8083:8083
-    command: reflex -g code/bin/flatsharing-server -s /code/bin/flatsharing-server
+    command: reflex -g code/bin/flatsharing-server -s /code/assets/bin/flatsharing-server
 
   postgres:
     image: postgres:11-alpine
