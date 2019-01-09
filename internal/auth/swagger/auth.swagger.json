@@ -15,6 +15,32 @@
     "application/json"
   ],
   "paths": {
+    "/v1/logout": {
+      "post": {
+        "operationId": "Logout",
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/protobufEmpty"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/v1LogoutRequest"
+            }
+          }
+        ],
+        "tags": [
+          "AuthServices"
+        ]
+      }
+    },
     "/v1/signin": {
       "post": {
         "operationId": "Signin",
@@ -331,6 +357,14 @@
         "total_page_size": {
           "type": "integer",
           "format": "int32"
+        }
+      }
+    },
+    "v1LogoutRequest": {
+      "type": "object",
+      "properties": {
+        "token": {
+          "type": "string"
         }
       }
     },

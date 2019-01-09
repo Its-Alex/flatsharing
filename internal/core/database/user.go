@@ -105,3 +105,22 @@ func (db *DB) AddToken(token *Token) (sql.Result, error) {
 		token.Token,
 	)
 }
+
+// GetUserByToken get a user with his token
+func (db *DB) GetUserByToken(token *Token) (*User, error) {
+	user := new(User)
+
+	err := db.Get(token,
+		`SELECT * FROM tokens WHERE token = $1 LIMIT = 1`,
+		token.Token)
+	if err != nil {
+		return nil, err
+	}
+	err = db.Get(user,
+		`SELECT * FROM users WHERE id = $1 LIMIT = 1`,
+		token.FkUserID)
+	if err != nil {
+		return nil, err
+	}
+	return user, nil
+}

@@ -59,6 +59,23 @@ func (s *service) Signin(ctx context.Context, req *pb.SigninRequest) (*pb.Signin
 	return res, nil
 }
 
+func (s *service) Logout(ctx context.Context, req *pb.LogoutRequest) (*empty.Empty, error) {
+	_, err := s.db.GetUserByToken(&database.Token{
+		Token: req.Token,
+	})
+	if err != nil {
+		helper.Logger.Error(err)
+		return nil, status.Error(codes.Internal, "Internal server error")
+	}
+
+	_, err = s.db.Exec(`DELETE FROM tokens where token = $1`, req.Token)
+	if err != nil {
+		helper.Logger.Error(err)
+		return nil, status.Error(codes.Internal, "Internal server error")
+	}
+	return &empty.Empty{}, nil
+}
+
 // ListUsers get all users
 func (s *service) ListUsers(ctx context.Context, req *pb.ListUsersRequest) (*pb.ListUsersResponse, error) {
 	res := &pb.ListUsersResponse{}
