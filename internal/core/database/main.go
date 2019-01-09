@@ -34,7 +34,7 @@ type User struct {
 	Firstname string `json:"firstname" validate:"min=5,max=32,required"`
 	Lastname  string `json:"lastname" validate:"min=5,max=32,required"`
 	Role      int    `json:"role"`
-	CreatedAt string `json:"create_at"`
+	CreatedAt string `json:"created_at"`
 }
 
 // Token model
@@ -42,7 +42,7 @@ type Token struct {
 	ID        string `json:"id"`
 	FkUserID  string `json:"fk_user_id"`
 	Token     string `json:"token"`
-	CreatedAt string `json:"create_at"`
+	CreatedAt string `json:"created_at"`
 }
 
 // Flatsharing model

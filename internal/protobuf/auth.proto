@@ -15,6 +15,12 @@ service AuthServices {
       body: "*"
     };
   }
+  rpc Logout (LogoutRequest) returns (google.protobuf.Empty) {
+    option (google.api.http) = {
+      post: "/v1/logout"
+      body: "*"
+    };
+  }
   rpc CreateUser (CreateUserRequest) returns (CreateUserResponse) {
     option (google.api.http) = {
       post: "/v1/user"
@@ -58,6 +64,10 @@ message SigninRequest {
 }
 
 message SigninResponse {
+  string token = 1;
+}
+
+message LogoutRequest {
   string token = 1;
 }
 

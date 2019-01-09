@@ -37,6 +37,42 @@ func TestSignin(t *testing.T) {
 	require.Regexp(t, regexp.MustCompile("^[\\dA-Za-z!@#$%^&*()]{128}$"), res.Token)
 }
 
+func TestLogout(t *testing.T) {
+	s, mock, ctx := newMockService(t)
+
+	mock.ExpectQuery("SELECT \\* FROM tokens WHERE").
+		WithArgs("asdasdasdajwljdlj1i2ji31u8dua8djasd9aiwd9").
+		WillReturnRows(sqlmock.NewRows([]string{"id", "fk_user_id", "token", "created_at"}).
+			AddRow(
+				"01CTR7K83ZT5XXP89S87FQHMTG",
+				"01CTR7K83ZT5XXP89S87FQHMTT",
+				"asdasdasdajwljdlj1i2ji31u8dua8djasd9aiwd9",
+				"2018-10-26 13:04:13.001629+00",
+			))
+
+	mock.ExpectQuery("SELECT \\* FROM users WHERE").
+		WillReturnRows(sqlmock.NewRows([]string{"id", "mail", "login", "username", "firstname", "lastname", "password", "role", "created_at"}).
+			AddRow(
+				"01CTR7K83ZT5XXP89S87FQHMTT",
+				"mail@example.com",
+				"example",
+				"example",
+				"example_fs",
+				"example_ls",
+				"$2y$10$xhAPx.aBmeQxk6kq2bpWPenWA2/Ia7dYSr2ufGVky40Ip6HWZYvuW",
+				0,
+				"2018-10-26 13:04:13.001629+00",
+			))
+
+	mock.ExpectExec("DELETE FROM tokens").
+		WithArgs("asdasdasdajwljdlj1i2ji31u8dua8djasd9aiwd9").
+		WillReturnResult(sqlmock.NewResult(1, 1))
+
+	_, err := s.Logout(ctx, &pb.LogoutRequest{
+		Token: "asdasdasdajwljdlj1i2ji31u8dua8djasd9aiwd9",
+	})
+	require.Nil(t, err)
+}
 func TestListUsers(t *testing.T) {
 	s, mock, ctx := newMockService(t)
 
