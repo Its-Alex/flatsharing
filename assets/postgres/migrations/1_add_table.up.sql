@@ -22,7 +22,7 @@ CREATE TABLE tokens(
     CONSTRAINT fk_user_id FOREIGN KEY (fk_user_id) REFERENCES users(id) ON DELETE CASCADE
 );
 
-CREATE TABLE flatsharings(
+CREATE TABLE flats(
     id char(26) NOT NULL,
     name varchar(64) NOT NULL,
     PRIMARY KEY (id)
