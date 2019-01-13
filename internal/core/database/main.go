@@ -59,14 +59,14 @@ type Shop struct {
 
 // Purchase model
 type Purchase struct {
-	ID              string    `json:"id"`
-	FkFlatsharingID string    `json:"flatsharing"`
-	FkUserID        string    `json:"user"`
-	FkBuyerID       string    `json:"buyer"`
-	FkShopID        string    `json:"shop"`
-	Price           int       `json:"price"`
-	Description     string    `json:"description"`
-	Date            time.Time `json:"date"`
+	ID          string    `json:"id"`
+	FkFlatID    string    `json:"flatsharing"`
+	FkUserID    string    `json:"user"`
+	FkBuyerID   string    `json:"buyer"`
+	FkShopID    string    `json:"shop"`
+	Price       int       `json:"price"`
+	Description string    `json:"description"`
+	Date        time.Time `json:"date"`
 }
 
 // Connect is used to connect to a database

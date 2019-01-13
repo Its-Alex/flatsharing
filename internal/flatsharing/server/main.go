@@ -85,7 +85,7 @@ func RunGRPC() error {
 		return err
 	}
 
-	pb.RegisterHomeServicesServer(server, s)
+	pb.RegisterFlatServicesServer(server, s)
 	pb.RegisterPurchaseServicesServer(server, s)
 
 	// Enable reflection
@@ -117,7 +117,7 @@ func RunJSON() error {
 	gwmux := runtime.NewServeMux(runtime.WithMarshalerOption(runtime.MIMEWildcard, &runtime.JSONPb{OrigName: true, EmitDefaults: true}))
 	opts := []grpc.DialOption{grpc.WithInsecure()}
 	// Setup JSON service
-	err := pb.RegisterHomeServicesHandlerFromEndpoint(ctx, gwmux, fmt.Sprintf(
+	err := pb.RegisterFlatServicesHandlerFromEndpoint(ctx, gwmux, fmt.Sprintf(
 		"%s:%s",
 		viper.GetString("grpc_listen_addr"),
 		viper.GetString("grpc_listen_port"),

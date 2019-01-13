@@ -23,9 +23,16 @@
 | home1       | Home at Paris | 2131213     |
 | char(26)    | char(36)      | timestamptz |
 
+### Users - Flats junction
+
+| fk_user_id                 | fk_flat_id                 |
+| -------------------------- | -------------------------- |
+| 01C77BZC14YS004JDSP008MARS | 01C77BZC14YS004JDSP008MARS |
+| char(26)                   | char(26)                   |
+
 ### Purchases
 
-| id          | home-id  | user-id   | buyer-id | amount        | shop        | desc    | date        |
+| id          | home-id  | user-id   | buyer-id | price         | shop        | desc    | date        |
 | ----------- | -------- | --------- | -------- | ------------- | ----------- | ------- | ----------- |
 | purchase1   | group1   | user1     | user2    | 53.75         | Super U     | Courses | 1517149821  |
 | char(26)    | char(26) | char(26)  | char(26) | numeric (p=4) | varchar(36) | text    | timestamptz |

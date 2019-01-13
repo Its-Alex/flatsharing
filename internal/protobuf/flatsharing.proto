@@ -8,78 +8,78 @@ import "google/api/annotations.proto";
 
 option go_package = "internal/flatsharing/v1";
 
-service HomeServices {
-  rpc ListHomes (ListHomesRequest) returns (ListHomesResponse) {
+service FlatServices {
+  rpc ListFlats (ListFlatsRequest) returns (ListFlatsResponse) {
     option (google.api.http) = {
-      get: "/v1/home"
+      get: "/v1/flat"
     };
   }
-  rpc GetHome (GetHomeRequest) returns (GetHomeResponse) {
+  rpc GetFlat (GetFlatRequest) returns (GetFlatResponse) {
     option (google.api.http) = {
-      get: "/v1/home/{home.id}"
+      get: "/v1/flat/{flat.id}"
     };
   }
-  rpc CreateHome (CreateHomeRequest) returns (CreateHomeResponse) {
+  rpc CreateFlat (CreateFlatRequest) returns (CreateFlatResponse) {
     option (google.api.http) = {
-      post: "/v1/home"
+      post: "/v1/flat"
       body: "*"
     };
   }
-  rpc UpdateHome (UpdateHomeRequest) returns (google.protobuf.Empty) {
+  rpc UpdateFlat (UpdateFlatRequest) returns (google.protobuf.Empty) {
     option (google.api.http) = {
-      put: "/v1/home/{home.id}"
+      put: "/v1/flat/{flat.id}"
       body: "*"
     };
   }
-  rpc DeleteHome (DeleteHomeRequest) returns (google.protobuf.Empty) {
+  rpc DeleteFlat (DeleteFlatRequest) returns (google.protobuf.Empty) {
     option (google.api.http) = {
-      delete: "/v1/home/{home.id}"
+      delete: "/v1/flat/{flat.id}"
     };
   }
 }
 
-message ListHomesRequest {
+message ListFlatsRequest {
   int32 page_size = 1;
   string page_token = 2;
 }
 
-message ListHomesResponse {
+message ListFlatsResponse {
   // See https://github.com/GoogleCloudPlatform/google-cloud-go/blob/master/monitoring/apiv3/metric_client.go#L137
-  repeated Home home = 1;
+  repeated Flat flat = 1;
   string next_page_token = 2;
   int32 total_page_size = 3;
 }
 
-message GetHomeRequest {
-  Home home = 1;
+message GetFlatRequest {
+  Flat flat = 1;
 }
 
-message GetHomeResponse {
-  Home home = 1;
+message GetFlatResponse {
+  Flat flat = 1;
 }
 
-message CreateHomeRequest {
-  Home home = 1;
+message CreateFlatRequest {
+  Flat flat = 1;
 }
 
-message CreateHomeResponse {
+message CreateFlatResponse {
   string id = 1;
 }
 
-message UpdateHomeRequest {
-  Home home = 1;
+message UpdateFlatRequest {
+  Flat flat = 1;
   // The update mask applies to the resource. For the `FieldMask` definition,
   // see https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#fieldmask
   // or here https://github.com/gogo/grpc-example/commit/6c217371b67a89609c632f047477fa5a1123ac93
   google.protobuf.FieldMask update_mask = 2;
 }
 
-message DeleteHomeRequest {
-  Home home = 1;
+message DeleteFlatRequest {
+  Flat flat = 1;
 }
 
 
-message Home {
+message Flat {
   string id = 1;
   string name = 2;
   string created_at = 9;
@@ -157,7 +157,7 @@ message DeletePurchaseRequest {
 
 message Purchase {
     string id = 1;
-    string home_id = 2;
+    string flat_id = 2;
     string user_id = 3;
     string buyer_id = 4;
     string shop = 5;
