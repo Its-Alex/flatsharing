@@ -28,6 +28,13 @@ CREATE TABLE flats(
     PRIMARY KEY (id)
 );
 
+CREATE TABLE user_flat(
+    fk_user_id char(26) NOT NULL,
+    fk_flat_id char(26) NOT NULL,
+    PRIMARY KEY (fk_user_id, fk_flat_id),
+    CONSTRAINT fk_flat_id FOREIGN KEY (fk_flat_id) REFERENCES flats(id) ON DELETE CASCADE
+);
+
 CREATE TABLE shops(
     id char(26) NOT NULL,
     name varchar(64) NOT NULL UNIQUE,
