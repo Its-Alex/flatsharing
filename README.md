@@ -11,7 +11,7 @@ FlatSharing backend repository at http://flatsharing.io
 
 ## Requirements
 
-* `make`
+- `make`
 - `docker`
 - `direnv` (optional)
 
