@@ -2,6 +2,7 @@ module github.com/Its-Alex/flatsharing
 
 require (
 	github.com/BurntSushi/toml v0.3.1 // indirect
+	github.com/Masterminds/squirrel v0.0.0-20190107164353-fa735ea14f09
 	github.com/dgrijalva/jwt-go v3.2.0+incompatible // indirect
 	github.com/ghodss/yaml v1.0.0 // indirect
 	github.com/go-sql-driver/mysql v1.4.0 // indirect

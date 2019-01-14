@@ -161,7 +161,7 @@ message Purchase {
     string user_id = 3;
     string buyer_id = 4;
     string shop = 5;
-    string amount = 6;
+    double price = 6;
     string desc = 7;
     string created_at = 8;
 }

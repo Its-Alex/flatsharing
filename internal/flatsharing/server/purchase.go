@@ -3,7 +3,9 @@ package main
 import (
 	"context"
 
+	"github.com/Its-Alex/flatsharing/internal/core/helper"
 	pb "github.com/Its-Alex/flatsharing/internal/flatsharing/v1"
+	"github.com/Masterminds/squirrel"
 	"github.com/golang/protobuf/ptypes/empty"
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
@@ -21,7 +23,41 @@ func (s *service) GetPurchase(ctx context.Context, req *pb.GetPurchaseRequest) (
 
 // CreatePurchase create a purchase
 func (s *service) CreatePurchase(ctx context.Context, req *pb.CreatePurchaseRequest) (*pb.CreatePurchaseResponse, error) {
-	return &pb.CreatePurchaseResponse{}, status.Error(codes.Unimplemented, "This route is not implemented yet")
+	req.Purchase.Id = helper.GenUlid()
+
+	psql := squirrel.StatementBuilder.PlaceholderFormat(squirrel.Dollar)
+	sql, args, err := psql.Insert("purchases").
+		Columns(
+			"id",
+			"fk_flats_id",
+			"fk_user_id",
+			"fk_buyer_id",
+			"fk_shop_id",
+			"price",
+			"description").
+		Values(
+			req.Purchase.Id,
+			req.Purchase.FlatId,
+			req.Purchase.UserId,
+			req.Purchase.BuyerId,
+			req.Purchase.Shop,
+			req.Purchase.Price,
+			req.Purchase.Desc).
+		ToSql()
+	if err != nil {
+		helper.Logger.Error(err)
+		return nil, status.Error(codes.Internal, "Internal server error")
+	}
+
+	_, err = s.db.Exec(sql, args...)
+	if err != nil {
+		helper.Logger.Error(err)
+		return nil, status.Error(codes.Internal, "Internal server error")
+	}
+
+	return &pb.CreatePurchaseResponse{
+		Id: req.Purchase.Id,
+	}, nil
 }
 
 // UpdatePurchase update a purchase

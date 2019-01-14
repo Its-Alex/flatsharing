@@ -21,6 +21,7 @@ func (s *service) GetFlat(ctx context.Context, req *pb.GetFlatRequest) (*pb.GetF
 
 // CreateFlat create a flat
 func (s *service) CreateFlat(ctx context.Context, req *pb.CreateFlatRequest) (*pb.CreateFlatResponse, error) {
+
 	return &pb.CreateFlatResponse{}, status.Error(codes.Unimplemented, "This route is not implemented yet")
 }
 
