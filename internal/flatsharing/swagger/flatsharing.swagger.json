@@ -268,10 +268,11 @@
             "type": "string"
           },
           {
-            "name": "purchase.amount",
+            "name": "purchase.price",
             "in": "query",
             "required": false,
-            "type": "string"
+            "type": "number",
+            "format": "double"
           },
           {
             "name": "purchase.desc",
@@ -332,10 +333,11 @@
             "type": "string"
           },
           {
-            "name": "purchase.amount",
+            "name": "purchase.price",
             "in": "query",
             "required": false,
-            "type": "string"
+            "type": "number",
+            "format": "double"
           },
           {
             "name": "purchase.desc",
@@ -524,8 +526,9 @@
         "shop": {
           "type": "string"
         },
-        "amount": {
-          "type": "string"
+        "price": {
+          "type": "number",
+          "format": "double"
         },
         "desc": {
           "type": "string"
