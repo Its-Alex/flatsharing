@@ -18,7 +18,24 @@ func (s *service) ListFlats(ctx context.Context, req *pb.ListFlatsRequest) (*pb.
 
 // GetFlat get a flat
 func (s *service) GetFlat(ctx context.Context, req *pb.GetFlatRequest) (*pb.GetFlatResponse, error) {
-	return &pb.GetFlatResponse{}, status.Error(codes.Unimplemented, "This route is not implemented yet")
+	var err error
+	flat := new(pb.Flat)
+	err = s.db.Get(flat, "SELECT * FROM flats WHERE id = $1", req.Flat.Id)
+	if err != nil {
+		if err.Error() == "sql: no rows in result set" {
+			helper.Logger.Error(err)
+			return nil, status.Error(codes.NotFound, "No flat with this id")
+		}
+		helper.Logger.Error(err)
+		return nil, status.Error(codes.Internal, "Internal server error")
+	}
+	if flat == nil {
+		helper.Logger.Error("Flat not found")
+		return nil, status.Error(codes.NotFound, "Flat not found")
+	}
+	return &pb.GetFlatResponse{
+		Flat: flat,
+	}, nil
 }
 
 // CreateFlat create a flat
