@@ -8,6 +8,31 @@ import (
 	sqlmock "gopkg.in/DATA-DOG/go-sqlmock.v1"
 )
 
+func TestGetFlat(t *testing.T) {
+	s, mock, ctx := newMockService(t)
+
+	mock.ExpectQuery("SELECT \\* FROM flats WHERE").
+		WillReturnRows(sqlmock.NewRows([]string{"id", "name"}).
+			AddRow(
+				"01D3HXVSBD3FF5R36GGGBZBXYB",
+				"home",
+			))
+
+	res, err := s.GetFlat(ctx, &pb.GetFlatRequest{
+		Flat: &pb.Flat{
+			Id: "01D3HXVSBD3FF5R36GGGBZBXYB",
+		},
+	})
+
+	require.Nil(t, err)
+	require.Equal(t, &pb.GetFlatResponse{
+		Flat: &pb.Flat{
+			Id:   "01D3HXVSBD3FF5R36GGGBZBXYB",
+			Name: "home",
+		},
+	}, res)
+}
+
 func TestCreateFlat(t *testing.T) {
 	s, mock, ctx := newMockService(t)
 
