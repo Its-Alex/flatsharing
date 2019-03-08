@@ -1,85 +1,95 @@
-workspace:
-  base: /go
+kind: pipeline
+name: flatsharing
 
-pipeline:
-  go-deps:
-    image: flatsharing/workflow:latest
-    pull: true
-    commands:
-      - make dep
+steps:
+- name: go-deps
+  image: flatsharing/workflow:latest
+  pull: true
+  commands:
+    - make dep
 
-  test:
-    group: test-lint-coverage
-    image: flatsharing/workflow:latest
-    pull: true
-    commands:
-      - make test
+- name: test
+  group: test-lint-coverage
+  image: flatsharing/workflow:latest
+  pull: true
+  commands:
+    - make test
 
-  lint:
-    group: test-lint-coverage
-    image: flatsharing/workflow:latest
-    pull: true
-    commands:
-      - make lint
+- name: lint
+  group: test-lint-coverage
+  image: flatsharing/workflow:latest
+  pull: true
+  commands:
+    - make lint
 
-  coverage:
-    group: test-lint-coverage
-    image: flatsharing/workflow:latest
-    pull: true
-    commands:
-      - make coverage
+- name: coverage
+  group: test-lint-coverage
+  image: flatsharing/workflow:latest
+  pull: true
+  commands:
+    - make coverage
 
-  protoc:
-    image: flatsharing/workflow:latest
-    pull: true
-    commands:
-      - make protoc
+- name: protoc
+  image: flatsharing/workflow:latest
+  pull: true
+  commands:
+    - make dep
+    - make protoc
 
-  build-auth:
-    group: build
-    image: flatsharing/workflow:latest
-    pull: true
-    commands:
-      - make build-auth
+- name: build-auth
+  group: build
+  image: flatsharing/workflow:latest
+  pull: true
+  commands:
+    - make build-auth
 
-  build-flatsharing:
-    group: build
-    image: flatsharing/workflow:latest
-    pull: true
-    commands:
-      - make build-flatsharing
+- name: build-flatsharing
+  group: build
+  image: flatsharing/workflow:latest
+  pull: true
+  commands:
+    - make build-flatsharing
 
-  build-support:
-    group: build
-    image: flatsharing/workflow:latest
-    pull: true
-    commands:
-      - make build-support
+- name: build-support
+  group: build
+  image: flatsharing/workflow:latest
+  pull: true
+  commands:
+    - make build-support
 
-  docker-auth:
-    group: docker
-    image: plugins/docker
+- name: docker-auth
+  group: docker
+  image: plugins/docker
+  settings:
     tags: latest
     repo: flatsharing/auth
     dockerfile: auth.Dockerfile
-    secrets: [ docker_username, docker_password ]
-    when:
-      branch: master
-      event: push
-      status: success
+    username:
+      from_secret: docker_username
+    password:
+      from_secret: docker_password
+  when:
+    branch: master
+    event: push
+    status: success
 
-  docker-fs_service:
-    group: docker
-    image: plugins/docker
+- name: docker-fs_service
+  group: docker
+  image: plugins/docker
+  settings:
     tags: latest
     repo: flatsharing/fs_service
     dockerfile: fs_service.Dockerfile
-    secrets: [ docker_username, docker_password ]
-    when:
-      branch: master
-      event: push
-      status: success
+    username:
+      from_secret: docker_username
+    password:
+      from_secret: docker_password
+  when:
+    branch: master
+    event: push
+    status: success
 
-  codecov:
-    image: robertstettner/drone-codecov
+- name: codecov
+  image: robertstettner/drone-codecov
+  settings:
     token: e897d4e0-b3ff-4c5d-91e6-2d3ff15a9ee6
