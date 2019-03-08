@@ -3,57 +3,66 @@ name: flatsharing
 
 steps:
 - name: go-deps
-  image: flatsharing/workflow:latest
   pull: true
+  image: flatsharing/workflow:latest
+  working_dir: /code
   commands:
     - make dep
 
 - name: test
   group: test-lint-coverage
-  image: flatsharing/workflow:latest
   pull: true
+  image: flatsharing/workflow:latest
+  working_dir: /code
   commands:
     - make test
 
 - name: lint
   group: test-lint-coverage
-  image: flatsharing/workflow:latest
   pull: true
+  image: flatsharing/workflow:latest
+  working_dir: /code
   commands:
     - make lint
 
 - name: coverage
   group: test-lint-coverage
-  image: flatsharing/workflow:latest
   pull: true
+  image: flatsharing/workflow:latest
+  working_dir: /code
   commands:
     - make coverage
 
 - name: protoc
-  image: flatsharing/workflow:latest
+  group: build
   pull: true
+  image: flatsharing/workflow:latest
+  working_dir: /code
   commands:
     - make dep
     - make protoc
 
 - name: build-auth
   group: build
-  image: flatsharing/workflow:latest
   pull: true
+  image: flatsharing/workflow:latest
+  working_dir: /code
   commands:
     - make build-auth
 
 - name: build-flatsharing
   group: build
-  image: flatsharing/workflow:latest
   pull: true
+  image: flatsharing/workflow:latest
+  working_dir: /code
   commands:
     - make build-flatsharing
 
 - name: build-support
   group: build
-  image: flatsharing/workflow:latest
   pull: true
+  image: flatsharing/workflow:latest
+  working_dir: /code
   commands:
     - make build-support
 
