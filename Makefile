@@ -1,7 +1,7 @@
 DOCKER_ENV=$(shell test ! -f /.dockerenv; echo "$$?")
 OS := $(shell uname -s)
 
-SWAGGER_UI_VERSION ?= v3.20.4
+SWAGGER_UI_VERSION ?= v3.21.0
 
 assert_out_docker:
 ifeq ($(DOCKER_ENV),1)
@@ -35,28 +35,28 @@ build-auth:
 ifeq ($(DOCKER_ENV),0)
 	docker-compose exec -T workspace make -C . build-auth
 else
-	CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -v -a -ldflags '-extldflags "-static"' -tags netgo -o assets/bin/auth-server -i github.com/Its-Alex/flatsharing/internal/auth/server/...
+	CGO_ENABLED=0 go build -v -mod=readonly -o assets/bin/auth-server -i github.com/Its-Alex/flatsharing/internal/auth/server/...
 endif
 
 build-flatsharing:
 ifeq ($(DOCKER_ENV),0)
 	docker-compose exec -T workspace make -C . build-flatsharing
 else
-	CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -v -a -ldflags '-extldflags "-static"' -tags netgo -o assets/bin/flatsharing-server -i github.com/Its-Alex/flatsharing/internal/flatsharing/server/...
+	CGO_ENABLED=0 go build -v -mod=readonly -o assets/bin/flatsharing-server -i github.com/Its-Alex/flatsharing/internal/flatsharing/server/...
 endif
 
 build-support:
 ifeq ($(DOCKER_ENV),0)
 	docker-compose exec -T workspace make -C . build-support
 else
-	go build -v -o bin/support-server -i github.com/Its-Alex/flatsharing/internal/support/...
+	CGO_ENABLED=0 go build -v -mod=readonly -o bin/support-server -i github.com/Its-Alex/flatsharing/internal/support/...
 endif
 
 test:
 ifeq ($(DOCKER_ENV),0)
 	docker-compose exec -T workspace make -C . test
 else
-	go test -v github.com/Its-Alex/flatsharing/internal/...
+	go test -v -mod=readonly github.com/Its-Alex/flatsharing/internal/...
 endif
 
 lint:
@@ -70,7 +70,7 @@ coverage:
 ifeq ($(DOCKER_ENV),0)
 	docker-compose exec -T workspace make -C . coverage
 else
-	go test -v github.com/Its-Alex/flatsharing/internal/... -race -coverprofile=coverage.txt -covermode=atomic
+	go test -v -mod=readonly github.com/Its-Alex/flatsharing/internal/... -race -coverprofile=coverage.txt -covermode=atomic
 endif
 
 protoc: protoc-auth protoc-flatsharing
@@ -131,9 +131,9 @@ import-swagger-ui: assert_out_docker
 	rm -rf swagger-ui
 
 enter: assert_out_docker
-	docker-compose exec workspace bash -c "export COLUMNS=`tput cols`; export LINES=`tput lines`; exec bash"
+	docker-compose exec workspace bash
 
 enter-postgresql: assert_out_docker
-	docker-compose exec --user postgres postgres bash -c "export COLUMNS=`tput cols`; export LINES=`tput lines`; exec psql -U flatsharing"
+	docker-compose exec --user postgres postgres bash -c "psql -U flatsharing"
 
 .PHONY: assert_out_docker up dep build build-auth build-flatsharing build-support test lint coverage protoc protoc-auth protoc-flatsharing migrate down clean import-swagger-ui enter enter-postgresql

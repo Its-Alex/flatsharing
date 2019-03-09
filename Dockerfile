@@ -8,9 +8,9 @@ RUN apt-get update -y && \
 	chmod u+x bin/protoc && \
     cd /usr/local/src/ && \
     curl -s -L "https://github.com/protocolbuffers/protobuf/archive/v3.7.0.tar.gz" | tar xvz && \
-	mv protobuf-3.6.1/ /usr/local/src/protobuf/ && \
+	mv protobuf-3.7.0/ /usr/local/src/protobuf/ && \
 	curl -s -L "https://github.com/grpc-ecosystem/grpc-gateway/archive/v1.8.2.tar.gz" | tar xvz && \
-	mv grpc-gateway-1.5.1/ /usr/local/src/grpc-gateway/ && \
+	mv grpc-gateway-1.8.2/ /usr/local/src/grpc-gateway/ && \
     # Makefile completion
     apt-get install -y bash-completion && \
     echo ". /etc/bash_completion" >> /root/.bashrc && \
@@ -21,5 +21,6 @@ RUN apt-get update -y && \
 WORKDIR /code
 
 ENV GO111MODULE=on
+ENV GOCACHE="/go/cache"
 ENV GOBIN="/go/bin"
 ENV PATH="/go/bin:$PATH"
