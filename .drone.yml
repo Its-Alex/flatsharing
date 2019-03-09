@@ -6,6 +6,9 @@ steps:
   pull: true
   image: flatsharing/workflow:latest
   working_dir: /code
+  volumes:
+  - name: cache
+    path: /go
   commands:
     - make dep
 
@@ -14,6 +17,9 @@ steps:
   pull: true
   image: flatsharing/workflow:latest
   working_dir: /code
+  volumes:
+  - name: cache
+    path: /go
   commands:
     - make test
 
@@ -22,6 +28,9 @@ steps:
   pull: true
   image: flatsharing/workflow:latest
   working_dir: /code
+  volumes:
+  - name: cache
+    path: /go
   commands:
     - make lint
 
@@ -30,6 +39,9 @@ steps:
   pull: true
   image: flatsharing/workflow:latest
   working_dir: /code
+  volumes:
+  - name: cache
+    path: /go
   commands:
     - make coverage
 
@@ -38,8 +50,10 @@ steps:
   pull: true
   image: flatsharing/workflow:latest
   working_dir: /code
+  volumes:
+  - name: cache
+    path: /go
   commands:
-    - make dep
     - make protoc
 
 - name: build-auth
@@ -47,6 +61,9 @@ steps:
   pull: true
   image: flatsharing/workflow:latest
   working_dir: /code
+  volumes:
+  - name: cache
+    path: /go
   commands:
     - make build-auth
 
@@ -55,6 +72,9 @@ steps:
   pull: true
   image: flatsharing/workflow:latest
   working_dir: /code
+  volumes:
+  - name: cache
+    path: /go
   commands:
     - make build-flatsharing
 
@@ -63,6 +83,9 @@ steps:
   pull: true
   image: flatsharing/workflow:latest
   working_dir: /code
+  volumes:
+  - name: cache
+    path: /go
   commands:
     - make build-support
 
@@ -102,3 +125,7 @@ steps:
   image: robertstettner/drone-codecov
   settings:
     token: e897d4e0-b3ff-4c5d-91e6-2d3ff15a9ee6
+
+volumes:
+- name: cache
+  temp: {}
