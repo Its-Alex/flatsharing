@@ -8,7 +8,7 @@ import (
 	"github.com/Its-Alex/flatsharing/internal/core/database"
 	"github.com/jmoiron/sqlx"
 	"github.com/jmoiron/sqlx/reflectx"
-	sqlmock "gopkg.in/DATA-DOG/go-sqlmock.v1"
+	sqlmock "github.com/DATA-DOG/go-sqlmock"
 )
 
 func newMockService(t *testing.T) (*service, sqlmock.Sqlmock, context.Context) {

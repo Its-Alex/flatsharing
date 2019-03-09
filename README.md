@@ -1,3 +1,4 @@
+[![Build Status](https://drone.itsalex.fr/api/badges/Its-Alex/flatsharing/status.svg)](https://drone.itsalex.fr/Its-Alex/flatsharing)
 [![codecov](https://codecov.io/gh/Its-Alex/flatsharing/branch/master/graph/badge.svg?token=3VmgQm5LGw)](https://codecov.io/gh/Its-Alex/flatsharing)
 
 FlatSharing backend repository at http://flatsharing.io
