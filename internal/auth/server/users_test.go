@@ -6,7 +6,7 @@ import (
 
 	pb "github.com/Its-Alex/flatsharing/internal/auth/v1"
 	"github.com/stretchr/testify/require"
-	sqlmock "gopkg.in/DATA-DOG/go-sqlmock.v1"
+	sqlmock "github.com/DATA-DOG/go-sqlmock"
 )
 
 func TestSignin(t *testing.T) {

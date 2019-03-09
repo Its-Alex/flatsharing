@@ -5,7 +5,7 @@ import (
 
 	pb "github.com/Its-Alex/flatsharing/internal/flatsharing/v1"
 	"github.com/stretchr/testify/require"
-	sqlmock "gopkg.in/DATA-DOG/go-sqlmock.v1"
+	sqlmock "github.com/DATA-DOG/go-sqlmock"
 )
 
 func TestCreatePurchase(t *testing.T) {
