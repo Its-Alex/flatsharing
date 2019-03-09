@@ -1,7 +1,7 @@
 DOCKER_ENV=$(shell test ! -f /.dockerenv; echo "$$?")
 OS := $(shell uname -s)
 
-SWAGGER_UI_VERSION ?= v3.20.4
+SWAGGER_UI_VERSION ?= v3.21.0
 
 assert_out_docker:
 ifeq ($(DOCKER_ENV),1)
