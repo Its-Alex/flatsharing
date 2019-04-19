@@ -3,10 +3,45 @@ package main
 import (
 	"testing"
 
+	sqlmock "github.com/DATA-DOG/go-sqlmock"
 	pb "github.com/Its-Alex/flatsharing/internal/flatsharing/v1"
 	"github.com/stretchr/testify/require"
-	sqlmock "github.com/DATA-DOG/go-sqlmock"
 )
+
+func TestListPurchase(t *testing.T) {
+	s, mock, ctx := newMockService(t)
+
+	mock.ExpectQuery("SELECT COUNT\\(\\*\\) FROM purchases").
+		WillReturnRows(sqlmock.NewRows([]string{"count"}).AddRow(2))
+
+	mock.ExpectQuery("SELECT \\* FROM purchases ORDER BY id LIMIT 50 OFFSET 0").
+		WillReturnRows(sqlmock.NewRows([]string{"id", "fk_flat_id", "fk_user_id", "fk_buyer_id", "fk_shop_id", "price", "description", "created_at"}).
+			AddRow(
+				"01CTR7K83ZT5XXP89S87FQHMTG",
+				"02CTR7K83ZT5XXP89S87FQHMTG",
+				"03CTR7K83ZT5XXP89S87FQHMTG",
+				"04CTR7K83ZT5XXP89S87FQHMTG",
+				"05CTR7K83ZT5XXP89S87FQHMTG",
+				10,
+				"Courses auchan",
+				"2018-10-26 13:04:13.001629+00",
+			).
+			AddRow(
+				"05CTR7K83ZT5XXP89S87FQHMTG",
+				"02CTR7K83ZT5XXP89S87FQHMTG",
+				"03CTR7K83ZT5XXP89S87FQHMTG",
+				"04CTR7K83ZT5XXP89S87FQHMTG",
+				"05CTR7K83ZT5XXP89S87FQHMTG",
+				10,
+				"Courses auchan",
+				"2018-10-26 13:04:13.001629+00",
+			))
+
+	res, err := s.ListPurchases(ctx, &pb.ListPurchasesRequest{})
+	require.Nil(t, err)
+	require.Equal(t, int32(2), res.TotalPageSize)
+	require.Equal(t, "", res.NextPageToken)
+}
 
 func TestCreatePurchase(t *testing.T) {
 	s, mock, ctx := newMockService(t)
@@ -16,12 +51,12 @@ func TestCreatePurchase(t *testing.T) {
 
 	_, err := s.CreatePurchase(ctx, &pb.CreatePurchaseRequest{
 		Purchase: &pb.Purchase{
-			FlatId:  "01CTR7K83ZT5XXP89S87FQHMTG",
-			UserId:  "01CTR7K83ZT5XXP89S87FQHMTR",
-			BuyerId: "01CTR7K83ZT5XXP89S87FQHMTF",
-			Shop:    "Auchan",
-			Price:   11.1,
-			Desc:    "Courses",
+			FkFlatId:    "01CTR7K83ZT5XXP89S87FQHMTG",
+			FkUserId:    "01CTR7K83ZT5XXP89S87FQHMTR",
+			FkBuyerId:   "01CTR7K83ZT5XXP89S87FQHMTF",
+			FkShopId:    "Auchan",
+			Price:       11.1,
+			Description: "Courses",
 		},
 	})
 	require.Nil(t, err)

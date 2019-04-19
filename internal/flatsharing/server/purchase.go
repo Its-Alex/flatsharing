@@ -2,18 +2,75 @@ package main
 
 import (
 	"context"
+	"database/sql"
+	"strconv"
 
 	"github.com/Its-Alex/flatsharing/internal/core/helper"
 	pb "github.com/Its-Alex/flatsharing/internal/flatsharing/v1"
 	"github.com/Masterminds/squirrel"
 	"github.com/golang/protobuf/ptypes/empty"
+	"github.com/jmoiron/sqlx"
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
 )
 
 // ListPurchase list purchases
 func (s *service) ListPurchases(ctx context.Context, req *pb.ListPurchasesRequest) (*pb.ListPurchasesResponse, error) {
-	return &pb.ListPurchasesResponse{}, status.Error(codes.Unimplemented, "This route is not implemented yet")
+	res := &pb.ListPurchasesResponse{}
+	page, err := strconv.ParseInt(req.PageToken, 10, 32)
+	if err != nil && len(req.PageToken) != 0 {
+		helper.Logger.Error("Page token received is not a number: ", err)
+		return nil, status.Error(codes.InvalidArgument, "page_token is not a number")
+	}
+	if (req.PageSize <= 0 || req.PageSize >= 200) && req.PageSize != -1 {
+		req.PageSize = 50
+	}
+
+	err = s.db.Get(&res.TotalPageSize, "SELECT COUNT(*) FROM purchases")
+	if err != nil {
+		helper.Logger.Error("Failed couting server, ", err)
+		return nil, status.Error(codes.Internal, "")
+	}
+	if res.TotalPageSize <= int32(page) {
+		return res, nil
+	}
+	if res.TotalPageSize >= int32(page)+req.PageSize {
+		res.NextPageToken = strconv.FormatInt(page+int64(req.PageSize), 10)
+	}
+
+	psql := squirrel.StatementBuilder.PlaceholderFormat(squirrel.Dollar)
+	query, _, err := psql.
+		Select("*").
+		From("purchases").
+		OrderBy("id").
+		Offset(uint64(page)).
+		Limit(uint64(req.PageSize)).
+		ToSql()
+	if err != nil {
+		helper.Logger.Error(err)
+		return nil, status.Error(codes.Internal, "Internal server error")
+	}
+
+	var rows *sqlx.Rows
+	rows, err = s.db.Queryx(query)
+	if err != nil {
+		if err == sql.ErrNoRows {
+			res.NextPageToken = ""
+			return res, nil
+		}
+		helper.Logger.Error("Failed serching server, ", err)
+		return nil, status.Error(codes.Internal, "")
+	}
+	for rows.Next() {
+		usr := &pb.Purchase{}
+		if err = rows.StructScan(usr); err != nil {
+			helper.Logger.Error("Failed scanning struct, ", err)
+			return nil, status.Error(codes.Internal, "")
+		}
+		res.Purchase = append(res.Purchase, usr)
+	}
+
+	return res, nil
 }
 
 // GetPurchase get a purchase
@@ -37,12 +94,12 @@ func (s *service) CreatePurchase(ctx context.Context, req *pb.CreatePurchaseRequ
 			"description").
 		Values(
 			req.Purchase.Id,
-			req.Purchase.FlatId,
-			req.Purchase.UserId,
-			req.Purchase.BuyerId,
-			req.Purchase.Shop,
+			req.Purchase.FkFlatId,
+			req.Purchase.FkUserId,
+			req.Purchase.FkBuyerId,
+			req.Purchase.FkShopId,
 			req.Purchase.Price,
-			req.Purchase.Desc).
+			req.Purchase.Description).
 		ToSql()
 	if err != nil {
 		helper.Logger.Error(err)
