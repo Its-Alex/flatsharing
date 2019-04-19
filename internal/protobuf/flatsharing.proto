@@ -157,11 +157,11 @@ message DeletePurchaseRequest {
 
 message Purchase {
     string id = 1;
-    string flat_id = 2;
-    string user_id = 3;
-    string buyer_id = 4;
-    string shop = 5;
+    string fk_flat_id = 2;
+    string fk_user_id = 3;
+    string fk_buyer_id = 4;
+    string fk_shop_id = 5;
     double price = 6;
-    string desc = 7;
+    string description = 7;
     string created_at = 8;
 }

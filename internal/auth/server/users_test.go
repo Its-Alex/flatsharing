@@ -4,9 +4,9 @@ import (
 	"regexp"
 	"testing"
 
+	sqlmock "github.com/DATA-DOG/go-sqlmock"
 	pb "github.com/Its-Alex/flatsharing/internal/auth/v1"
 	"github.com/stretchr/testify/require"
-	sqlmock "github.com/DATA-DOG/go-sqlmock"
 )
 
 func TestSignin(t *testing.T) {

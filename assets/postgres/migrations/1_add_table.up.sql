@@ -44,7 +44,7 @@ CREATE TABLE shops(
 
 CREATE TABLE purchases(
     id char(26) NOT NULL,
-    fk_flats_id char(26) NOT NULL,
+    fk_flat_id char(26) NOT NULL,
     fk_user_id char(26) NOT NULL,
     fk_buyer_id char(26) NOT NULL,
     fk_shop_id char(26) NOT NULL,

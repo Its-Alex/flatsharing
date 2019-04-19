@@ -244,25 +244,25 @@
             "type": "string"
           },
           {
-            "name": "purchase.flat_id",
+            "name": "purchase.fk_flat_id",
             "in": "query",
             "required": false,
             "type": "string"
           },
           {
-            "name": "purchase.user_id",
+            "name": "purchase.fk_user_id",
             "in": "query",
             "required": false,
             "type": "string"
           },
           {
-            "name": "purchase.buyer_id",
+            "name": "purchase.fk_buyer_id",
             "in": "query",
             "required": false,
             "type": "string"
           },
           {
-            "name": "purchase.shop",
+            "name": "purchase.fk_shop_id",
             "in": "query",
             "required": false,
             "type": "string"
@@ -275,7 +275,7 @@
             "format": "double"
           },
           {
-            "name": "purchase.desc",
+            "name": "purchase.description",
             "in": "query",
             "required": false,
             "type": "string"
@@ -309,25 +309,25 @@
             "type": "string"
           },
           {
-            "name": "purchase.flat_id",
+            "name": "purchase.fk_flat_id",
             "in": "query",
             "required": false,
             "type": "string"
           },
           {
-            "name": "purchase.user_id",
+            "name": "purchase.fk_user_id",
             "in": "query",
             "required": false,
             "type": "string"
           },
           {
-            "name": "purchase.buyer_id",
+            "name": "purchase.fk_buyer_id",
             "in": "query",
             "required": false,
             "type": "string"
           },
           {
-            "name": "purchase.shop",
+            "name": "purchase.fk_shop_id",
             "in": "query",
             "required": false,
             "type": "string"
@@ -340,7 +340,7 @@
             "format": "double"
           },
           {
-            "name": "purchase.desc",
+            "name": "purchase.description",
             "in": "query",
             "required": false,
             "type": "string"
@@ -509,23 +509,23 @@
         "id": {
           "type": "string"
         },
-        "flat_id": {
+        "fk_flat_id": {
           "type": "string"
         },
-        "user_id": {
+        "fk_user_id": {
           "type": "string"
         },
-        "buyer_id": {
+        "fk_buyer_id": {
           "type": "string"
         },
-        "shop": {
+        "fk_shop_id": {
           "type": "string"
         },
         "price": {
           "type": "number",
           "format": "double"
         },
-        "desc": {
+        "description": {
           "type": "string"
         },
         "created_at": {
