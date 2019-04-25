@@ -6,6 +6,8 @@ import (
 	"net"
 	"net/http"
 	"sync"
+	"io"
+	"strings"
 
 	pb "github.com/Its-Alex/flatsharing/internal/auth/v1"
 	"github.com/Its-Alex/flatsharing/internal/core/database"
@@ -106,11 +108,19 @@ func RunJSON() error {
 
 	mux := http.NewServeMux()
 
-	SwaggerBox := packr.NewBox("../swagger")
+	SwaggerUIBox := packr.NewBox("../../../assets/swagger-ui")
 	mux.Handle(
 		"/",
-		http.FileServer(SwaggerBox),
+		http.FileServer(SwaggerUIBox),
 	)
+	SwaggerFileBox := packr.NewBox("../swagger")
+	mux.HandleFunc("/swagger.json", func(w http.ResponseWriter, req *http.Request) {
+		file, err := SwaggerFileBox.FindString("auth.swagger.json")
+		if err != nil {
+			helper.Logger.Error(err)
+		}
+		io.Copy(w, strings.NewReader(file))
+	})
 
 	// Create mux
 	gwmux := runtime.NewServeMux(runtime.WithMarshalerOption(runtime.MIMEWildcard, &runtime.JSONPb{OrigName: true, EmitDefaults: true}))

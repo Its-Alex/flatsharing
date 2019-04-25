@@ -1,7 +1,7 @@
 DOCKER_ENV=$(shell test ! -f /.dockerenv; echo "$$?")
 OS := $(shell uname -s)
 
-SWAGGER_UI_VERSION ?= v3.21.0
+SWAGGER_UI_VERSION ?= v3.22.1
 
 assert_out_docker:
 ifeq ($(DOCKER_ENV),1)
@@ -35,6 +35,7 @@ build-auth:
 ifeq ($(DOCKER_ENV),0)
 	docker-compose exec -T workspace make -C . build-auth
 else
+	cd internal/auth && packr
 	CGO_ENABLED=0 go build -v -mod=readonly -o assets/bin/auth-server -i github.com/Its-Alex/flatsharing/internal/auth/server/...
 endif
 
@@ -42,6 +43,7 @@ build-flatsharing:
 ifeq ($(DOCKER_ENV),0)
 	docker-compose exec -T workspace make -C . build-flatsharing
 else
+	cd internal/flatsharing && packr
 	CGO_ENABLED=0 go build -v -mod=readonly -o assets/bin/flatsharing-server -i github.com/Its-Alex/flatsharing/internal/flatsharing/server/...
 endif
 
@@ -104,7 +106,6 @@ else
 		--go_out=plugins=grpc:. \
 		--grpc-gateway_out=logtostderr=true:. \
 		--swagger_out=logtostderr=true:internal/flatsharing/swagger
-	cd internal/flatsharing && packr
 endif
 
 migrate: assert_out_docker
@@ -118,17 +119,12 @@ clean:
 	rm -rf assets/postgres/data/ assets/bin/
 
 import-swagger-ui: assert_out_docker
-	if ! [[ -d "$$(pwd)/internal/auth/swagger" ]]; then mkdir -p $$(pwd)/internal/auth/swagger; fi
-	if ! [[ -d "$$(pwd)/internal/flatsharing/swagger" ]]; then mkdir -p $$(pwd)/internal/flatsharing/swagger; fi
+	if ! [[ -d "$$(pwd)/assets/swagger-ui" ]]; then mkdir -p $$(pwd)/assets/swagger-ui; fi
 	docker run -it \
-		-v `pwd`/swagger-ui:/mnt/ \
+		-v `pwd`/assets/swagger-ui:/mnt/ \
 		--rm swaggerapi/swagger-ui:$(SWAGGER_UI_VERSION) \
 		sh -c "rm -rf /mnt/*; cp -R /usr/share/nginx/html/* /mnt/"
-	cp -r swagger-ui/* internal/auth/swagger
-	cp -r swagger-ui/* internal/flatsharing/swagger
-	docker-compose exec -T workspace bash -c "sed -i 's@https://petstore.swagger.io/v2/swagger.json@/auth.swagger.json@g' internal/auth/swagger/index.html"
-	docker-compose exec -T workspace bash -c "sed -i 's@https://petstore.swagger.io/v2/swagger.json@/flatsharing.swagger.json@g' internal/flatsharing/swagger/index.html"
-	rm -rf swagger-ui
+	docker-compose exec -T workspace bash -c "sed -i 's@https://petstore.swagger.io/v2/swagger.json@/swagger.json@g' assets/swagger-ui/index.html"
 
 enter: assert_out_docker
 	docker-compose exec workspace bash
