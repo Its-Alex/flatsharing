@@ -52,7 +52,7 @@ CREATE TABLE purchases(
     description text NOT NULL,
     created_at timestamptz NOT NULL DEFAULT NOW(),
     PRIMARY KEY (id),
-    CONSTRAINT fk_flats_id FOREIGN KEY (fk_flats_id) REFERENCES flats(id) ON DELETE CASCADE,
+    CONSTRAINT fk_flat_id FOREIGN KEY (fk_flat_id) REFERENCES flats(id) ON DELETE CASCADE,
     CONSTRAINT fk_user_id FOREIGN KEY (fk_user_id) REFERENCES users(id) ON DELETE CASCADE,
     CONSTRAINT fk_buyer_id FOREIGN KEY (fk_buyer_id) REFERENCES users(id) ON DELETE CASCADE,
     CONSTRAINT fk_shop_id FOREIGN KEY (fk_shop_id) REFERENCES shops(id),
