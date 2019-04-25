@@ -1,2 +1,5 @@
 # Postgres
 postgres/data/
+
+# Swagger
+swagger-ui/
