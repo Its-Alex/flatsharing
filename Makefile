@@ -14,7 +14,7 @@ up:
 	docker-compose up wait_postgres
 	make migrate
 	docker-compose up -d workspace
-	make dep protoc
+	make dep protoc build
 	docker-compose up -d
 
 dep:
@@ -114,17 +114,20 @@ migrate: assert_out_docker
 
 down: assert_out_docker
 	docker-compose down
+	rm -rf assets/postgres/data
 
 clean:
 	rm -rf assets/postgres/data/ assets/bin/
 
 import-swagger-ui: assert_out_docker
-	if ! [[ -d "$$(pwd)/assets/swagger-ui" ]]; then mkdir -p $$(pwd)/assets/swagger-ui; fi
-	docker run -it \
-		-v `pwd`/assets/swagger-ui:/mnt/ \
-		--rm swaggerapi/swagger-ui:$(SWAGGER_UI_VERSION) \
-		sh -c "rm -rf /mnt/*; cp -R /usr/share/nginx/html/* /mnt/"
-	docker-compose exec -T workspace bash -c "sed -i 's@https://petstore.swagger.io/v2/swagger.json@/swagger.json@g' assets/swagger-ui/index.html"
+	if ! [[ -d "$$(pwd)/assets/swagger-ui" ]]; then \
+		mkdir -p $$(pwd)/assets/swagger-ui; \
+		docker run -it \
+			-v `pwd`/assets/swagger-ui:/mnt/ \
+			--rm swaggerapi/swagger-ui:$(SWAGGER_UI_VERSION) \
+			sh -c "rm -rf /mnt/*; cp -R /usr/share/nginx/html/* /mnt/"; \
+		docker-compose exec -T workspace bash -c "sed -i 's@https://petstore.swagger.io/v2/swagger.json@/swagger.json@g' assets/swagger-ui/index.html"; \
+	fi
 
 enter: assert_out_docker
 	docker-compose exec workspace bash

@@ -3,11 +3,11 @@ package main
 import (
 	"context"
 	"fmt"
+	"io"
 	"net"
 	"net/http"
-	"sync"
-	"io"
 	"strings"
+	"sync"
 
 	pb "github.com/Its-Alex/flatsharing/internal/auth/v1"
 	"github.com/Its-Alex/flatsharing/internal/core/database"
