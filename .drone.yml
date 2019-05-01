@@ -95,7 +95,7 @@ steps:
   settings:
     tags: latest
     repo: flatsharing/auth
-    dockerfile: auth.Dockerfile
+    dockerfile: api-auth.Dockerfile
     username:
       from_secret: docker_username
     password:
