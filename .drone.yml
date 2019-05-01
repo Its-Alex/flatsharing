@@ -111,7 +111,7 @@ steps:
   settings:
     tags: latest
     repo: flatsharing/fs_service
-    dockerfile: fs_service.Dockerfile
+    dockerfile: api-flatsharing.Dockerfile
     username:
       from_secret: docker_username
     password:
