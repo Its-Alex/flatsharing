@@ -121,6 +121,22 @@ steps:
     event: push
     status: success
 
+- name: docker-ui-front
+  group: docker
+  image: plugins/docker
+  settings:
+    tags: latest
+    repo: flatsharing/ui-front
+    dockerfile: build/docker/ui-front.Dockerfile
+    username:
+      from_secret: docker_username
+    password:
+      from_secret: docker_password
+  when:
+    branch: master
+    event: push
+    status: success
+
 - name: codecov
   image: robertstettner/drone-codecov
   settings:

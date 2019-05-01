@@ -117,6 +117,9 @@ docker-build-api-auth: assert_out_docker
 docker-build-api-flatsharing: assert_out_docker
 	@docker build -f build/docker/api-flatsharing.Dockerfile -t api-flatsharing:latest .
 
+docker-build-ui-front: assert_out_docker
+	@docker build -f build/docker/ui-front.Dockerfile -t ui-front:latest .
+
 migrate: assert_out_docker
 	@docker run --rm -v $$(pwd)/assets/postgres/migrations:/migrations --network host migrate/migrate:v4.2.5 \
 		-path=/migrations/ -database postgres://flatsharing:password@127.0.0.1:5432/flatsharing?sslmode=disable up
