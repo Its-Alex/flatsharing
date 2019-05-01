@@ -89,13 +89,13 @@ steps:
   commands:
     - make build-support
 
-- name: docker-auth
+- name: docker-api-auth
   group: docker
   image: plugins/docker
   settings:
     tags: latest
-    repo: flatsharing/auth
-    dockerfile: api-auth.Dockerfile
+    repo: flatsharing/api-auth
+    dockerfile: build/docker/api-auth.Dockerfile
     username:
       from_secret: docker_username
     password:
@@ -105,13 +105,13 @@ steps:
     event: push
     status: success
 
-- name: docker-fs_service
+- name: docker-api-flatsharing
   group: docker
   image: plugins/docker
   settings:
     tags: latest
-    repo: flatsharing/fs_service
-    dockerfile: api-flatsharing.Dockerfile
+    repo: flatsharing/api-flatsharing
+    dockerfile: build/docker/api-flatsharing.Dockerfile
     username:
       from_secret: docker_username
     password:

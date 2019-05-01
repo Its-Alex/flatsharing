@@ -108,6 +108,15 @@ else
 		--swagger_out=logtostderr=true:internal/flatsharing/swagger
 endif
 
+docker-build-workspace: assert_out_docker
+	@docker build -f build/docker/workspace.Dockerfile -t workspace:latest .
+
+docker-build-api-auth: assert_out_docker
+	@docker build -f build/docker/api-auth.Dockerfile -t api-auth:latest .
+
+docker-build-api-flatsharing: assert_out_docker
+	@docker build -f build/docker/api-flatsharing.Dockerfile -t api-flatsharing:latest .
+
 migrate: assert_out_docker
 	@docker run --rm -v $$(pwd)/assets/postgres/migrations:/migrations --network host migrate/migrate:v4.2.5 \
 		-path=/migrations/ -database postgres://flatsharing:password@127.0.0.1:5432/flatsharing?sslmode=disable up

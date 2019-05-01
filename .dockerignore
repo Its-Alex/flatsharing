@@ -2,10 +2,19 @@
 drone.yml
 codecov.yml
 
-# Project
+# Docker
+**/*Dockerfile
+**/docker-compose.yml
+
+# Git
 .git
-.gitignore
+**/.gitignore
+
+# Project
+assets/
+build/
+bin/
+**/docs/
 .envrc
 LICENSE
 README.md
-assets/
