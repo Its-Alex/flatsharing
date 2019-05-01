@@ -18,7 +18,7 @@ RUN apk --no-cache add git ca-certificates gcc musl-dev && \
 FROM amd64/alpine:3.8
 
 # Copy executalle from builder
-COPY --from=builder /flatsharing/api-auth_linux_amd64 /usr/local/bin/api-auth
+COPY --from=builder /api-auth/api-auth_linux_amd64 /usr/local/bin/api-auth
 
 EXPOSE 8080
 EXPOSE 8081
