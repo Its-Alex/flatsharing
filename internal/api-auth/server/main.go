@@ -9,7 +9,7 @@ import (
 	"strings"
 	"sync"
 
-	pb "github.com/Its-Alex/flatsharing/internal/auth/v1"
+	pb "github.com/Its-Alex/flatsharing/internal/api-auth/v1"
 	"github.com/Its-Alex/flatsharing/internal/core/database"
 	"github.com/Its-Alex/flatsharing/internal/core/helper"
 	"github.com/gobuffalo/packr"

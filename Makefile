@@ -29,22 +29,22 @@ else
 	go install -v golang.org/x/lint/golint
 endif
 
-build: build-auth build-flatsharing build-support
+build: build-api-auth build-api-flatsharing build-support
 
-build-auth:
+build-api-auth:
 ifeq ($(DOCKER_ENV),0)
-	docker-compose exec -T workspace make -C . build-auth
+	docker-compose exec -T workspace make -C . build-api-auth
 else
-	cd internal/auth && packr
-	CGO_ENABLED=0 go build -v -mod=readonly -o assets/bin/auth-server -i github.com/Its-Alex/flatsharing/internal/auth/server/...
+	cd internal/api-auth && packr
+	CGO_ENABLED=0 go build -v -mod=readonly -o assets/bin/api-auth-server -i github.com/Its-Alex/flatsharing/internal/api-auth/server/...
 endif
 
-build-flatsharing:
+build-api-flatsharing:
 ifeq ($(DOCKER_ENV),0)
-	docker-compose exec -T workspace make -C . build-flatsharing
+	docker-compose exec -T workspace make -C . build-api-flatsharing
 else
-	cd internal/flatsharing && packr
-	CGO_ENABLED=0 go build -v -mod=readonly -o assets/bin/flatsharing-server -i github.com/Its-Alex/flatsharing/internal/flatsharing/server/...
+	cd internal/api-flatsharing && packr
+	CGO_ENABLED=0 go build -v -mod=readonly -o assets/bin/api-flatsharing-server -i github.com/Its-Alex/flatsharing/internal/api-flatsharing/server/...
 endif
 
 build-support:
@@ -75,13 +75,13 @@ else
 	go test -v -mod=readonly github.com/Its-Alex/flatsharing/internal/... -race -coverprofile=coverage.txt -covermode=atomic
 endif
 
-protoc: protoc-auth protoc-flatsharing
+protoc: protoc-api-auth protoc-api-flatsharing
 
-protoc-auth:
+protoc-api-auth:
 ifeq ($(DOCKER_ENV),0)
-	docker-compose exec -T workspace make -C . protoc-auth
+	docker-compose exec -T workspace make -C . protoc-api-auth
 else
-	mkdir -p internal/auth/swagger
+	mkdir -p internal/api-auth/swagger
 	protoc \
 		auth.proto \
 		-I internal/protobuf/ \
@@ -89,15 +89,15 @@ else
 		-I /usr/local/src/grpc-gateway/third_party/googleapis \
 		--go_out=plugins=grpc:. \
 		--grpc-gateway_out=logtostderr=true:. \
-		--swagger_out=logtostderr=true:internal/auth/swagger
-	cd internal/auth && packr
+		--swagger_out=logtostderr=true:internal/api-auth/swagger
+	cd internal/api-auth && packr
 endif
 
-protoc-flatsharing:
+protoc-api-flatsharing:
 ifeq ($(DOCKER_ENV),0)
-	docker-compose exec -T workspace make -C . protoc-flatsharing
+	docker-compose exec -T workspace make -C . protoc-api-flatsharing
 else
-	mkdir -p internal/flatsharing/swagger
+	mkdir -p internal/api-flatsharing/swagger
 	protoc \
 		flatsharing.proto \
 		-I internal/protobuf/ \
@@ -105,7 +105,7 @@ else
 		-I /usr/local/src/grpc-gateway/third_party/googleapis \
 		--go_out=plugins=grpc:. \
 		--grpc-gateway_out=logtostderr=true:. \
-		--swagger_out=logtostderr=true:internal/flatsharing/swagger
+		--swagger_out=logtostderr=true:internal/api-flatsharing/swagger
 endif
 
 docker-build-workspace: assert_out_docker
@@ -122,7 +122,7 @@ migrate: assert_out_docker
 		-path=/migrations/ -database postgres://flatsharing:password@127.0.0.1:5432/flatsharing?sslmode=disable up
 
 down: assert_out_docker
-	docker-compose down
+	docker-compose down --remove-orphans -v
 	rm -rf assets/postgres/data
 
 clean:
@@ -144,4 +144,4 @@ enter: assert_out_docker
 enter-postgresql: assert_out_docker
 	docker-compose exec --user postgres postgres bash -c "psql -U flatsharing"
 
-.PHONY: assert_out_docker up dep build build-auth build-flatsharing build-support test lint coverage protoc protoc-auth protoc-flatsharing migrate down clean import-swagger-ui enter enter-postgresql
+.PHONY: assert_out_docker up dep build build-api-auth build-api-flatsharing build-support test lint coverage protoc protoc-api-auth protoc-api-flatsharing migrate down clean import-swagger-ui enter enter-postgresql

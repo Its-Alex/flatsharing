@@ -5,7 +5,7 @@ import (
 	"testing"
 
 	sqlmock "github.com/DATA-DOG/go-sqlmock"
-	pb "github.com/Its-Alex/flatsharing/internal/auth/v1"
+	pb "github.com/Its-Alex/flatsharing/internal/api-auth/v1"
 	"github.com/stretchr/testify/require"
 )
 

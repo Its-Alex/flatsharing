@@ -9,7 +9,7 @@ services:
       - ./:/code/
     command: sleep infinity
 
-  auth:
+  api-auth:
     image: itsalex/alpine-reflex:latest
     restart: unless-stopped
     environment:
@@ -28,28 +28,28 @@ services:
     ports:
       - 8080:8080
       - 8081:8081
-    command: reflex -g code/assets/bin/auth-server -s /code/assets/bin/auth-server
+    command: reflex -g code/assets/bin/api-auth-server -s /code/assets/bin/api-auth-server
 
-  flatsharing:
+  api-flatsharing:
     image: itsalex/alpine-reflex:latest
     restart: unless-stopped
     environment:
-      - FS_SERVICE_GRPC_LISTEN_ADDR=0.0.0.0
-      - FS_SERVICE_GRPC_LISTEN_PORT=8082
-      - FS_SERVICE_JSON_LISTEN_ADDR=0.0.0.0
-      - FS_SERVICE_JSON_LISTEN_PORT=8083
-      - FS_SERVICE_PSQL_HOST=postgres
-      - FS_SERVICE_PSQL_PORT=5432
-      - FS_SERVICE_PSQL_USER=flatsharing
-      - FS_SERVICE_PSQL_PASSWORD=password
-      - FS_SERVICE_PSQL_DBNAME=flatsharing
-      - FS_SERVICE_PSQL_SSLMODE=disable
+      - API_FLATSHARING_GRPC_LISTEN_ADDR=0.0.0.0
+      - API_FLATSHARING_GRPC_LISTEN_PORT=8082
+      - API_FLATSHARING_JSON_LISTEN_ADDR=0.0.0.0
+      - API_FLATSHARING_JSON_LISTEN_PORT=8083
+      - API_FLATSHARING_PSQL_HOST=postgres
+      - API_FLATSHARING_PSQL_PORT=5432
+      - API_FLATSHARING_PSQL_USER=flatsharing
+      - API_FLATSHARING_PSQL_PASSWORD=password
+      - API_FLATSHARING_PSQL_DBNAME=flatsharing
+      - API_FLATSHARING_PSQL_SSLMODE=disable
     volumes:
       - ./:/code/
     ports:
       - 8082:8082
       - 8083:8083
-    command: reflex -g code/assets/bin/flatsharing-server -s /code/assets/bin/flatsharing-server
+    command: reflex -g code/assets/bin/api-flatsharing-server -s /code/assets/bin/api-flatsharing-server
 
   postgres:
     image: postgres:11-alpine
