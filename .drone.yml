@@ -56,7 +56,7 @@ steps:
   commands:
     - make protoc
 
-- name: build-auth
+- name: build-api-auth
   group: build
   pull: true
   image: flatsharing/workflow:latest
@@ -65,9 +65,9 @@ steps:
   - name: cache
     path: /go
   commands:
-    - make build-auth
+    - make build-api-auth
 
-- name: build-flatsharing
+- name: build-api-flatsharing
   group: build
   pull: true
   image: flatsharing/workflow:latest
@@ -76,7 +76,7 @@ steps:
   - name: cache
     path: /go
   commands:
-    - make build-flatsharing
+    - make build-api-flatsharing
 
 - name: build-support
   group: build

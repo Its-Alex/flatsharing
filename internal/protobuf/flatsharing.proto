@@ -6,7 +6,7 @@ import "google/protobuf/field_mask.proto";
 
 import "google/api/annotations.proto";
 
-option go_package = "internal/flatsharing/v1";
+option go_package = "internal/api-flatsharing/v1";
 
 service FlatServices {
   rpc ListFlats (ListFlatsRequest) returns (ListFlatsResponse) {

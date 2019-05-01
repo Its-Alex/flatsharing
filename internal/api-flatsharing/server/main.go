@@ -3,15 +3,15 @@ package main
 import (
 	"context"
 	"fmt"
+	"io"
 	"net"
 	"net/http"
-	"sync"
-	"io"
 	"strings"
+	"sync"
 
+	pb "github.com/Its-Alex/flatsharing/internal/api-flatsharing/v1"
 	"github.com/Its-Alex/flatsharing/internal/core/database"
 	"github.com/Its-Alex/flatsharing/internal/core/helper"
-	pb "github.com/Its-Alex/flatsharing/internal/flatsharing/v1"
 	"github.com/gobuffalo/packr"
 	"github.com/grpc-ecosystem/grpc-gateway/runtime"
 	"github.com/jmoiron/sqlx"
@@ -39,7 +39,7 @@ var (
 )
 
 func init() {
-	viper.SetEnvPrefix("fs_service")
+	viper.SetEnvPrefix("api-flatsharing")
 
 	viper.BindEnv("grpc_listen_addr")
 	viper.BindEnv("grpc_listen_port")

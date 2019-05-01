@@ -3,7 +3,7 @@ package main
 import (
 	"testing"
 
-	pb "github.com/Its-Alex/flatsharing/internal/flatsharing/v1"
+	pb "github.com/Its-Alex/flatsharing/internal/api-flatsharing/v1"
 	"github.com/stretchr/testify/require"
 	sqlmock "github.com/DATA-DOG/go-sqlmock"
 )

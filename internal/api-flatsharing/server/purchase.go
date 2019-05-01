@@ -6,7 +6,7 @@ import (
 	"strconv"
 
 	"github.com/Its-Alex/flatsharing/internal/core/helper"
-	pb "github.com/Its-Alex/flatsharing/internal/flatsharing/v1"
+	pb "github.com/Its-Alex/flatsharing/internal/api-flatsharing/v1"
 	"github.com/Masterminds/squirrel"
 	"github.com/golang/protobuf/ptypes/empty"
 	"github.com/jmoiron/sqlx"
