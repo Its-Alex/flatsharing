@@ -51,6 +51,15 @@ services:
       - 8083:8083
     command: reflex -g code/assets/bin/api-flatsharing-server -s /code/assets/bin/api-flatsharing-server
 
+  ui-front:
+    image: node:12-alpine
+    restart: unless-stopped
+    volumes:
+      - ./internal/ui-front:/code/
+    ports:
+      - 9000:3000
+    command: "sh -c \"cd /code/ && npm i && npm run start\""
+
   postgres:
     image: postgres:11-alpine
     restart: unless-stopped
