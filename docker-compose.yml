@@ -63,6 +63,7 @@ services:
   postgres:
     image: postgres:11-alpine
     restart: unless-stopped
+    working_dir: /code
     environment:
       - POSTGRES_USER=flatsharing
       - POSTGRES_PASSWORD=password
