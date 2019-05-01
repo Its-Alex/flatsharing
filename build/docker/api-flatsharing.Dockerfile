@@ -14,11 +14,11 @@ WORKDIR /api-flatsharing
 RUN apk --no-cache add git ca-certificates gcc musl-dev && \
     go mod download && \
     go get -v github.com/mitchellh/gox && \
-    gox -output="api-flatsharing_{{.OS}}_{{.Arch}}" -osarch="linux/amd64" github.com/Its-Alex/api-flatsharing/internal/api-flatsharing/...
+    gox -output="api-flatsharing_{{.OS}}_{{.Arch}}" -osarch="linux/amd64" github.com/Its-Alex/flatsharing/internal/api-flatsharing/...
 
-FROM amd64/alpine:3.8
+FROM amd64/alpine:3.9
 
-# Copy executalle from builder
+# # Copy executalle from builder
 COPY --from=builder /api-flatsharing/api-flatsharing_linux_amd64 /usr/local/bin/api-flatsharing
 
 EXPOSE 8080
