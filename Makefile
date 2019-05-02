@@ -109,7 +109,7 @@ else
 endif
 
 docker-build-workspace: assert_out_docker
-	@docker build -f build/docker/workspace.Dockerfile -t workspace:latest .
+	@docker build -f build/docker/workspace.Dockerfile -t flatsharing/workflow:latest .
 
 docker-build-api-auth: assert_out_docker
 	@docker build -f build/docker/api-auth.Dockerfile -t api-auth:latest .
