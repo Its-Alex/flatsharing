@@ -47,8 +47,8 @@ services:
     volumes:
       - ./:/code/
     ports:
-      - 8082:8082
-      - 8083:8083
+      - 8082:8080
+      - 8083:8081
     command: reflex -g code/assets/bin/api-flatsharing-server -s /code/assets/bin/api-flatsharing-server
 
   ui-front:
