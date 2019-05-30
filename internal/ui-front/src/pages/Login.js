@@ -1,11 +1,11 @@
 import React from 'react'
 
-const Navbar = (props) => {
+const Login = (props) => {
   return (
     <div>
-      Navbar
+      Hello
     </div>
   )
 }
 
-export default Navbar
+export default Login
