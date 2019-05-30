@@ -1,9 +1,10 @@
 import React from 'react'
+import { Input } from 'antd'
 
 const Login = (props) => {
   return (
     <div>
-      Hello
+      <Input usage />
     </div>
   )
 }

@@ -1,0 +1,17 @@
+$color-success: green;
+$color-error: red;
+$color-info: blue;
+
+
+* {
+  box-sizing: border-box;
+  outline: none;
+}
+
+html, body, #root, .root {
+	margin: 0px;
+	padding: 0px;
+	width: 100%;
+	height: 100%;
+	background: #fafafa;
+}
