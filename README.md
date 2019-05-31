@@ -135,6 +135,7 @@ To apply all migrations:
 $ make migrate
 ```
 
+
 ## License
 
 [MIT](LICENSE)

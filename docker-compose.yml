@@ -3,7 +3,9 @@ version: '3.7'
 services:
   workspace:
     image: flatsharing/workflow:latest
-    build: .
+    build:
+      context: .
+      dockerfile: build/docker/workspace.Dockerfile
     restart: unless-stopped
     volumes:
       - ./:/code/
