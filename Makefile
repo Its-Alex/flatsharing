@@ -148,3 +148,4 @@ enter-postgresql: assert_out_docker
 	docker-compose exec --user postgres postgres bash -c "psql -U flatsharing"
 
 .PHONY: assert_out_docker up dep build build-api-auth build-api-flatsharing build-support test lint coverage protoc protoc-api-auth protoc-api-flatsharing migrate down clean import-swagger-ui enter enter-postgresql
+
