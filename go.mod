@@ -30,10 +30,8 @@ require (
 	go.uber.org/atomic v1.3.2 // indirect
 	go.uber.org/multierr v1.1.0 // indirect
 	go.uber.org/zap v1.9.1
-	golang.org/x/crypto v0.0.0-20190308221718-c2843e01d9a2
-	golang.org/x/net v0.0.0-20190311183353-d8887717615a // indirect
-	golang.org/x/sys v0.0.0-20190308023053-584f3b12f43e // indirect
-	golang.org/x/text v0.3.1-0.20180807135948-17ff2d5776d2 // indirect
+	golang.org/x/crypto v0.0.0-20210921155107-089bfa567519
+	golang.org/x/text v0.3.8 // indirect
 	google.golang.org/genproto v0.0.0-20190307195333-5fe7a883aa19
 	google.golang.org/grpc v1.19.0
 )
