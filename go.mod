@@ -10,8 +10,8 @@ require (
 	github.com/gobuffalo/packd v0.0.0-20190224160250-d04dd98aca5b // indirect
 	github.com/gobuffalo/packr v1.22.0
 	github.com/gobuffalo/syncx v0.0.0-20190224160051-33c29581e754 // indirect
-	github.com/golang/protobuf v1.3.0
-	github.com/grpc-ecosystem/grpc-gateway v1.8.2
+	github.com/golang/protobuf v1.5.2
+	github.com/grpc-ecosystem/grpc-gateway v1.16.0
 	github.com/jmoiron/sqlx v1.2.0
 	github.com/labstack/echo v3.3.10+incompatible
 	github.com/labstack/gommon v0.2.8 // indirect
@@ -20,20 +20,15 @@ require (
 	github.com/mattn/go-isatty v0.0.6 // indirect
 	github.com/mattn/go-sqlite3 v1.10.0 // indirect
 	github.com/oklog/ulid v1.3.1
-	github.com/rogpeppe/go-internal v1.2.2 // indirect
-	github.com/spf13/afero v1.2.1 // indirect
 	github.com/spf13/jwalterweatherman v1.1.0 // indirect
 	github.com/spf13/viper v1.3.1
-	github.com/stretchr/testify v1.3.0
+	github.com/stretchr/testify v1.8.1
 	github.com/urfave/negroni v1.0.0
 	github.com/valyala/fasttemplate v1.0.0 // indirect
 	go.uber.org/atomic v1.3.2 // indirect
 	go.uber.org/multierr v1.1.0 // indirect
 	go.uber.org/zap v1.9.1
-	golang.org/x/crypto v0.0.0-20190308221718-c2843e01d9a2
-	golang.org/x/net v0.0.0-20190311183353-d8887717615a // indirect
-	golang.org/x/sys v0.0.0-20190308023053-584f3b12f43e // indirect
-	golang.org/x/text v0.3.1-0.20180807135948-17ff2d5776d2 // indirect
-	google.golang.org/genproto v0.0.0-20190307195333-5fe7a883aa19
-	google.golang.org/grpc v1.19.0
+	golang.org/x/crypto v0.0.0-20211108221036-ceb1ce70b4fa
+	google.golang.org/genproto v0.0.0-20230110181048-76db0878b65f
+	google.golang.org/grpc v1.53.0
 )
